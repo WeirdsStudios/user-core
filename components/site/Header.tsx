@@ -33,13 +33,12 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
-          <Link
-            href="/"
-            className={`font-bold text-xl tracking-tight transition-colors duration-300 ${
-              scrolled ? "text-[#0A0A0A]" : "text-white"
-            }`}
-          >
-            users.
+          <Link href="/" className="flex items-center">
+            <img
+              src={scrolled ? "/logos/imagotipo_user_black.svg" : "/logos/imagotipo_user.svg"}
+              alt="users.mx"
+              className="h-8 w-auto transition-all duration-300"
+            />
           </Link>
 
           {/* Desktop nav */}
@@ -61,7 +60,7 @@ export default function Header() {
           <div className="hidden lg:flex items-center">
             <Link
               href="/analisis"
-              className="bg-[#C5F82A] text-black px-5 py-2 text-sm font-semibold transition-opacity hover:opacity-90"
+              className="bg-[#4cfc0f] text-black px-5 py-2 text-sm font-semibold transition-opacity hover:opacity-90"
             >
               Analiza tu negocio
             </Link>
@@ -111,7 +110,7 @@ export default function Header() {
             ))}
             <Link
               href="/analisis"
-              className="bg-[#C5F82A] text-black text-center font-semibold px-5 py-3 mt-2 text-sm"
+              className="bg-[#4cfc0f] text-black text-center font-semibold px-5 py-3 mt-2 text-sm"
               onClick={() => setMenuOpen(false)}
             >
               Analiza tu negocio

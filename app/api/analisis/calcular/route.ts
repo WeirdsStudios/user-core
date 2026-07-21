@@ -75,7 +75,7 @@ async function sendNotificationEmail(payload: {
   const html = `
     <div style="font-family:sans-serif;max-width:600px;margin:0 auto;color:#0A0A0A">
       <div style="background:#0A0A0A;padding:24px 32px;margin-bottom:32px">
-        <p style="color:#C5F82A;font-size:12px;letter-spacing:2px;text-transform:uppercase;margin:0">
+        <p style="color:#4cfc0f;font-size:12px;letter-spacing:2px;text-transform:uppercase;margin:0">
           users.mx — Motor de Análisis
         </p>
         <h1 style="color:white;font-size:22px;margin:8px 0 0">
@@ -119,7 +119,7 @@ async function sendNotificationEmail(payload: {
           </ul>
         </div>
 
-        <a href="https://uoewgjcxqytougtpaiwr.supabase.co" style="background:#C5F82A;color:#0A0A0A;font-weight:700;padding:12px 24px;text-decoration:none;display:inline-block;font-size:14px">
+        <a href="https://uoewgjcxqytougtpaiwr.supabase.co" style="background:#4cfc0f;color:#0A0A0A;font-weight:700;padding:12px 24px;text-decoration:none;display:inline-block;font-size:14px">
           Ver en Supabase →
         </a>
       </div>

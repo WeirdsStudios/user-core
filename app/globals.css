@@ -126,7 +126,15 @@
   }
   html {
     @apply font-sans;
+    /* Scroll snap proximity: sections snap suavemente, sin bloquear scroll libre en secciones largas */
+    scroll-snap-type: y proximity;
+    scroll-behavior: smooth;
   }
+}
+
+/* Secciones cortas que se benefician del snap */
+.snap-start {
+  scroll-snap-align: start;
 }
 
 @keyframes marquee {

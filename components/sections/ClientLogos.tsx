@@ -1,18 +1,30 @@
-const clients = ["Greek Gym", "Las Frescas", "SoFit", "Consulto", "users.mx"]
+const clients = [
+  { name: "Greek Gym",   logo: "/imgs/clients/logo-brand-01.webp" },
+  { name: "Las Frescas", logo: "/imgs/clients/logo-brand-02.webp" },
+  { name: "SoFit",       logo: "/imgs/clients/logo-brand-03.webp" },
+  { name: "Consulto",    logo: "/imgs/clients/logo-brand-04.webp" },
+  { name: "users.mx",    logo: "/imgs/clients/logo-brand-05.webp" },
+]
 
 export default function ClientLogos() {
-  // Triple the array so the animation loop is seamless
   const repeated = [...clients, ...clients, ...clients]
 
   return (
-    <section className="py-8 border-y border-[#E5E5E5] overflow-hidden">
+    <section className="py-10 border-y border-[#E5E5E5] overflow-hidden snap-start">
       <div className="flex w-max animate-marquee gap-16 items-center">
-        {repeated.map((name, index) => (
+        {repeated.map((client, index) => (
           <span key={index} className="flex items-center gap-16 shrink-0">
-            <span className="text-sm font-semibold tracking-widest uppercase text-[#888]">
-              {name}
+            <span className="flex items-center gap-3">
+              <img
+                src={client.logo}
+                alt={client.name}
+                className="h-7 w-auto object-contain opacity-50 grayscale hover:opacity-80 hover:grayscale-0 transition-all duration-300"
+              />
+              <span className="text-xs font-semibold tracking-widest uppercase text-[#AAA]">
+                {client.name}
+              </span>
             </span>
-            <span className="text-[#C5F82A] font-bold text-lg leading-none">·</span>
+            <span className="text-[#CCC] font-light text-xl leading-none">·</span>
           </span>
         ))}
       </div>

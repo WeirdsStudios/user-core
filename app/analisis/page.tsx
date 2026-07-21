@@ -71,7 +71,7 @@ function RadioGroup({ options, value, onChange, cols = "auto" }: {
         <button key={o.value} type="button" onClick={() => onChange(o.value)}
           className={`px-4 py-3 text-sm font-medium border transition-all text-left ${
             value === o.value
-              ? "bg-[#C5F82A] border-[#C5F82A] text-black"
+              ? "bg-[#4cfc0f] border-[#4cfc0f] text-black"
               : "border-[#E5E5E5] text-[#444] hover:border-[#0A0A0A]"
           }`}>
           {o.label}
@@ -98,7 +98,7 @@ function CheckGroup({ options, values, onChange }: {
                       : "border-[#E5E5E5] text-[#444] hover:border-[#0A0A0A]"
             }`}>
             <span className={`w-4 h-4 border shrink-0 flex items-center justify-center ${
-              checked ? "border-[#C5F82A] bg-[#C5F82A]" : "border-[#888]"
+              checked ? "border-[#4cfc0f] bg-[#4cfc0f]" : "border-[#888]"
             }`}>
               {checked && (
                 <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
@@ -302,7 +302,7 @@ function Step4({ data, update }: { data: FormData; update: (k: keyof FormData, v
           onChange={(v) => update("features", v)} />
       </FieldGroup>
       {showNote && (
-        <div className="border border-[#C5F82A] bg-[#f9ffe6] p-4 mt-2">
+        <div className="border border-[#4cfc0f] bg-[#f0ffe8] p-4 mt-2">
           <p className="text-sm text-[#0A0A0A]">
             <strong>Dato útil:</strong> Para negocios como el tuyo ya existe una solución lista:{" "}
             <a href={productUrl} target="_blank" rel="noopener noreferrer"
@@ -371,7 +371,7 @@ function Step6({
         </FieldLabel>
 
         {calBooking ? (
-          <div className="border border-[#C5F82A] bg-[#f9ffe6] p-5">
+          <div className="border border-[#4cfc0f] bg-[#f0ffe8] p-5">
             <p className="text-sm font-semibold text-[#0A0A0A] mb-1">Sesión agendada</p>
             <p className="text-base font-bold text-[#0A0A0A]">{formattedDate}</p>
             <p className="text-xs text-[#888] mt-2">
@@ -459,7 +459,7 @@ function SimpleBarChart({ items }: { items: Array<{ name: string; costMin: numbe
             </span>
           </div>
           <div className="h-2 bg-[#F0F0F0]">
-            <div className="h-2 bg-[#C5F82A] transition-all"
+            <div className="h-2 bg-[#4cfc0f] transition-all"
               style={{ width: `${(item.costMax / maxCost) * 100}%` }} />
           </div>
         </div>
@@ -551,7 +551,7 @@ function Report({ data, result, calBooking }: { data: FormData; result: CalcResu
             },
           ].map((item) => (
             <div key={item.label} className="flex gap-4">
-              <span className="text-[#C5F82A] font-bold text-lg leading-none pt-0.5 shrink-0">+</span>
+              <span className="text-[#4cfc0f] font-bold text-lg leading-none pt-0.5 shrink-0">+</span>
               <div>
                 <p className="text-sm font-semibold text-[#0A0A0A] mb-1">{item.label}</p>
                 <p className="text-sm text-[#444] leading-relaxed">{item.text}</p>
@@ -564,7 +564,7 @@ function Report({ data, result, calBooking }: { data: FormData; result: CalcResu
       <section className="mb-10 pb-10 border-b border-[#E5E5E5]">
         <p className="text-xs font-semibold tracking-widest uppercase text-[#888] mb-4">03 — Recomendación</p>
         <div className="bg-[#0A0A0A] p-6">
-          <p className="text-[#C5F82A] text-xs font-semibold tracking-widest uppercase mb-2">Solución recomendada</p>
+          <p className="text-[#4cfc0f] text-xs font-semibold tracking-widest uppercase mb-2">Solución recomendada</p>
           <p className="text-white text-lg font-bold mb-3">{rec.title}</p>
           <p className="text-[#888] text-sm leading-relaxed">{rec.description}</p>
         </div>
@@ -602,7 +602,7 @@ function Report({ data, result, calBooking }: { data: FormData; result: CalcResu
         <p className="text-xs font-semibold tracking-widest uppercase text-[#888] mb-4">06 — Proyección de impacto</p>
         <div className="space-y-4">
           <div className="border border-[#E5E5E5] p-5">
-            <span className="text-[#C5F82A] text-xs font-bold px-2 py-0.5 bg-[#0A0A0A] inline-block mb-3">
+            <span className="text-[#4cfc0f] text-xs font-bold px-2 py-0.5 bg-[#0A0A0A] inline-block mb-3">
               CÁLCULO CON TUS DATOS
             </span>
             <p className="text-sm text-[#0A0A0A] leading-relaxed">
@@ -749,7 +749,7 @@ export default function AnalisisPage() {
       });
 
       Cal.ns["${CAL_NAMESPACE}"]("ui", {
-        styles: { branding: { brandColor: "#C5F82A" } },
+        styles: { branding: { brandColor: "#4cfc0f" } },
         hideEventTypeDetails: false,
         layout: "month_view"
       });
@@ -853,7 +853,7 @@ export default function AnalisisPage() {
           <span className="text-xs text-[#888]">Paso {step} de 6</span>
         </div>
         <div className="h-0.5 bg-[#F0F0F0]">
-          <div className="h-0.5 bg-[#C5F82A] transition-all duration-300"
+          <div className="h-0.5 bg-[#4cfc0f] transition-all duration-300"
             style={{ width: `${(step / 6) * 100}%` }} />
         </div>
       </nav>
@@ -885,7 +885,7 @@ export default function AnalisisPage() {
 
         {/* Mensaje de ayuda cuando falta la cita en Paso 6 */}
         {step === 6 && !calBooking && (
-          <p className="text-xs text-[#C5F82A] font-semibold mb-4 bg-[#0A0A0A] px-3 py-2 inline-block">
+          <p className="text-xs text-[#4cfc0f] font-semibold mb-4 bg-[#0A0A0A] px-3 py-2 inline-block">
             Primero agenda tu sesión en el calendario de arriba
           </p>
         )}
@@ -902,7 +902,7 @@ export default function AnalisisPage() {
           {step < 6 ? (
             <button onClick={handleNext} disabled={!valid}
               className={`px-8 py-3 text-sm font-bold transition-all ${
-                valid ? "bg-[#C5F82A] text-black hover:opacity-90"
+                valid ? "bg-[#4cfc0f] text-black hover:opacity-90"
                       : "bg-[#F0F0F0] text-[#aaa] cursor-not-allowed"
               }`}>
               Continuar →

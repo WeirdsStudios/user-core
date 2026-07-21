@@ -12,6 +12,11 @@ export const metadata: Metadata = {
   title: "users.mx — Desarrollo Web & Consultoría de Negocio",
   description:
     "Construimos productos digitales que generan resultados reales. Desarrollo web, diseño de producto y consultoría de negocio en México. Proyectos desde $15,000 MXN.",
+  icons: {
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+    ],
+  },
   openGraph: {
     title: "users.mx — Desarrollo Web & Consultoría de Negocio",
     description: "Construimos productos digitales que generan resultados reales.",

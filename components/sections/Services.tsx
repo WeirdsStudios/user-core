@@ -44,7 +44,7 @@ export default function Services() {
                 <span className="text-xl lg:text-2xl font-semibold flex-1 ml-6 transition-transform duration-200 group-hover:translate-x-2">
                   {service.name}
                 </span>
-                <span className="text-[#C5F82A] opacity-0 group-hover:opacity-100 transition-opacity duration-200 text-lg">
+                <span className="text-[#4cfc0f] opacity-0 group-hover:opacity-100 transition-opacity duration-200 text-lg">
                   →
                 </span>
               </div>

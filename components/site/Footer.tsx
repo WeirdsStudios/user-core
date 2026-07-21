@@ -7,8 +7,12 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-6 lg:px-8 pt-16 pb-12 border-b border-[#1F1F1F]">
         <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
           <div>
-            <span className="font-bold text-2xl tracking-tight">users.</span>
-            <p className="text-[#888] text-sm mt-2">Ciudad de México, México</p>
+            <img
+              src="/logos/imagotipo_user_black.svg"
+              alt="users.mx"
+              className="h-9 w-auto"
+            />
+            <p className="text-[#888] text-sm mt-3">Ciudad de México, México</p>
             <a
               href="mailto:hola@users.mx"
               className="text-[#888] text-sm hover:text-white transition-colors"
