@@ -1,6 +1,6 @@
 const stats = [
-  { value: "12+", label: "Proyectos entregados" },
-  { value: "98%", label: "Clientes satisfechos" },
+  { value: "Proyectos con impacto real", label: "De la estrategia al lanzamiento" },
+  { value: "Clientes que confían en el proceso", label: "Una relación, no una transacción" },
 ]
 
 // Ilustración de barras — decorativa, no son datos reales
@@ -98,8 +98,8 @@ export default function Differentiators() {
                 <div className="grid grid-cols-2 gap-4">
                   {stats.map((stat) => (
                     <div key={stat.value} className="bg-[#141414] rounded-2xl p-8">
-                      <p className="text-5xl font-bold text-white leading-none">{stat.value}</p>
-                      <p className="text-[#888] text-sm mt-2">{stat.label}</p>
+                      <p className="text-xl font-bold text-white leading-snug">{stat.value}</p>
+                      <p className="text-[#888] text-xs mt-2">{stat.label}</p>
                     </div>
                   ))}
                 </div>

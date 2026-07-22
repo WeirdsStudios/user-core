@@ -61,19 +61,19 @@ export default function Hero() {
             </a>
           </div>
 
-          {/* Social proof numbers — solo desktop para que el hero quepa en mobile */}
+          {/* Social proof — solo desktop para que el hero quepa en mobile */}
           <div className="hidden lg:flex gap-10 mt-10 pt-8 border-t border-[#1F1F1F]">
-            <div>
-              <p className="text-3xl font-bold text-white">12+</p>
-              <p className="text-[#888] text-sm mt-1">Proyectos entregados</p>
+            <div className="max-w-[150px]">
+              <p className="text-lg font-bold text-white leading-snug">Impacto real</p>
+              <p className="text-[#888] text-xs mt-1">Proyectos entregados de inicio a fin</p>
             </div>
-            <div>
-              <p className="text-3xl font-bold text-white">3</p>
-              <p className="text-[#888] text-sm mt-1">Productos SaaS propios</p>
+            <div className="max-w-[150px]">
+              <p className="text-lg font-bold text-white leading-snug">Construimos lo que vendemos</p>
+              <p className="text-[#888] text-xs mt-1">Productos propios en producción</p>
             </div>
-            <div>
-              <p className="text-3xl font-bold text-white">100%</p>
-              <p className="text-[#888] text-sm mt-1">Clientes satisfechos</p>
+            <div className="max-w-[150px]">
+              <p className="text-lg font-bold text-white leading-snug">Confianza ganada</p>
+              <p className="text-[#888] text-xs mt-1">Clientes que regresan y recomiendan</p>
             </div>
           </div>
         </div>
