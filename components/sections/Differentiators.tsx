@@ -111,7 +111,7 @@ export default function Differentiators() {
                 {/* Scene image */}
                 <div className="rounded-xl overflow-hidden relative aspect-[16/7]">
                   <Image
-                    src="/imgs/bg/scene.webp"
+                    src="/imgs/bg/img-100.webp"
                     alt="Equipo users.mx en sesión de trabajo"
                     fill
                     className="object-cover"

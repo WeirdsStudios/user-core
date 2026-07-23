@@ -6,7 +6,7 @@ export default function FinalCTA() {
     <section className="bg-[#0A0A0A] py-32 lg:py-48 text-center text-white relative overflow-hidden snap-start">
       {/* Background texture */}
       <Image
-        src="/imgs/bg/bg-img.webp"
+        src="/imgs/bg/img-98.webp"
         alt=""
         aria-hidden="true"
         fill

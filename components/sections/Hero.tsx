@@ -6,7 +6,7 @@ export default function Hero() {
     <section className="bg-[#0A0A0A] min-h-screen flex flex-col justify-between pt-16 lg:pt-20 relative overflow-hidden snap-start">
       {/* Background texture */}
       <Image
-        src="/imgs/hero/sec-1-bg-lines.webp"
+        src="/imgs/hero/img-84.webp"
         alt=""
         aria-hidden="true"
         fill
@@ -37,13 +37,12 @@ export default function Hero() {
 
           {/* Headline */}
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight">
-            Sitios y sistemas que te traen más clientes.
+            Sistemas que optimizan tus ventas
           </h1>
 
           {/* Subheadline */}
           <p className="text-[#888] text-lg mt-6 max-w-xl leading-relaxed">
-            Desarrollo web y consultoría de negocio para PyMEs mexicanas — sin
-            sorpresas ni tecnicismos.
+            Desarrollo web y consultoría de negocio para PyMEs mexicanas.
           </p>
 
           {/* CTA row */}
@@ -103,7 +102,7 @@ export default function Hero() {
           {/* Portrait in circle */}
           <div className="relative w-[520px] h-[520px] rounded-full overflow-hidden border-2 border-[#4cfc0f]/30">
             <Image
-              src="/imgs/hero/sec-1-portrait.webp"
+              src="/imgs/hero/img-84.webp"
               alt="Equipo users.mx"
               fill
               className="object-cover"
@@ -115,7 +114,7 @@ export default function Hero() {
           {/* Floating accent card */}
           <div className="absolute bottom-8 -left-4 bg-[#0A0A0A] border border-[#1F1F1F] p-4">
             <p className="text-[#4cfc0f] text-xs font-semibold uppercase tracking-widest">Proyectos desde</p>
-            <p className="text-white font-bold text-xl">$15,000 MXN</p>
+            <p className="text-white font-bold text-xl">$11,900 MXN</p>
           </div>
         </div>
       </div>

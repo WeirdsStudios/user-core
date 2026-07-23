@@ -16,7 +16,7 @@ export default function MotorCTA() {
           {/* Left: browser mockup showing the analysis tool */}
           <div className="mb-12 lg:mb-0">
             <BrowserFrame
-              screenshotSrc="/imgs/portfolio/sec-3-project-3.webp"
+              screenshotSrc="/imgs/portfolio/motor-analisis.webp"
               screenshotAlt="Motor de Análisis — reporte visual de tu negocio"
               urlLabel="users.mx/analisis"
             />
@@ -25,16 +25,16 @@ export default function MotorCTA() {
             <div className="flex gap-6 mt-6 px-1">
               <div>
                 <p className="text-2xl font-bold text-[#0A0A0A]">6</p>
-                <p className="text-xs text-[#888] mt-0.5">pasos de análisis</p>
+                <p className="text-xs text-[#888] mt-0.5">Pasos de Análisis</p>
               </div>
               <div className="w-px bg-[#E5E5E5]" />
               <div>
                 <p className="text-2xl font-bold text-[#0A0A0A]">~8 min</p>
-                <p className="text-xs text-[#888] mt-0.5">para completarlo</p>
+                <p className="text-xs text-[#888] mt-0.5">para Completarlo</p>
               </div>
               <div className="w-px bg-[#E5E5E5]" />
               <div>
-                <p className="text-2xl font-bold text-[#4cfc0f]">gratis</p>
+                <p className="text-2xl font-bold text-[#4cfc0f]">Gratis</p>
                 <p className="text-xs text-[#888] mt-0.5">sin compromiso</p>
               </div>
             </div>

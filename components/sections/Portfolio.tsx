@@ -22,8 +22,8 @@ const projects: Project[] = [
     tags: ["Desarrollo", "Diseño", "Sistema de reservas"],
     externalUrl: "https://greek-gym.com.mx",
     externalLabel: "ver greek-gym.com.mx →",
-    screenshotSrc: "/imgs/portfolio/sec-3-project-1.webp",
-    urlLabel: "greek-gym.com.mx",
+    screenshotSrc: "/imgs/portfolio/greekgym.gif",
+    urlLabel: "greekgym.mx",
   },
   {
     name: "Las Frescas",
@@ -32,10 +32,10 @@ const projects: Project[] = [
     tags: ["Desarrollo", "Diseño", "E-commerce"],
     externalUrl: "https://lasfrescas.mx",
     externalLabel: "ver lasfrescas.mx →",
-    screenshotSrc: "/imgs/portfolio/sec-3-project-2.webp",
-    urlLabel: "lasfrescas.mx",
+    screenshotSrc: "/imgs/portfolio/lasfrescas.gif",
+    urlLabel: "lasfrescas.vercel.app",
   },
-  {
+  /**{
     name: "SoFit ★",
     description:
       "Plataforma administrativa para gimnasios — solución propia",
@@ -43,7 +43,7 @@ const projects: Project[] = [
     featured: true,
     externalUrl: "https://sofit.com.mx",
     externalLabel: "ver sofit.com.mx →",
-    screenshotSrc: "/imgs/portfolio/sec-3-project-3.webp",
+    screenshotSrc: "/imgs/portfolio/sofit.gif",
     urlLabel: "sofit.com.mx",
   },
   {
@@ -56,7 +56,7 @@ const projects: Project[] = [
     externalLabel: "ver consulto.com.mx →",
     screenshotSrc: "/imgs/portfolio/sec-3-project-4.webp",
     urlLabel: "consulto.com.mx",
-  },
+  },*/
 ]
 
 export default function Portfolio() {
@@ -81,7 +81,7 @@ export default function Portfolio() {
               <div className="mt-10 hidden lg:block">
                 <div className="relative aspect-[4/3] rounded-xl overflow-hidden opacity-80">
                   <Image
-                    src="/imgs/portfolio/sec-3-project-5.webp"
+                    src="/imgs/portfolio/bg-img-7.webp"
                     alt=""
                     aria-hidden="true"
                     fill

@@ -11,23 +11,23 @@ const testimonials: Testimonial[] = [
   {
     quote:
       "users.mx transformó la forma en que administramos nuestro gimnasio. Ahora todo está en un solo lugar.",
-    name: "Carlos M.",
-    company: "Greek Gym, Monterrey",
-    avatar: "/imgs/team/avatar-1.webp",
+    name: "Alexis N.",
+    company: "Greek Gym, Puebla",
+    avatar: "/imgs/team/img-17.webp",
   },
   {
     quote:
       "El sitio que construyeron para Las Frescas nos ayudó a recibir pedidos en línea desde el primer mes.",
-    name: "Daniela R.",
+    name: "Karina R.",
     company: "Las Frescas, CDMX",
-    avatar: "/imgs/team/avatar-2.webp",
+    avatar: "/imgs/team/img-82.webp",
   },
   {
     quote:
       "Profesionales, puntuales y con visión de negocio real. No solo desarrollan — entienden lo que necesitas.",
-    name: "Alejandro V.",
+    name: "Alejandra V.",
     company: "Cliente de Consultoría",
-    avatar: "/imgs/team/avatar-3.webp",
+    avatar: "/imgs/team/img-124.webp",
   },
 ]
 

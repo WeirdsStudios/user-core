@@ -6,7 +6,7 @@ export default function Manifesto() {
       {/* Decorative image right edge */}
       <div className="absolute right-0 top-0 bottom-0 w-1/3 hidden lg:block pointer-events-none select-none">
         <Image
-          src="/imgs/bg/bg-img-2.webp"
+          src="/imgs/bg/bg-img2.webp"
           alt=""
           aria-hidden="true"
           fill
@@ -56,7 +56,7 @@ export default function Manifesto() {
         <div className="mt-16 grid grid-cols-3 gap-3">
           <div className="aspect-[4/3] rounded-xl overflow-hidden relative">
             <Image
-              src="/imgs/bg/bg-img-3.webp"
+              src="/imgs/hero/img-97.webp"
               alt=""
               aria-hidden="true"
               fill
@@ -66,7 +66,7 @@ export default function Manifesto() {
           </div>
           <div className="aspect-[4/3] rounded-xl overflow-hidden col-span-2 relative">
             <Image
-              src="/imgs/hero/sec-1-portrait.webp"
+              src="/imgs/hero/bg-img-3.webp"
               alt="Equipo users.mx trabajando"
               fill
               className="object-cover object-top"

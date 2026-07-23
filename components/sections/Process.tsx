@@ -70,7 +70,7 @@ export default function Process() {
         {/* Process image strip */}
         <div className="w-full aspect-[21/6] rounded-2xl overflow-hidden mb-12 relative">
           <Image
-            src="/imgs/bg/scene.webp"
+            src="/imgs/bg/img-119.webp"
             alt="Sesión de trabajo del equipo users.mx"
             fill
             className="object-cover"
