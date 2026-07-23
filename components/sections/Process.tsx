@@ -1,3 +1,5 @@
+import Image from "next/image"
+
 const steps = [
   {
     number: "01",
@@ -66,11 +68,13 @@ export default function Process() {
         </div>
 
         {/* Process image strip */}
-        <div className="w-full aspect-[21/6] rounded-2xl overflow-hidden mb-12">
-          <img
+        <div className="w-full aspect-[21/6] rounded-2xl overflow-hidden mb-12 relative">
+          <Image
             src="/imgs/bg/scene.webp"
             alt="Sesión de trabajo del equipo users.mx"
-            className="w-full h-full object-cover"
+            fill
+            className="object-cover"
+            sizes="(max-width:1024px) 100vw, 1280px"
           />
         </div>
 

@@ -1,13 +1,17 @@
+import Image from "next/image"
+
 export default function Manifesto() {
   return (
     <section className="bg-[#F5F5F5] py-24 lg:py-32 relative overflow-hidden">
       {/* Decorative image right edge */}
       <div className="absolute right-0 top-0 bottom-0 w-1/3 hidden lg:block pointer-events-none select-none">
-        <img
+        <Image
           src="/imgs/bg/bg-img-2.webp"
           alt=""
           aria-hidden="true"
-          className="w-full h-full object-cover opacity-15"
+          fill
+          className="object-cover opacity-15"
+          sizes="33vw"
         />
       </div>
 
@@ -50,19 +54,23 @@ export default function Manifesto() {
 
         {/* Bottom image strip */}
         <div className="mt-16 grid grid-cols-3 gap-3">
-          <div className="aspect-[4/3] rounded-xl overflow-hidden">
-            <img
+          <div className="aspect-[4/3] rounded-xl overflow-hidden relative">
+            <Image
               src="/imgs/bg/bg-img-3.webp"
               alt=""
               aria-hidden="true"
-              className="w-full h-full object-cover opacity-70"
+              fill
+              className="object-cover opacity-70"
+              sizes="(max-width:1024px) 33vw, 400px"
             />
           </div>
-          <div className="aspect-[4/3] rounded-xl overflow-hidden col-span-2">
-            <img
+          <div className="aspect-[4/3] rounded-xl overflow-hidden col-span-2 relative">
+            <Image
               src="/imgs/hero/sec-1-portrait.webp"
               alt="Equipo users.mx trabajando"
-              className="w-full h-full object-cover object-top"
+              fill
+              className="object-cover object-top"
+              sizes="(max-width:1024px) 67vw, 800px"
             />
           </div>
         </div>

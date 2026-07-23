@@ -1,32 +1,40 @@
 "use client"
 
 import { useState } from "react"
+import { getWhatsAppLink } from "@/lib/whatsapp"
 
 interface FAQItem {
   question: string
   answer: string
+  link?: { href: string; label: string }
 }
 
 const faqs: FAQItem[] = [
   {
-    question: "¿Cómo funciona el proceso de trabajo?",
+    question: "¿Cuánto pago al inicio y cuánto al final?",
     answer:
-      "Empezamos con una sesión de descubrimiento para entender tu negocio y objetivos. A partir de ahí, diseñamos una propuesta técnica y visual, validamos contigo y comenzamos el desarrollo en ciclos cortos con entregas parciales visibles.",
+      "Trabajamos con 60/40 — 60% al iniciar el proyecto, 40% al entregarlo. El pago final solo se libera cuando el sitio está 100% aprobado por ti.",
   },
   {
-    question: "¿Cuánto tarda un proyecto típico?",
+    question: "¿Qué pasa si el resultado no me convence?",
     answer:
-      "Depende del alcance. Un sitio con funcionalidades básicas puede estar listo en 3-4 semanas. Proyectos más complejos con sistemas de administración o integraciones pueden tomar de 6 a 12 semanas.",
+      "Garantía de Aprobación: no se libera el pago final hasta que apruebes el proyecto. Si algo no cumple lo acordado en el brief inicial, seguimos ajustando dentro del alcance original sin costo adicional, retomando siempre desde tu último feedback aprobado, sin límite de rondas.",
   },
   {
-    question: "¿Trabajan con negocios pequeños?",
+    question: "¿Qué incluye el proyecto y qué no?",
     answer:
-      "Sí. La mayoría de nuestros proyectos son para negocios medianos y pequeños con ambición de crecer. No necesitas ser una empresa grande para tener una presencia digital profesional que funcione.",
+      "Incluye dominio, hosting, hasta 3 rondas de revisión, soporte gratuito el primer mes después del lanzamiento (o 2 meses de descuento si contratas el plan de soporte anual), manual de uso de tu plataforma, y acceso a nuestra Central de Ayuda disponible 24/7.",
   },
   {
-    question: "¿Pueden desarrollar funcionalidades a medida?",
+    question: "¿Por qué es más caro que Wix o que alguien conocido me lo haga más barato?",
     answer:
-      "Absolutamente. Además de proyectos estándar, construimos sistemas, cotizadores, portales de cliente y flujos personalizados. Si tienes una necesidad específica, la analizamos y proponemos la mejor solución técnica.",
+      "No solo entregamos un sitio — cada funcionalidad se personaliza a tu negocio basándonos en estudio de mercado, análisis de negocio y proyección de retorno de inversión. Hacemos estrategia de negocio digital completa que respalda y le da forma al sitio, no solo una plantilla con tu logo encima.",
+  },
+  {
+    question: "¿Quién me da soporte después de lanzar?",
+    answer:
+      "Tienes soporte gratuito el primer mes. Después puedes contratar uno de nuestros planes de mantenimiento (desde $399 MXN/mes) que incluyen hosting, respaldos, cambios de contenido y soporte por WhatsApp.",
+    link: { href: "#mantenimiento", label: "Ver planes de mantenimiento" },
   },
 ]
 
@@ -50,10 +58,12 @@ export default function FAQ() {
               ¿No encuentras lo que buscas?
             </p>
             <a
-              href="mailto:hola@users.mx"
+              href={getWhatsAppLink("faq")}
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-sm font-semibold underline mt-2 inline-block text-[#0A0A0A] hover:text-[#888] transition-colors"
             >
-              Escríbenos →
+              Escríbenos por WhatsApp →
             </a>
           </div>
 
@@ -72,8 +82,16 @@ export default function FAQ() {
                   </span>
                 </button>
                 {openIndex === index && (
-                  <div className="text-[#888] text-sm pb-5 leading-relaxed">
-                    {faq.answer}
+                  <div className="pb-5">
+                    <p className="text-[#888] text-sm leading-relaxed">{faq.answer}</p>
+                    {faq.link && (
+                      <a
+                        href={faq.link.href}
+                        className="inline-block mt-3 text-xs font-semibold text-[#0A0A0A] hover:text-[#888] transition-colors underline"
+                      >
+                        {faq.link.label} ↓
+                      </a>
+                    )}
                   </div>
                 )}
               </div>

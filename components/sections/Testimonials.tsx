@@ -1,3 +1,5 @@
+import Image from "next/image"
+
 interface Testimonial {
   quote: string
   name: string
@@ -36,11 +38,13 @@ export default function Testimonials() {
         {/* Inner dark panel */}
         <div className="bg-[#0A0A0A] rounded-3xl px-8 lg:px-16 py-20 text-white relative overflow-hidden">
           {/* Subtle bg texture */}
-          <img
+          <Image
             src="/imgs/bg/bg-img.webp"
             alt=""
             aria-hidden="true"
-            className="absolute inset-0 w-full h-full object-cover opacity-5 pointer-events-none select-none"
+            fill
+            className="object-cover opacity-5 pointer-events-none select-none"
+            sizes="100vw"
           />
 
           <div className="relative">
@@ -72,9 +76,11 @@ export default function Testimonials() {
 
                   {/* Author */}
                   <div className="flex items-center gap-3 pt-4 border-t border-[#1F1F1F]">
-                    <img
+                    <Image
                       src={testimonial.avatar}
                       alt={testimonial.name}
+                      width={40}
+                      height={40}
                       className="w-10 h-10 rounded-full object-cover"
                     />
                     <div>

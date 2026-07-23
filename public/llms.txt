@@ -1,0 +1,53 @@
+# users.mx
+
+users.mx es una empresa mexicana de desarrollo web y consultoría de negocio para PyMEs.
+No es una agencia de plantillas: construye soluciones digitales a la medida basadas en análisis
+real del negocio del cliente.
+
+## Qué hace
+
+- Desarrollo web y aplicaciones a la medida
+- Diseño de producto y UX
+- Consultoría de estrategia digital para negocios
+- Sistemas de administración y portales de cliente
+- Identidad visual y marca
+- Crecimiento y marketing digital
+
+## Motor de Análisis de Negocio
+
+Herramienta gratuita de cotización en 6 pasos disponible en users.mx/analisis.
+Genera un reporte visual personalizado con diagnóstico, estimado de inversión por módulo
+y permite agendar una sesión estratégica dentro del mismo flujo.
+No requiere registro ni tarjeta de crédito.
+
+## Productos propios
+
+- SoFit (sofit.com.mx): Plataforma SaaS para administración de gimnasios y estudios fitness.
+- Consulto (consulto.com.mx): Sistema de gestión para consultorios y clínicas.
+
+## Precio de referencia público
+
+Proyectos desde $15,000 MXN. El precio final depende del alcance, funcionalidades y urgencia.
+El tabulador detallado no es público.
+
+## Proceso de trabajo
+
+1. Descubrimiento y estrategia
+2. Prototipo y diseño
+3. Desarrollo ágil con entregas parciales visibles
+4. Lanzamiento y optimización
+
+## Contacto
+
+- Email: hola@users.mx
+- WhatsApp: +52 56 1293 4010
+- Ubicación: Ciudad de México y Estado de México, México
+
+## Clientes objetivo
+
+PyMEs mexicanas: restaurantes, gimnasios, consultorios, comercios, servicios profesionales
+y negocios locales que quieren una presencia digital profesional sin promesas vacías.
+
+## Tecnología
+
+Next.js, TypeScript, Tailwind CSS, Supabase/PostgreSQL, Cal.com, Resend.

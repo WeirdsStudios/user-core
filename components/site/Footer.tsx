@@ -1,4 +1,5 @@
 import Link from "next/link"
+import Image from "next/image"
 
 export default function Footer() {
   return (
@@ -7,9 +8,11 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-6 lg:px-8 pt-16 pb-12 border-b border-[#1F1F1F]">
         <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
           <div>
-            <img
-              src="/logos/imagotipo_user_black.svg"
+            <Image
+              src="/logos/imagotipo_user.svg"
               alt="users.mx"
+              width={120}
+              height={36}
               className="h-9 w-auto"
             />
             <p className="text-[#888] text-sm mt-3">Ciudad de México, México</p>
@@ -35,26 +38,17 @@ export default function Footer() {
               </p>
               <ul className="space-y-3">
                 <li>
-                  <a
-                    href="/#servicios"
-                    className="text-sm text-[#888] hover:text-white transition-colors"
-                  >
+                  <a href="/#servicios" className="text-sm text-[#888] hover:text-white transition-colors">
                     Servicios
                   </a>
                 </li>
                 <li>
-                  <a
-                    href="#proceso"
-                    className="text-sm text-[#888] hover:text-white transition-colors"
-                  >
+                  <a href="/#proceso" className="text-sm text-[#888] hover:text-white transition-colors">
                     Proceso
                   </a>
                 </li>
                 <li>
-                  <a
-                    href="#blog"
-                    className="text-sm text-[#888] hover:text-white transition-colors"
-                  >
+                  <a href="/#blog" className="text-sm text-[#888] hover:text-white transition-colors">
                     Blog
                   </a>
                 </li>
@@ -68,28 +62,26 @@ export default function Footer() {
               </p>
               <ul className="space-y-3">
                 <li>
-                  <span className="text-sm text-[#888]">Greek Gym</span>
+                  <a href="https://greek-gym.com.mx" target="_blank" rel="noopener noreferrer"
+                    className="text-sm text-[#888] hover:text-white transition-colors">
+                    Greek Gym
+                  </a>
                 </li>
                 <li>
-                  <span className="text-sm text-[#888]">Las Frescas</span>
+                  <a href="https://lasfrescas.mx" target="_blank" rel="noopener noreferrer"
+                    className="text-sm text-[#888] hover:text-white transition-colors">
+                    Las Frescas
+                  </a>
                 </li>
                 <li>
-                  <a
-                    href="https://sofit.com.mx"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-sm text-[#888] hover:text-white transition-colors"
-                  >
+                  <a href="https://sofit.com.mx" target="_blank" rel="noopener noreferrer"
+                    className="text-sm text-[#888] hover:text-white transition-colors">
                     SoFit
                   </a>
                 </li>
                 <li>
-                  <a
-                    href="https://consulto.com.mx"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-sm text-[#888] hover:text-white transition-colors"
-                  >
+                  <a href="https://consulto.com.mx" target="_blank" rel="noopener noreferrer"
+                    className="text-sm text-[#888] hover:text-white transition-colors">
                     Consulto
                   </a>
                 </li>
@@ -103,18 +95,12 @@ export default function Footer() {
               </p>
               <ul className="space-y-3">
                 <li>
-                  <Link
-                    href="/analisis"
-                    className="text-sm text-[#888] hover:text-white transition-colors"
-                  >
+                  <Link href="/analisis" className="text-sm text-[#888] hover:text-white transition-colors">
                     Analizar mi negocio
                   </Link>
                 </li>
                 <li>
-                  <a
-                    href="mailto:hola@users.mx"
-                    className="text-sm text-[#888] hover:text-white transition-colors"
-                  >
+                  <a href="mailto:hola@users.mx" className="text-sm text-[#888] hover:text-white transition-colors">
                     hola@users.mx
                   </a>
                 </li>
@@ -135,18 +121,13 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-6 lg:px-8 py-8">
         <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
           <p className="text-[#888] text-sm">users.mx © 2026</p>
-
           <div className="flex flex-wrap gap-2">
             {["Desarrollo Web", "Diseño", "Consultoría", "SaaS"].map((chip) => (
-              <span
-                key={chip}
-                className="text-xs text-[#888] border border-[#333] px-3 py-1"
-              >
+              <span key={chip} className="text-xs text-[#888] border border-[#333] px-3 py-1">
                 {chip}
               </span>
             ))}
           </div>
-
           <p className="text-[#888] text-sm">Proyectos desde $15,000 MXN</p>
         </div>
       </div>

@@ -1,14 +1,17 @@
 import Link from "next/link"
+import Image from "next/image"
 
 export default function FinalCTA() {
   return (
     <section className="bg-[#0A0A0A] py-32 lg:py-48 text-center text-white relative overflow-hidden snap-start">
       {/* Background texture */}
-      <img
+      <Image
         src="/imgs/bg/bg-img.webp"
         alt=""
         aria-hidden="true"
-        className="absolute inset-0 w-full h-full object-cover opacity-10 pointer-events-none select-none"
+        fill
+        className="object-cover opacity-10 pointer-events-none select-none"
+        sizes="100vw"
       />
 
       {/* Decorative circles */}

@@ -10,6 +10,7 @@ import Differentiators from "@/components/sections/Differentiators"
 import Testimonials from "@/components/sections/Testimonials"
 import MotorCTA from "@/components/sections/MotorCTA"
 import FAQ from "@/components/sections/FAQ"
+import Mantenimiento from "@/components/sections/Mantenimiento"
 import Team from "@/components/sections/Team"
 import FinalCTA from "@/components/sections/FinalCTA"
 import Blog from "@/components/sections/Blog"
@@ -29,6 +30,7 @@ export default function HomePage() {
         <Testimonials />
         <MotorCTA />
         <FAQ />
+        <Mantenimiento />
         <Team />
         <FinalCTA />
         <Blog />

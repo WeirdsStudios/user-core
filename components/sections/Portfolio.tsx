@@ -1,3 +1,4 @@
+import Image from "next/image"
 import BrowserFrame from "@/components/ui/BrowserFrame"
 
 interface Project {
@@ -19,6 +20,8 @@ const projects: Project[] = [
     description:
       "Plataforma web y sistema de reservas para gimnasio boutique en Monterrey",
     tags: ["Desarrollo", "Diseño", "Sistema de reservas"],
+    externalUrl: "https://greek-gym.com.mx",
+    externalLabel: "ver greek-gym.com.mx →",
     screenshotSrc: "/imgs/portfolio/sec-3-project-1.webp",
     urlLabel: "greek-gym.com.mx",
   },
@@ -27,6 +30,8 @@ const projects: Project[] = [
     description:
       "Sitio web y menú digital para restaurante con pedidos en línea",
     tags: ["Desarrollo", "Diseño", "E-commerce"],
+    externalUrl: "https://lasfrescas.mx",
+    externalLabel: "ver lasfrescas.mx →",
     screenshotSrc: "/imgs/portfolio/sec-3-project-2.webp",
     urlLabel: "lasfrescas.mx",
   },
@@ -72,22 +77,18 @@ export default function Portfolio() {
                 Proyectos donde estrategia, diseño y desarrollo se integran para
                 resolver problemas reales.
               </p>
-              <a
-                href="#trabajo"
-                className="inline-flex items-center gap-2 text-sm font-semibold mt-6 text-[#0A0A0A] hover:text-[#888] transition-colors"
-              >
-                Ver todos los proyectos
-                <span aria-hidden="true">→</span>
-              </a>
-
               {/* Decorative preview image */}
               <div className="mt-10 hidden lg:block">
-                <img
-                  src="/imgs/portfolio/sec-3-project-5.webp"
-                  alt=""
-                  aria-hidden="true"
-                  className="w-full aspect-[4/3] object-cover rounded-xl opacity-80"
-                />
+                <div className="relative aspect-[4/3] rounded-xl overflow-hidden opacity-80">
+                  <Image
+                    src="/imgs/portfolio/sec-3-project-5.webp"
+                    alt=""
+                    aria-hidden="true"
+                    fill
+                    className="object-cover"
+                    sizes="400px"
+                  />
+                </div>
               </div>
             </div>
           </div>

@@ -64,10 +64,12 @@ export default function MotorCTA() {
               ))}
             </ul>
 
-            <p className="text-xs text-[#888] mt-4">
-              Proyectos desde{" "}
-              <strong className="text-[#0A0A0A]">$15,000 MXN</strong>
-            </p>
+            <div className="mt-6 inline-flex items-center gap-3 border border-[#0A0A0A] px-4 py-2">
+              <span className="text-xs font-semibold uppercase tracking-widest text-[#888]">
+                Proyectos desde
+              </span>
+              <span className="font-bold text-[#0A0A0A] text-base">$15,000 MXN</span>
+            </div>
 
             {/* Primary CTA — distintivo, más grande que un botón común */}
             <div className="mt-8">

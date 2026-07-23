@@ -119,7 +119,7 @@ async function sendNotificationEmail(payload: {
           </ul>
         </div>
 
-        <a href="https://uoewgjcxqytougtpaiwr.supabase.co" style="background:#4cfc0f;color:#0A0A0A;font-weight:700;padding:12px 24px;text-decoration:none;display:inline-block;font-size:14px">
+        <a href="${process.env.SUPABASE_URL ?? "#"}" style="background:#4cfc0f;color:#0A0A0A;font-weight:700;padding:12px 24px;text-decoration:none;display:inline-block;font-size:14px">
           Ver en Supabase →
         </a>
       </div>

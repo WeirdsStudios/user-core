@@ -1,6 +1,8 @@
+import Image from "next/image"
+
 const stats = [
-  { value: "Proyectos con impacto real", label: "De la estrategia al lanzamiento" },
-  { value: "Clientes que confían en el proceso", label: "Una relación, no una transacción" },
+  { value: "26 proyectos entregados", label: "100% de clientes satisfechos" },
+  { value: "3 proyectos activos", label: "actualmente en desarrollo" },
 ]
 
 // Ilustración de barras — decorativa, no son datos reales
@@ -19,11 +21,13 @@ export default function Differentiators() {
         {/* Inner dark panel */}
         <div className="bg-[#0A0A0A] rounded-3xl p-12 lg:p-20 text-white relative overflow-hidden">
           {/* Subtle bg texture */}
-          <img
+          <Image
             src="/imgs/bg/bg-img.webp"
             alt=""
             aria-hidden="true"
-            className="absolute inset-0 w-full h-full object-cover opacity-5 pointer-events-none select-none"
+            fill
+            className="object-cover opacity-5 pointer-events-none select-none"
+            sizes="100vw"
           />
 
           <div className="relative">
@@ -105,11 +109,13 @@ export default function Differentiators() {
                 </div>
 
                 {/* Scene image */}
-                <div className="rounded-xl overflow-hidden">
-                  <img
+                <div className="rounded-xl overflow-hidden relative aspect-[16/7]">
+                  <Image
                     src="/imgs/bg/scene.webp"
                     alt="Equipo users.mx en sesión de trabajo"
-                    className="w-full aspect-[16/7] object-cover"
+                    fill
+                    className="object-cover"
+                    sizes="(max-width:1024px) 100vw, 700px"
                   />
                 </div>
               </div>

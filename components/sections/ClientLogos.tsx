@@ -1,3 +1,5 @@
+import Image from "next/image"
+
 const clients = [
   { name: "Greek Gym",   logo: "/imgs/clients/logo-brand-01.webp" },
   { name: "Las Frescas", logo: "/imgs/clients/logo-brand-02.webp" },
@@ -15,9 +17,11 @@ export default function ClientLogos() {
         {repeated.map((client, index) => (
           <span key={index} className="flex items-center gap-16 shrink-0">
             <span className="flex items-center gap-3">
-              <img
+              <Image
                 src={client.logo}
                 alt={client.name}
+                width={120}
+                height={28}
                 className="h-7 w-auto object-contain opacity-50 grayscale hover:opacity-80 hover:grayscale-0 transition-all duration-300"
               />
               <span className="text-xs font-semibold tracking-widest uppercase text-[#AAA]">

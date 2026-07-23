@@ -1,25 +1,31 @@
 import Link from "next/link"
+import Image from "next/image"
 
 export default function Hero() {
   return (
-    <section className="bg-[#0A0A0A] min-h-screen flex flex-col justify-between pt-20 lg:pt-28 relative overflow-hidden snap-start">
+    <section className="bg-[#0A0A0A] min-h-screen flex flex-col justify-between pt-16 lg:pt-20 relative overflow-hidden snap-start">
       {/* Background texture */}
-      <img
+      <Image
         src="/imgs/hero/sec-1-bg-lines.webp"
         alt=""
         aria-hidden="true"
-        className="absolute inset-0 w-full h-full object-cover opacity-20 pointer-events-none select-none"
+        fill
+        className="object-cover opacity-20 pointer-events-none select-none"
+        sizes="100vw"
+        priority
       />
 
       {/* Decorative shape top-right */}
-      <img
+      <Image
         src="/imgs/hero/sec-1-shape-25.webp"
         alt=""
         aria-hidden="true"
-        className="absolute top-0 right-0 w-72 lg:w-[420px] opacity-60 pointer-events-none select-none"
+        width={420}
+        height={420}
+        className="absolute top-0 right-0 w-72 lg:w-[420px] h-auto opacity-60 pointer-events-none select-none"
       />
 
-      <div className="relative max-w-7xl mx-auto px-6 lg:px-8 flex flex-col flex-1 justify-center py-8 lg:py-24 lg:grid lg:grid-cols-2 lg:gap-16 lg:items-center">
+      <div className="relative max-w-7xl mx-auto px-6 lg:px-8 flex flex-col flex-1 justify-center py-6 lg:py-10 lg:grid lg:grid-cols-2 lg:gap-16 lg:items-center">
         {/* Left: copy */}
         <div>
           {/* Eyebrow */}
@@ -31,13 +37,13 @@ export default function Hero() {
 
           {/* Headline */}
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight">
-            Productos digitales que generan resultados.
+            Sitios y sistemas que te traen más clientes.
           </h1>
 
           {/* Subheadline */}
           <p className="text-[#888] text-lg mt-6 max-w-xl leading-relaxed">
-            Estrategia de negocio, diseño de producto y desarrollo técnico — en un
-            solo equipo.
+            Desarrollo web y consultoría de negocio para PyMEs mexicanas — sin
+            sorpresas ni tecnicismos.
           </p>
 
           {/* CTA row */}
@@ -61,18 +67,28 @@ export default function Hero() {
             </a>
           </div>
 
-          {/* Social proof — solo desktop para que el hero quepa en mobile */}
-          <div className="hidden lg:flex gap-10 mt-10 pt-8 border-t border-[#1F1F1F]">
-            <div className="max-w-[150px]">
-              <p className="text-lg font-bold text-white leading-snug">Impacto real</p>
+          {/* Precio ancla — mobile only (en desktop aparece como card flotante en la columna derecha) */}
+          <div className="flex items-center mt-8 lg:hidden">
+            <div className="border border-[#4cfc0f]/40 px-5 py-3">
+              <p className="text-[#4cfc0f] text-[10px] font-semibold uppercase tracking-widest leading-none mb-1">
+                Proyectos desde
+              </p>
+              <p className="text-white font-bold text-xl leading-none">$15,000 MXN</p>
+            </div>
+          </div>
+
+          {/* Social proof */}
+          <div className="flex flex-col gap-3 mt-10 pt-8 border-t border-[#1F1F1F] lg:flex-row lg:gap-10">
+            <div className="lg:max-w-[150px]">
+              <p className="text-sm lg:text-lg font-bold text-white leading-snug">Impacto real</p>
               <p className="text-[#888] text-xs mt-1">Proyectos entregados de inicio a fin</p>
             </div>
-            <div className="max-w-[150px]">
-              <p className="text-lg font-bold text-white leading-snug">Construimos lo que vendemos</p>
+            <div className="lg:max-w-[150px]">
+              <p className="text-sm lg:text-lg font-bold text-white leading-snug">Construimos lo que vendemos</p>
               <p className="text-[#888] text-xs mt-1">Productos propios en producción</p>
             </div>
-            <div className="max-w-[150px]">
-              <p className="text-lg font-bold text-white leading-snug">Confianza ganada</p>
+            <div className="lg:max-w-[150px]">
+              <p className="text-sm lg:text-lg font-bold text-white leading-snug">Confianza ganada</p>
               <p className="text-[#888] text-xs mt-1">Clientes que regresan y recomiendan</p>
             </div>
           </div>
@@ -80,16 +96,19 @@ export default function Hero() {
 
         {/* Right: portrait image */}
         <div className="hidden lg:flex items-center justify-center relative mt-12 lg:mt-0">
-          {/* Decorative circle ring behind portrait */}
-          <div className="absolute w-[420px] h-[420px] rounded-full border border-[#4cfc0f]/20" />
-          <div className="absolute w-[340px] h-[340px] rounded-full border border-[#4cfc0f]/10" />
+          {/* Decorative circle rings */}
+          <div className="absolute w-[560px] h-[560px] rounded-full border border-[#4cfc0f]/20" />
+          <div className="absolute w-[480px] h-[480px] rounded-full border border-[#4cfc0f]/10" />
 
           {/* Portrait in circle */}
-          <div className="relative w-[380px] h-[380px] rounded-full overflow-hidden border-2 border-[#4cfc0f]/30">
-            <img
+          <div className="relative w-[520px] h-[520px] rounded-full overflow-hidden border-2 border-[#4cfc0f]/30">
+            <Image
               src="/imgs/hero/sec-1-portrait.webp"
               alt="Equipo users.mx"
-              className="w-full h-full object-cover"
+              fill
+              className="object-cover"
+              sizes="520px"
+              priority
             />
           </div>
 
@@ -98,14 +117,6 @@ export default function Hero() {
             <p className="text-[#4cfc0f] text-xs font-semibold uppercase tracking-widest">Proyectos desde</p>
             <p className="text-white font-bold text-xl">$15,000 MXN</p>
           </div>
-
-          {/* Decorative alien/abstract element */}
-          <img
-            src="/imgs/hero/sec-1-alien.webp"
-            alt=""
-            aria-hidden="true"
-            className="absolute -top-8 -right-8 w-28 opacity-50 pointer-events-none select-none"
-          />
         </div>
       </div>
 

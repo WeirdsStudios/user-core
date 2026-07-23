@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
+import Image from "next/image"
 
 const navLinks = [
   { label: "Servicios", href: "/#servicios" },
@@ -34,10 +35,13 @@ export default function Header() {
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
           <Link href="/" className="flex items-center">
-            <img
+            <Image
               src={scrolled ? "/logos/imagotipo_user_black.svg" : "/logos/imagotipo_user.svg"}
               alt="users.mx"
+              width={120}
+              height={32}
               className="h-8 w-auto transition-all duration-300"
+              priority
             />
           </Link>
 

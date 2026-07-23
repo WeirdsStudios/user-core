@@ -1,29 +1,6 @@
-const posts = [
-  {
-    date: "Julio 2026",
-    title: "Por qué tu negocio necesita más que un sitio web bonito",
-    author: "Equipo users.mx",
-    thumbnail: "/imgs/blog/thumb-1.webp",
-  },
-  {
-    date: "Julio 2026",
-    title: "Cómo SoFit resolvió el problema de administración de un gimnasio real",
-    author: "Equipo users.mx",
-    thumbnail: "/imgs/blog/thumb-2.webp",
-  },
-  {
-    date: "Junio 2026",
-    title: "El costo real de no tener un sistema de gestión para tu negocio",
-    author: "Equipo users.mx",
-    thumbnail: "/imgs/blog/thumb-3.webp",
-  },
-  {
-    date: "Junio 2026",
-    title: "Diseño vs. desarrollo: por qué separarlos es el error más caro",
-    author: "Equipo users.mx",
-    thumbnail: "/imgs/blog/thumb-4.webp",
-  },
-]
+import Image from "next/image"
+import Link from "next/link"
+import { BLOG_POSTS } from "@/lib/blog"
 
 export default function Blog() {
   return (
@@ -34,12 +11,12 @@ export default function Blog() {
           <span className="text-xs font-semibold tracking-widest uppercase text-[#888] border border-[#E5E5E5] px-3 py-1 inline-block">
             Blog & Recursos
           </span>
-          <a
-            href="#blog"
+          <Link
+            href={`/blog/${BLOG_POSTS[0].slug}`}
             className="text-sm font-semibold underline text-[#0A0A0A] hover:text-[#888] transition-colors"
           >
             Ver todos →
-          </a>
+          </Link>
         </div>
 
         <h2 className="text-3xl font-bold text-[#0A0A0A] mt-4">
@@ -48,17 +25,19 @@ export default function Blog() {
 
         {/* 4-col grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
-          {posts.map((post, index) => (
+          {BLOG_POSTS.map((post) => (
             <article
-              key={index}
+              key={post.slug}
               className="border border-[#E5E5E5] rounded-2xl overflow-hidden hover:shadow-md transition-shadow flex flex-col group"
             >
               {/* Thumbnail */}
-              <div className="aspect-[16/9] overflow-hidden">
-                <img
+              <div className="aspect-[16/9] overflow-hidden relative">
+                <Image
                   src={post.thumbnail}
                   alt={post.title}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  fill
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  sizes="(max-width:640px) 100vw, (max-width:1024px) 50vw, 25vw"
                 />
               </div>
 
@@ -70,12 +49,12 @@ export default function Blog() {
                 </h3>
                 <div className="mt-4 pt-4 border-t border-[#F0F0F0] flex items-center justify-between">
                   <p className="text-xs text-[#888]">{post.author}</p>
-                  <a
-                    href="#blog"
+                  <Link
+                    href={`/blog/${post.slug}`}
                     className="text-xs text-[#4cfc0f] font-semibold hover:underline"
                   >
                     Leer →
-                  </a>
+                  </Link>
                 </div>
               </div>
             </article>
