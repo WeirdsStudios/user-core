@@ -1,5 +1,6 @@
 import Image from "next/image"
 import BrowserFrame from "@/components/ui/BrowserFrame"
+import GhostButton from "@/components/ui/GhostButton"
 
 interface Project {
   name: string
@@ -18,7 +19,7 @@ const projects: Project[] = [
   {
     name: "Greek Gym",
     description:
-      "Plataforma web y sistema de reservas para gimnasio boutique en Monterrey",
+      "Plataforma web y sistema de reservas para gimnasio multisucursal en Puebla",
     tags: ["Desarrollo", "Diseño", "Sistema de reservas"],
     externalUrl: "https://greek-gym.com.mx",
     externalLabel: "ver greek-gym.com.mx →",
@@ -28,8 +29,8 @@ const projects: Project[] = [
   {
     name: "Las Frescas",
     description:
-      "Sitio web y menú digital para restaurante con pedidos en línea",
-    tags: ["Desarrollo", "Diseño", "E-commerce"],
+      "Sitio web y cotizador digital para negocio de barras para eventos y ferias",
+    tags: ["Desarrollo", "Diseño", "Cotizador Digital"],
     externalUrl: "https://lasfrescas.mx",
     externalLabel: "ver lasfrescas.mx →",
     screenshotSrc: "/imgs/portfolio/lasfrescas.gif",
@@ -134,14 +135,16 @@ export default function Portfolio() {
                     </div>
 
                     {project.externalUrl && (
-                      <a
+                      <GhostButton
                         href={project.externalUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-xs text-[#4cfc0f] font-semibold hover:underline shrink-0"
-                      >
-                        {project.externalLabel}
-                      </a>
+                        tone="light"
+                        size="compact"
+                        className="shrink-0"
+                        line1="Ver sitio"
+                        line2={project.urlLabel ?? project.externalUrl.replace(/^https?:\/\//, "")}
+                      />
                     )}
                   </div>
                 </div>

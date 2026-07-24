@@ -1,4 +1,4 @@
-import Link from "next/link"
+import GhostButton from "@/components/ui/GhostButton"
 
 const planes = [
   {
@@ -90,14 +90,15 @@ export default function Mantenimiento() {
         </div>
 
         <p className="text-xs text-[#888] mt-6">
-          Los planes de mantenimiento aplican para proyectos entregados por users.mx.{" "}
-          <Link
-            href="/analisis"
-            className="underline hover:text-[#0A0A0A] transition-colors"
-          >
-            Cotiza tu proyecto →
-          </Link>
+          Los planes de mantenimiento aplican para proyectos entregados por users.mx.
         </p>
+        <GhostButton
+          href="/analisis"
+          tone="light"
+          className="mt-3"
+          line1="Cotiza tu proyecto"
+          line2="para tu negocio"
+        />
       </div>
     </section>
   )

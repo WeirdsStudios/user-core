@@ -1,4 +1,5 @@
 import Image from "next/image"
+import GhostButton from "@/components/ui/GhostButton"
 
 export default function Manifesto() {
   return (
@@ -33,22 +34,22 @@ export default function Manifesto() {
         {/* 2-col grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-end">
           <p className="text-[#555] text-base leading-relaxed lg:max-w-md">
-            Somos un equipo de desarrolladores y consultores de negocio con
-            experiencia construyendo desde cero.
+            Somos un equipo de diseñadores, desarrolladores y consultores de negocio con
+            experiencia en empresas trasnacionales, construyendo proyectos innovadores End2End.
           </p>
           <div>
             <p className="text-[#555] text-base leading-relaxed">
-              Creamos SoFit y Consulto a partir de necesidades reales que vimos en
-              nuestros clientes — ese mismo proceso aplicamos en cada proyecto
-              nuevo.
+              Creamos herramientas para PyMEs Mexicanas a partir de necesidades reales que vemos en
+              nuestros clientes — ese mismo proceso de innovación y aprendizaje lo aplicamos en cada proyecto nuevo.
+              
             </p>
-            <a
+            <GhostButton
               href="#trabajo"
-              className="inline-flex items-center gap-2 text-sm font-semibold mt-6 text-[#0A0A0A] hover:text-[#888] transition-colors"
-            >
-              Conocer nuestro trabajo
-              <span aria-hidden="true">→</span>
-            </a>
+              tone="light"
+              className="mt-6"
+              line1="Conoce nuestro trabajo"
+              line2="casos de éxito reales"
+            />
           </div>
         </div>
 

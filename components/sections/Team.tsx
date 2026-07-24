@@ -1,4 +1,5 @@
 import Image from "next/image"
+import GhostButton from "@/components/ui/GhostButton"
 
 const members = [
   {
@@ -54,12 +55,13 @@ export default function Team() {
               Desarrolladores y consultores con experiencia real construyendo
               productos digitales que funcionan.
             </p>
-            <a
+            <GhostButton
               href="mailto:hola@users.mx"
-              className="text-sm font-semibold underline mt-6 inline-block text-[#0A0A0A] hover:text-[#888] transition-colors"
-            >
-              Trabaja con nosotros →
-            </a>
+              tone="light"
+              className="mt-6"
+              line1="Trabaja con nosotros"
+              line2="hola@users.mx"
+            />
 
             {/* Badges de certificación */}
             <div className="flex flex-wrap gap-2 mt-6">

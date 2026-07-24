@@ -1,6 +1,6 @@
 import Image from "next/image"
-import Link from "next/link"
 import { BLOG_POSTS } from "@/lib/blog"
+import GhostButton from "@/components/ui/GhostButton"
 
 export default function Blog() {
   return (
@@ -11,12 +11,13 @@ export default function Blog() {
           <span className="text-xs font-semibold tracking-widest uppercase text-[#888] border border-[#E5E5E5] px-3 py-1 inline-block">
             Blog & Recursos
           </span>
-          <Link
+          <GhostButton
             href={`/blog/${BLOG_POSTS[0].slug}`}
-            className="text-sm font-semibold underline text-[#0A0A0A] hover:text-[#888] transition-colors"
-          >
-            Ver todos →
-          </Link>
+            tone="light"
+            size="compact"
+            line1="Ver todos"
+            line2="los artículos"
+          />
         </div>
 
         <h2 className="text-3xl font-bold text-[#0A0A0A] mt-4">
@@ -49,12 +50,13 @@ export default function Blog() {
                 </h3>
                 <div className="mt-4 pt-4 border-t border-[#F0F0F0] flex items-center justify-between">
                   <p className="text-xs text-[#888]">{post.author}</p>
-                  <Link
+                  <GhostButton
                     href={`/blog/${post.slug}`}
-                    className="text-xs text-[#4cfc0f] font-semibold hover:underline"
-                  >
-                    Leer →
-                  </Link>
+                    tone="light"
+                    size="compact"
+                    line1="Leer"
+                    line2="artículo completo"
+                  />
                 </div>
               </div>
             </article>

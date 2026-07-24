@@ -68,7 +68,7 @@ export default function MotorCTA() {
               <span className="text-xs font-semibold uppercase tracking-widest text-[#888]">
                 Proyectos desde
               </span>
-              <span className="font-bold text-[#0A0A0A] text-base">$15,000 MXN</span>
+              <span className="font-bold text-[#0A0A0A] text-base">$11,900 MXN</span>
             </div>
 
             {/* Primary CTA — distintivo, más grande que un botón común */}

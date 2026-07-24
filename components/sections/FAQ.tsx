@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { getWhatsAppLink } from "@/lib/whatsapp"
+import GhostButton from "@/components/ui/GhostButton"
 
 interface FAQItem {
   question: string
@@ -57,14 +58,15 @@ export default function FAQ() {
             <p className="text-[#888] text-sm mt-4">
               ¿No encuentras lo que buscas?
             </p>
-            <a
+            <GhostButton
               href={getWhatsAppLink("faq")}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-sm font-semibold underline mt-2 inline-block text-[#0A0A0A] hover:text-[#888] transition-colors"
-            >
-              Escríbenos por WhatsApp →
-            </a>
+              tone="light"
+              className="mt-2"
+              line1="Escríbenos por WhatsApp"
+              line2="respuesta rápida"
+            />
           </div>
 
           {/* Right: accordion */}
@@ -85,12 +87,14 @@ export default function FAQ() {
                   <div className="pb-5">
                     <p className="text-[#888] text-sm leading-relaxed">{faq.answer}</p>
                     {faq.link && (
-                      <a
+                      <GhostButton
                         href={faq.link.href}
-                        className="inline-block mt-3 text-xs font-semibold text-[#0A0A0A] hover:text-[#888] transition-colors underline"
-                      >
-                        {faq.link.label} ↓
-                      </a>
+                        tone="light"
+                        size="compact"
+                        className="mt-3"
+                        line1={faq.link.label}
+                        line2="desde $399 MXN/mes"
+                      />
                     )}
                   </div>
                 )}

@@ -1,11 +1,11 @@
 import Image from "next/image"
 
 const clients = [
-  { name: "Greek Gym",   logo: "/imgs/clients/logo-brand-01.webp" },
-  { name: "Las Frescas", logo: "/imgs/clients/logo-brand-02.webp" },
-  { name: "SoFit",       logo: "/imgs/clients/logo-brand-03.webp" },
-  { name: "Consulto",    logo: "/imgs/clients/logo-brand-04.webp" },
-  { name: "users.mx",    logo: "/imgs/clients/logo-brand-05.webp" },
+  { name: "Greek Gym",   logo: "/imgs/clients/greekgym.webp" },
+  { name: "Las Frescas", logo: "/imgs/clients/lasfrescas.webp" },
+  { name: "Llevelín",       logo: "/imgs/clients/llevelin.webp" },
+  { name: "Sigma Alimentos",    logo: "/imgs/clients/sigma.webp" },
+  { name: "users.mx",    logo: "/imgs/clients/usersmx.svg" },
 ]
 
 export default function ClientLogos() {

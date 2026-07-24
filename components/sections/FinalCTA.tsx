@@ -1,5 +1,6 @@
 import Link from "next/link"
 import Image from "next/image"
+import GhostButton from "@/components/ui/GhostButton"
 
 export default function FinalCTA() {
   return (
@@ -34,12 +35,12 @@ export default function FinalCTA() {
           >
             Analiza tu negocio gratis
           </Link>
-          <a
+          <GhostButton
             href="mailto:hola@users.mx"
-            className="border border-white text-white px-10 py-4 inline-flex items-center justify-center transition-colors hover:bg-white hover:text-[#0A0A0A]"
-          >
-            o escríbenos directo
-          </a>
+            tone="dark"
+            line1="Escríbenos directo"
+            line2="hola@users.mx"
+          />
         </div>
 
         <p className="text-[#888] text-sm mt-8">

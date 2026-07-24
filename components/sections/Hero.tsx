@@ -1,5 +1,6 @@
 import Link from "next/link"
 import Image from "next/image"
+import GhostButton from "@/components/ui/GhostButton"
 
 export default function Hero() {
   return (
@@ -55,15 +56,15 @@ export default function Hero() {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-black opacity-40" />
                 <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-black" />
               </span>
-              Analiza tu negocio gratis
+              Analiza tu negocio
               <span className="text-lg transition-transform group-hover:translate-x-0.5" aria-hidden="true">→</span>
             </Link>
-            <a
+            <GhostButton
               href="#trabajo"
-              className="border border-white text-white px-8 py-4 text-base inline-flex items-center justify-center transition-colors hover:bg-white hover:text-[#0A0A0A]"
-            >
-              Ver nuestro trabajo
-            </a>
+              tone="dark"
+              line1="Ver nuestro trabajo"
+              line2="proyectos ya entregados"
+            />
           </div>
 
           {/* Precio ancla — mobile only (en desktop aparece como card flotante en la columna derecha) */}

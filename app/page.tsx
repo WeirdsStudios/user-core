@@ -24,14 +24,14 @@ export default function HomePage() {
         <Manifesto />
         <ClientLogos />
         <Services />
-        <Portfolio />
-        <Process />
-        <Differentiators />
-        <Testimonials />
-        <MotorCTA />
-        <FAQ />
         <Mantenimiento />
+        <Portfolio />
         <Team />
+        <Differentiators />
+        <Process />
+        <MotorCTA />
+        <Testimonials />
+        <FAQ />
         <FinalCTA />
         <Blog />
       </main>

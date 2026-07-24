@@ -1,4 +1,4 @@
-import Link from "next/link"
+import GhostButton from "@/components/ui/GhostButton"
 
 const services = [
   { number: "01", name: "Estrategia de Negocio" },
@@ -27,7 +27,7 @@ export default function Services() {
           <div className="lg:col-span-4 mb-12 lg:mb-0">
             <div className="lg:sticky lg:top-24 lg:self-start">
               <p className="text-8xl font-bold text-[#0A0A0A] leading-none">6+</p>
-              <p className="text-sm text-[#888] mt-2">Servicios especializados</p>
+              <p className="text-sm text-[#888] mt-2">Pasos de nuestra estrategia para desarrollar con las mejores practicas los proyectos con nuestros clientes.</p>
             </div>
           </div>
 
@@ -52,12 +52,12 @@ export default function Services() {
 
             {/* CTA below list */}
             <div className="mt-8">
-              <Link
+              <GhostButton
                 href="/analisis"
-                className="text-sm font-semibold underline text-[#0A0A0A] hover:text-[#888] transition-colors"
-              >
-                Solicitar cotización →
-              </Link>
+                tone="light"
+                line1="Solicitar cotización"
+                line2="sin compromiso"
+              />
             </div>
           </div>
         </div>
