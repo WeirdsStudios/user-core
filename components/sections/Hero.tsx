@@ -4,7 +4,7 @@ import GhostButton from "@/components/ui/GhostButton"
 
 export default function Hero() {
   return (
-    <section className="bg-[#0A0A0A] min-h-screen flex flex-col justify-between pt-16 lg:pt-20 relative overflow-hidden snap-start">
+    <section className="bg-[#0A0A0A] min-h-screen flex flex-col justify-between pt-16 lg:pt-20 relative overflow-hidden">
       {/* Background texture */}
       <Image
         src="/imgs/hero/img-84.webp"
@@ -73,7 +73,7 @@ export default function Hero() {
               <p className="text-[#4cfc0f] text-[10px] font-semibold uppercase tracking-widest leading-none mb-1">
                 Proyectos desde
               </p>
-              <p className="text-white font-bold text-xl leading-none">$15,000 MXN</p>
+              <p className="text-white font-bold text-xl leading-none">$11,900 MXN</p>
             </div>
           </div>
 

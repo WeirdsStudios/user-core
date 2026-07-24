@@ -12,7 +12,7 @@ export default function ClientLogos() {
   const repeated = [...clients, ...clients, ...clients]
 
   return (
-    <section className="py-10 border-y border-[#E5E5E5] overflow-hidden snap-start">
+    <section className="py-10 border-y border-[#E5E5E5] overflow-hidden">
       <div className="flex w-max animate-marquee gap-16 items-center">
         {repeated.map((client, index) => (
           <span key={index} className="flex items-center gap-16 shrink-0">

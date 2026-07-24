@@ -10,7 +10,7 @@ const features = [
 
 export default function MotorCTA() {
   return (
-    <section className="py-24 lg:py-32 bg-white snap-start">
+    <section className="py-24 lg:py-32 bg-white">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="lg:grid lg:grid-cols-2 lg:gap-16 lg:items-start">
           {/* Left: browser mockup showing the analysis tool */}

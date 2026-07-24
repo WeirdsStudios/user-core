@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import { DM_Sans } from "next/font/google"
 import "./globals.css"
 import WhatsAppButton from "@/components/site/WhatsAppButton"
+import SmoothScroll from "@/components/site/SmoothScroll"
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
@@ -12,7 +13,7 @@ const dmSans = DM_Sans({
 export const metadata: Metadata = {
   title: "users.mx — Desarrollo Web & Consultoría de Negocio",
   description:
-    "Construimos productos digitales que generan resultados reales. Desarrollo web, diseño de producto y consultoría de negocio en México. Proyectos desde $15,000 MXN.",
+    "Construimos productos digitales que generan resultados reales. Desarrollo web, diseño de producto y consultoría de negocio en México. Proyectos desde $11,900 MXN.",
   icons: {
     icon: [
       { url: "/favicon.svg", type: "image/svg+xml" },
@@ -31,7 +32,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "users.mx — Desarrollo Web & Consultoría de Negocio",
-    description: "Construimos productos digitales que generan resultados reales. Proyectos desde $15,000 MXN.",
+    description: "Construimos productos digitales que generan resultados reales. Proyectos desde $11,900 MXN.",
   },
   alternates: { canonical: "https://users.mx" },
 }
@@ -113,6 +114,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body className="min-h-full flex flex-col font-sans antialiased bg-white text-[#0A0A0A]">
+        <SmoothScroll />
         {children}
         <WhatsAppButton />
       </body>

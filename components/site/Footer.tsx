@@ -128,7 +128,7 @@ export default function Footer() {
               </span>
             ))}
           </div>
-          <p className="text-[#888] text-sm">Proyectos desde $15,000 MXN</p>
+          <p className="text-[#888] text-sm">Proyectos desde $11,900 MXN</p>
         </div>
       </div>
     </footer>

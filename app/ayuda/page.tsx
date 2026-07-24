@@ -47,7 +47,7 @@ const CATEGORIES: Category[] = [
     items: [
       {
         q: "¿Cuánto cuesta un proyecto?",
-        a: "Los proyectos de desarrollo web comienzan desde $15,000 MXN. El precio final depende del alcance: funcionalidades requeridas, número de páginas e integraciones. Usamos nuestro Motor de Análisis para darte un estimado real con tus datos específicos, de forma gratuita.",
+        a: "Los proyectos de desarrollo web comienzan desde $11,900 MXN. El precio final depende del alcance: funcionalidades requeridas, número de páginas e integraciones. Usamos nuestro Motor de Análisis para darte un estimado real con tus datos específicos, de forma gratuita.",
       },
       {
         q: "¿Cómo son los pagos?",

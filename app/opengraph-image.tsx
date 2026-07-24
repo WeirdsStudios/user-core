@@ -58,7 +58,7 @@ export default function OGImage() {
               fontWeight: "bold",
             }}
           >
-            Proyectos desde $15,000 MXN
+            Proyectos desde $11,900 MXN
           </div>
           <div style={{ color: "#666", fontSize: "14px" }}>
             Ciudad de México · hola@users.mx

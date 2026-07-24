@@ -4,7 +4,7 @@ import GhostButton from "@/components/ui/GhostButton"
 
 export default function FinalCTA() {
   return (
-    <section className="bg-[#0A0A0A] py-32 lg:py-48 text-center text-white relative overflow-hidden snap-start">
+    <section className="bg-[#0A0A0A] py-32 lg:py-48 text-center text-white relative overflow-hidden">
       {/* Background texture */}
       <Image
         src="/imgs/bg/img-98.webp"

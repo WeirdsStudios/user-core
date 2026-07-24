@@ -16,7 +16,7 @@ const bars = [
 
 export default function Differentiators() {
   return (
-    <section className="py-24 lg:py-32 bg-[#F5F5F5] snap-start">
+    <section className="py-24 lg:py-32 bg-[#F5F5F5]">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         {/* Inner dark panel */}
         <div className="bg-[#0A0A0A] rounded-3xl p-12 lg:p-20 text-white relative overflow-hidden">

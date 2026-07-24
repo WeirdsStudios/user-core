@@ -33,7 +33,7 @@ const badges = ["Google UX Design", "Microsoft AI"]
 
 export default function Team() {
   return (
-    <section className="py-24 lg:py-32 bg-white snap-start">
+    <section className="py-24 lg:py-32 bg-white">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="lg:grid lg:grid-cols-2 lg:gap-16 items-start">
           {/* Left */}
