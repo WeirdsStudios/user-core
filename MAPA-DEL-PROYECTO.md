@@ -55,8 +55,8 @@ imgs/
   portfolio/
     sec-3-project-1.webp     → Greek Gym — reemplazar con screenshot real
     sec-3-project-2.webp     → Las Frescas — reemplazar con screenshot real
-    sec-3-project-3.webp     → SoFit — reemplazar con screenshot real
-    sec-3-project-4.webp     → Consulto — reemplazar con screenshot real
+    sec-3-project-3.webp     → ACTIIVA — reemplazar con screenshot real
+    sec-3-project-4.webp     → MEDIICA — reemplazar con screenshot real
     sec-3-project-5.webp     → decorativo en sidebar del portafolio
   team/
     sec-6-member-1.webp      → foto miembro equipo (Desarrollo)
@@ -69,8 +69,8 @@ imgs/
   clients/
     logo-brand-01.webp       → logo Greek Gym (marquee)
     logo-brand-02.webp       → logo Las Frescas (marquee)
-    logo-brand-03.webp       → logo SoFit (marquee)
-    logo-brand-04.webp       → logo Consulto (marquee)
+    logo-brand-03.webp       → logo ACTIIVA (marquee)
+    logo-brand-04.webp       → logo MEDIICA (marquee)
     logo-brand-05.webp       → logo users.mx (marquee)
   blog/
     thumb-1.webp             → thumbnail artículo 1
