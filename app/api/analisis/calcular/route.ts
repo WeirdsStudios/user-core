@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
+import { rateLimited, tooManyRequests, readJsonBody } from "@/lib/api-guard"
 import { createAdminClient } from "@/lib/supabase-admin"
+import { siteConfig } from "@/lib/site-config"
 
 // ─── Tabulador privado (nunca sale al navegador) ──────────────────────────────
 
@@ -39,15 +41,15 @@ const FEATURE_LABELS: Record<string, string> = Object.fromEntries(
 )
 
 const RECOMMENDATION_LABELS: Record<string, string> = {
-  sofit:            "SoFit — Plataforma lista para gymnasios",
-  consulto:         "Consulto — Plataforma lista para consultorios",
+  actiiva:          "ACTIIVA — Plataforma para negocios fitness",
+  mediica:          "MEDIICA — Plataforma para consultorios y clínicas",
   "custom-advanced":"Desarrollo a la medida (proyecto avanzado)",
   "custom-standard":"Desarrollo a la medida",
 }
 
 function getRecommendation(industry: string, features: string[]): string {
-  if (industry === "gimnasio-fitness") return "sofit"
-  if (industry === "salud-belleza") return "consulto"
+  if (industry === "gimnasio-fitness") return "actiiva"
+  if (industry === "salud-belleza") return "mediica"
   const complex = features.filter((f) => ["reservas", "carrito", "admin", "portal"].includes(f))
   return complex.length >= 2 ? "custom-advanced" : "custom-standard"
 }
@@ -134,7 +136,7 @@ async function sendNotificationEmail(payload: {
     },
     body: JSON.stringify({
       from: process.env.RESEND_FROM ?? "Motor de Análisis <noreply@users.mx>",
-      to: [process.env.NOTIFICATION_EMAIL ?? "hola@users.mx"],
+      to: [process.env.NOTIFICATION_EMAIL ?? siteConfig.contact.email],
       subject: `Nuevo análisis: ${payload.nombreNegocio} — ${presupuesto}`,
       html,
     }),
@@ -150,8 +152,17 @@ async function sendNotificationEmail(payload: {
 // ─── Handler principal ────────────────────────────────────────────────────────
 
 export async function POST(req: NextRequest) {
+  // Endpoint público que escribe en la base y dispara un correo: sin freno,
+  // un bucle simple llena la tabla de leads y agota la cuota de Resend.
+  if (rateLimited(req)) return tooManyRequests()
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- el cuerpo se desestructura abajo campo por campo
+  const body = await readJsonBody<Record<string, any>>(req)
+  if (!body) {
+    return NextResponse.json({ error: "Solicitud inválida" }, { status: 400 })
+  }
+
   try {
-    const body = await req.json()
     const {
       // Campos del formulario
       businessName, industry, yearsOperating, employees, locations,

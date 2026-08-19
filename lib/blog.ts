@@ -1,3 +1,17 @@
+/**
+ * Contenido editorial. Fuente única para /blog, /blog/[slug], el sitemap y
+ * los enlaces desde las soluciones.
+ *
+ * REGLAS DE CONTENIDO
+ *  · Ninguna cifra sin fuente verificable. Si el dato ayuda pero no tenemos
+ *    fuente, se reformula sin número. Si no aporta, se elimina.
+ *  · Los ejemplos numéricos se marcan como hipotéticos, no como hallazgos.
+ *  · Un artículo enseña a evaluar; la landing vende. No deben competir.
+ *  · Nada sobre ACTIIVA o MEDIICA que dé a entender que ya están disponibles.
+ */
+
+export type BlogCategory = "Web" | "Software" | "Operación" | "Clientes" | "Negocio"
+
 export type BlogSection = {
   heading?: string
   body: string
@@ -6,216 +20,228 @@ export type BlogSection = {
 export type BlogPost = {
   slug: string
   title: string
-  date: string
+  category: BlogCategory
+  /** ISO. Alimenta <time datetime> y datePublished del schema. */
+  publishedAt: string
+  /** ISO. Solo si hubo una revisión real de contenido. */
+  updatedAt?: string
   author: string
   thumbnail: string
-  readingTime: string
   intro: string
   sections: BlogSection[]
+  /** Slug de /soluciones relacionado editorialmente. */
+  relatedSolution?: string
+  /** Slugs de /proyectos que ilustran el artículo. */
+  relatedProjects?: string[]
 }
 
+/** Autoría institucional: es conocimiento del equipo, no de una firma individual. */
+const AUTHOR = "Equipo USERS"
+
 export const BLOG_POSTS: BlogPost[] = [
+  // ───────────────────────────────────────────────────────────────────────────
   {
     slug: "por-que-tu-negocio-necesita-mas-que-un-sitio-web-bonito",
     title: "Por qué tu negocio necesita más que un sitio web bonito",
-    date: "Julio 2026",
-    author: "Equipo users.mx",
+    category: "Web",
+    publishedAt: "2026-07-08",
+    updatedAt: "2026-08-19",
+    author: AUTHOR,
     thumbnail: "/imgs/blog/thumb-1.webp",
-    readingTime: "5 min",
     intro:
-      "Un sitio web que se ve bien pero no convierte es lo mismo que una tienda bien decorada con la puerta cerrada. El problema no es el diseño: es la estrategia detrás de él.",
+      "Un sitio que se ve bien pero no convierte es como una tienda bien decorada con la puerta cerrada. El problema no suele ser el diseño: es la decisión de negocio detrás de él.",
+    relatedSolution: "desarrollo-web",
+    relatedProjects: ["greek-gym", "las-frescas"],
     sections: [
       {
-        heading: "El error más común de las PyMEs mexicanas",
-        body: `Cada semana hablamos con dueños de negocio que tienen sitios web modernos, bien fotografiados, con paleta de colores consistente y hasta animaciones — y sin embargo no generan ni un solo cliente nuevo al mes. La queja es siempre la misma: "Invertí en el sitio, pero no me sirve de nada."
+        heading: "El error más común",
+        body: `Cada semana hablamos con dueños de negocio que tienen sitios modernos, bien fotografiados, con paleta consistente y hasta animaciones — y que no generan ni un solo cliente nuevo al mes. La queja es siempre parecida: "invertí en el sitio, pero no me sirve de nada".
 
-El problema casi nunca es el diseño. El problema es que el sitio fue construido para verse bien en el portafolio del diseñador, no para funcionar dentro de tu negocio.
+Casi nunca es culpa del diseño. El problema es que el sitio se construyó para verse bien en el portafolio de quien lo hizo, no para funcionar dentro de un negocio.
 
-Un sitio web es una herramienta de ventas. Como cualquier herramienta, si no sabes para qué la vas a usar antes de pedirla, terminas con algo que no resuelve nada.`,
+Un sitio web es una herramienta de ventas. Como cualquier herramienta, si no defines para qué la vas a usar antes de pedirla, terminas con algo que no resuelve nada.`,
       },
       {
-        heading: "¿Qué tiene que hacer un sitio web en realidad?",
-        body: `Antes de hablar de colores, tipografías o animaciones, un buen sitio tiene que responder tres preguntas en los primeros 5 segundos en que alguien lo visita:
+        heading: "Las tres preguntas de los primeros segundos",
+        body: `Antes de hablar de colores o tipografías, un buen sitio tiene que responder tres cosas casi de inmediato:
 
-¿Qué ofrece este negocio? ¿Es para mí? ¿Qué tengo que hacer ahora?
+¿Qué ofrece este negocio? ¿Es para mí? ¿Qué hago ahora?
 
-Si tu visitante no puede responder esas tres preguntas sin leer más de tres líneas, ya perdiste su atención. Y en México, donde el 70% del tráfico web viene de celular y la conexión promedio no es la mejor, tienes aún menos margen.
+Si tu visitante no puede responderlas sin leer varios párrafos, ya perdiste su atención. Y como la mayoría de la gente va a llegar desde un teléfono, tienes todavía menos margen: menos pantalla, más prisa y a veces peor conexión.
 
-Además de eso, tu sitio tiene que hacer trabajo real: capturar datos de contacto, generar conversaciones en WhatsApp, mostrar casos reales, responder objeciones frecuentes y posicionarte en Google para que te encuentren cuando te estén buscando.`,
+Además de eso, el sitio tiene trabajo que hacer: capturar contacto, abrir conversaciones, mostrar trabajo real, responder objeciones frecuentes y ser encontrable cuando alguien te busque.`,
       },
       {
-        heading: "La diferencia entre diseño y estrategia",
-        body: `El diseño responde a la pregunta "¿cómo se ve?". La estrategia responde a "¿para qué sirve y cómo se va a usar?". Separar las dos es el error más costoso que puede cometer una empresa.
+        heading: "Diseño y estrategia no son lo mismo",
+        body: `El diseño responde a "¿cómo se ve?". La estrategia responde a "¿para qué sirve y cómo se va a usar?". Separarlas es caro.
 
-Cuando contratas un diseñador sin estrategia, obtienes algo bonito. Cuando contratas desarrollo sin diseño, obtienes algo funcional pero poco convincente. Cuando hay estrategia detrás de los dos, obtienes algo que trabaja para ti mientras tú estás atendiendo otros asuntos.
+Si contratas diseño sin estrategia, obtienes algo bonito. Si contratas desarrollo sin diseño, obtienes algo funcional pero poco convincente. Cuando hay una decisión de negocio detrás de ambos, obtienes algo que trabaja mientras tú atiendes otras cosas.
 
-La estrategia incluye saber qué tipo de cliente quieres atraer, qué les preocupa, qué palabras usan para buscar tus servicios, qué los hace dudar antes de contactarte y cómo puedes eliminar esa duda desde el sitio.`,
+Esa decisión incluye saber a qué cliente quieres atraer, qué le preocupa, qué palabras usa para buscarte y qué lo hace dudar antes de escribirte.`,
       },
       {
-        heading: "Lo que hacemos diferente en users.mx",
-        body: `Antes de escribir una sola línea de código o diseñar una sola pantalla, pasamos tiempo entendiendo tu negocio. No con formularios genéricos, sino con preguntas reales: ¿quién es tu cliente ideal? ¿Cuántos clientes al mes necesitas para que el proyecto se pague solo? ¿Qué te preguntan siempre antes de contratarte?
+        heading: "Cómo lo abordamos",
+        body: `Antes de diseñar una pantalla, dedicamos tiempo a entender el negocio. No con formularios genéricos, sino con preguntas concretas: quién es tu cliente ideal, cuántos clientes al mes necesitas para que el proyecto se pague, qué te preguntan siempre antes de contratarte.
 
-Con eso construimos la estructura del sitio — lo que va en cada sección, qué mensaje lleva cada botón, cómo se mueve el usuario desde que llega hasta que te contacta.
+Con eso definimos la estructura: qué va en cada sección, qué mensaje lleva cada botón, cómo se mueve alguien desde que llega hasta que te contacta. El diseño visual viene después y refuerza esa estructura.
 
-El diseño visual viene después, y sirve para reforzar esa estructura, no para reemplazarla.
-
-El resultado no es un sitio que impresiona en capturas de pantalla. Es un sitio que atrae clientes.`,
+En Las Frescas, por ejemplo, la conclusión no fue "hace falta un sitio más bonito", sino que el cuello de botella estaba en cotizar a mano. El sitio terminó incluyendo un cotizador.`,
       },
       {
-        heading: "¿Cómo saber si tu sitio necesita más que rediseño?",
-        body: `Hazte estas preguntas: ¿Sabes cuántas personas visitan tu sitio cada mes? ¿De ellas, cuántas te contactan? ¿Cuántas terminan comprando? Si no tienes esos números, el problema no es el diseño — es que el sitio nunca fue construido con métricas de negocio en mente.
+        heading: "Cómo saber si el tuyo necesita más que un rediseño",
+        body: `Hazte estas preguntas: ¿sabes cuántas personas visitan tu sitio al mes? ¿Cuántas de ellas te contactan? ¿Cuántas terminan comprando?
 
-Si tu tasa de conversión (visitantes que te contactan) es menor al 2%, hay trabajo por hacer. Si no sabes cuál es tu tasa de conversión, eso también dice algo.
+Si no tienes esos números, el problema probablemente no es el diseño: es que el sitio nunca se construyó con métricas de negocio en mente. Y no puedes mejorar lo que no estás midiendo.
 
-En users.mx hacemos un análisis gratuito de tu negocio digital que empieza precisamente con esas preguntas. En 6 pasos sabes dónde estás, qué te falta y cuánto costaría resolverlo. Sin compromiso, sin ventas agresivas.`,
+Si ya los tienes y la proporción de visitantes que te contactan te parece baja, ahí hay trabajo por hacer — pero conviene revisar primero qué tráfico estás recibiendo, porque no todo visitante es un cliente potencial.`,
       },
     ],
   },
+
+  // ───────────────────────────────────────────────────────────────────────────
   {
-    slug: "como-sofit-resolvio-el-problema-de-administracion-de-un-gimnasio-real",
-    title: "Cómo SoFit resolvió el problema de administración de un gimnasio real",
-    date: "Julio 2026",
-    author: "Equipo users.mx",
+    slug: "de-un-gimnasio-en-ecatepec-al-desarrollo-de-actiiva",
+    title: "De un gimnasio en Ecatepec al desarrollo de ACTIIVA",
+    category: "Negocio",
+    publishedAt: "2026-07-22",
+    updatedAt: "2026-08-19",
+    author: AUTHOR,
     thumbnail: "/imgs/blog/thumb-2.webp",
-    readingTime: "6 min",
     intro:
-      "SoFit no nació en una incubadora ni de una investigación de mercado. Nació de ver a dueños de gimnasio usar hojas de Excel para cobrar mensualidades y WhatsApp para coordinar clases. Esto es lo que encontramos y cómo lo resolvimos.",
+      "ACTIIVA no salió de una investigación de mercado. Salió de trabajar con negocios fitness reales y ver el mismo problema repetirse. Esto es lo que encontramos y en qué punto está hoy el producto.",
+    relatedSolution: "software-a-medida",
+    relatedProjects: ["greek-gym"],
     sections: [
       {
-        heading: "El problema que nadie estaba resolviendo bien",
-        body: `En México hay miles de gimnasios boutique, estudios de yoga, boxes de CrossFit y estudios de pilates. La mayoría los maneja una o dos personas que también entrenan, venden, cobran, coordinan y responden mensajes.
+        heading: "El punto de partida",
+        body: `En México hay miles de gimnasios boutique, estudios de yoga, boxes de CrossFit y estudios de pilates. La mayoría los opera una o dos personas que además entrenan, venden, cobran, coordinan y responden mensajes.
 
-Las soluciones que existían en el mercado eran dos: software estadounidense caro y complejo, o nada. Los dueños terminaban en un punto medio doloroso: WhatsApp para agendar, transferencias bancarias para cobrar, hojas de cálculo para llevar asistencia y mucha energía gastada en tareas administrativas que no generan valor.
+Las opciones de software solían ser dos: producto extranjero caro y complejo, o nada. Muchos dueños terminan en un punto medio incómodo: WhatsApp para agendar, transferencias para cobrar, hojas de cálculo para la asistencia y bastante energía gastada en tareas administrativas.
 
-Cuando un cliente nuestro con un gimnasio en Monterrey nos dijo que pasaba cuatro horas al día en esas tareas, supimos que valía la pena construir algo desde cero.`,
+Uno de nuestros primeros acercamientos serios al segmento fue Hot Legs Cardio, un estudio fitness en Ecatepec, Estado de México. Ahí vimos de cerca cómo se va la jornada: cobrar, recordar vencimientos y saber quién había asistido. Ese trabajo fue el punto de partida para entender qué necesita de verdad un negocio fitness.`,
       },
       {
-        heading: "Cómo construimos SoFit",
-        body: `Pasamos dos meses hablando con dueños de gimnasio antes de escribir una sola línea de código. No les preguntamos qué funciones querían en un software — les preguntamos qué hacían el lunes por la mañana, qué les quitaba el sueño y qué pasaba cuando un alumno dejaba de pagar.
+        heading: "Qué encontramos al preguntar",
+        body: `Antes de escribir código pasamos tiempo hablando con dueños de gimnasio. No les preguntamos qué funciones querían en un software — esa pregunta casi siempre devuelve una lista de deseos. Les preguntamos qué hacían el lunes por la mañana, qué les quitaba el sueño y qué pasaba cuando un alumno dejaba de pagar.
 
-Las respuestas fueron consistentes: el mayor problema no era la tecnología, era el tiempo. Tiempo para cobrar, tiempo para recordarle a los alumnos que su mensualidad vencía, tiempo para saber quién había venido esta semana y quién llevaba diez días sin aparecer.
-
-Con eso en mente construimos SoFit alrededor de tres principios: que todo lo urgente se maneje solo, que la información importante esté visible de inmediato y que el dueño pueda operar desde su celular sin capacitación.`,
+Las respuestas fueron consistentes. El problema principal no era la tecnología: era el tiempo. Tiempo para cobrar, para recordar que una mensualidad venció, para saber quién vino esta semana y quién lleva días sin aparecer.`,
       },
       {
-        heading: "Las funciones que marcaron la diferencia",
-        body: `El cobro automático fue lo que más impacto tuvo. Los gimnasios con cobro manual dejan escapar entre el 15% y el 25% de sus ingresos mensuales por olvidos, vergüenza de cobrar o alumnos que prometen y no pagan. SoFit genera el cargo automáticamente y envía un aviso por WhatsApp — sin que el dueño tenga que hacer nada.
+        heading: "Lo que sí construimos y entregamos",
+        body: `Lo aprendido con Hot Legs Cardio se sumó después al trabajo con otros negocios del giro. El caso que podemos mostrar completo es Greek Gym, un gimnasio con dos sucursales en Puebla: sitio público, reservas por WhatsApp y un sistema administrativo con tres perfiles de acceso —Super Administrador, Administrador y Cajero—, punto de venta, catálogo, inventario y corte de caja.
 
-El portal de socios fue la segunda gran diferencia. Los alumnos pueden ver su historial de asistencia, reservar clases, ver qué días hay cupo y renovar su membresía desde su teléfono. El gimnasio deja de ser el intermediario de información y se convierte en el proveedor de la experiencia.
-
-El dashboard de negocio fue el tercer impacto. Por primera vez, los dueños podían ver de un vistazo cuántos alumnos activos tenían, cuántos estaban a punto de vencer, cuál era su ingreso del mes y cuánto creció respecto al anterior.`,
+Ahí quedó claro qué se repite entre negocios del mismo giro: el control de membresías, el cobro, la asistencia y la necesidad de que cada puesto vea solo lo que le corresponde.`,
       },
       {
-        heading: "Lo que aprendimos del primer año",
-        body: `Los primeros clientes de SoFit nos enseñaron cosas que no anticipamos. El módulo que más usaban no era el de cobros automáticos — era el de seguimiento de asistencia. Ver qué alumnos estaban desapareciendo y poder mandarles un mensaje antes de que cancelaran cambió la retención de manera significativa.
+        heading: "En qué punto está ACTIIVA",
+        body: `ACTIIVA es el intento de empaquetar ese aprendizaje en un producto propio para negocios fitness, en lugar de reconstruirlo desde cero con cada cliente.
 
-También aprendimos que la adopción del software dependía de lo sencillo que fuera para el alumno, no solo para el dueño. Si el proceso de reservar una clase era complicado, los alumnos seguían mandando mensaje por WhatsApp. La simpleza del portal público fue lo que desbloqueó el uso real de la plataforma.
+Hoy está en desarrollo. No está disponible al público, no tiene precio publicado y no vamos a describir funciones que todavía no puedas usar. Cuando esté lista aparecerá en nuestra página de productos con lo que realmente incluya.
 
-Esos aprendizajes se convirtieron en mejoras de producto que siguieron iterando en los meses siguientes.`,
-      },
-      {
-        heading: "¿Qué significa esto para tu gimnasio?",
-        body: `Si tienes un gimnasio, estudio o espacio fitness en México, SoFit está construido exactamente para tu contexto: cobro en pesos, notificaciones por WhatsApp, interfaz en español y soporte que entiende cómo funciona un negocio fitness en la región.
-
-No es un software americano adaptado. Es una plataforma construida desde conversaciones con dueños de gimnasio mexicanos, con las funciones que ellos necesitaban, al precio que tiene sentido para su tamaño de negocio.
-
-Empieza desde $599 MXN al mes, sin contratos anuales, con onboarding incluido. Si tu gimnasio tiene más de 20 alumnos activos, el ahorro en tiempo y la reducción de cuentas por cobrar lo hacen rentable en el primer mes.`,
+Mientras tanto, si tienes un gimnasio o estudio y necesitas resolver algo ya, el camino es el mismo que siguió Greek Gym: desarrollo a la medida de cómo opera tu negocio.`,
       },
     ],
   },
+
+  // ───────────────────────────────────────────────────────────────────────────
   {
     slug: "el-costo-real-de-no-tener-un-sistema-de-gestion-para-tu-negocio",
-    title: "El costo real de no tener un sistema de gestión para tu negocio",
-    date: "Junio 2026",
-    author: "Equipo users.mx",
+    title: "El costo real de no tener un sistema de gestión",
+    category: "Operación",
+    publishedAt: "2026-06-17",
+    updatedAt: "2026-08-19",
+    author: AUTHOR,
     thumbnail: "/imgs/blog/thumb-3.webp",
-    readingTime: "5 min",
     intro:
-      "No tener un sistema de gestión tiene un costo que rara vez se contabiliza: tiempo perdido, errores humanos, clientes que se van y oportunidades que no se ven. Este artículo pone números concretos a ese costo.",
+      "No tener un sistema tiene un costo que rara vez se contabiliza: tiempo, errores y clientes que se van sin decir por qué. Aquí va una forma de estimarlo con tus propios números.",
+    relatedSolution: "software-a-medida",
+    relatedProjects: ["greek-gym", "llevelin"],
     sections: [
       {
-        heading: "El costo invisible del caos operativo",
-        body: `Cuando preguntamos a dueños de negocio cuánto les cuesta no tener un sistema, la respuesta habitual es "no sé" o "algo, supongo". Nadie lleva la cuenta porque el costo está distribuido en cientos de pequeñas fricciones cotidianas: el tiempo que tardas en encontrar una factura, el cliente que no volvió porque no le llegó el recordatorio, la cotización que nunca enviaste porque no tenías el número guardado.
+        heading: "El costo invisible",
+        body: `Cuando preguntamos a dueños de negocio cuánto les cuesta no tener un sistema, la respuesta habitual es "no sé". Nadie lleva la cuenta porque el costo está repartido en cientos de fricciones pequeñas: el tiempo que tardas en encontrar una factura, el cliente que no volvió porque no le llegó el recordatorio, la cotización que no enviaste porque no tenías el dato a la mano.
 
-Cada uno de esos eventos parece menor. La suma de todos ellos, mes con mes, es lo que distingue a un negocio que crece de uno que se mantiene estático.`,
+Cada evento parece menor. La suma, mes con mes, es lo que separa a un negocio que crece de uno que se queda igual.`,
       },
       {
-        heading: "El costo del tiempo",
-        body: `Un estudio de procesos que hacemos como parte del Motor de Análisis de Negocio muestra que el dueño promedio de una PyME mexicana gasta entre 2 y 4 horas diarias en tareas administrativas repetitivas: responder las mismas preguntas, hacer seguimiento de cobros, actualizar inventarios manualmente, coordinar agenda por WhatsApp.
+        heading: "Cómo estimar el costo del tiempo",
+        body: `En vez de darte un promedio de la industria, te proponemos hacer la cuenta con tus datos. Es más útil y no depende de que confíes en una estadística ajena.
 
-Si tu hora vale $300 MXN (conservador para alguien que opera un negocio), 3 horas diarias de tareas que un sistema podría automatizar equivalen a $900 MXN al día, $27,000 MXN al mes, $324,000 MXN al año.
+Anota durante una semana cuánto tiempo dedican tú o tu equipo a tareas administrativas repetitivas: responder las mismas preguntas, dar seguimiento a cobros, actualizar inventario a mano, coordinar agenda por mensaje.
 
-¿Cuánto cuesta un sistema que automatiza esas tareas? En la mayoría de los casos, menos de lo que estás perdiendo en un mes.`,
+Después multiplica: horas al día × lo que vale esa hora × días trabajados al mes. Si el resultado te parece alto, ya tienes el número contra el que comparar el costo de un sistema. Si te parece bajo, probablemente todavía no lo necesitas — y eso también es información útil.
+
+Un ejemplo hipotético, solo para mostrar la aritmética: 3 horas diarias valoradas en $300 MXN, sobre 22 días hábiles, dan alrededor de $19,800 MXN al mes. No es un dato de mercado: es una operación que puedes rehacer con tus cifras reales.`,
       },
       {
         heading: "El costo del error humano",
-        body: `Los procesos manuales tienen tasas de error que los sistemas digitales eliminan casi completamente. Un cobro mal registrado, un pedido con cantidad equivocada, una cita agendada dos veces en el mismo horario — cada uno de esos errores tiene un costo directo (reembolso, merma, cliente molesto) y un costo indirecto (reputación, tiempo para resolverlo, estrés).
+        body: `Los procesos manuales tienen errores que un sistema evita por construcción: un cobro mal registrado, un pedido con la cantidad equivocada, dos citas en el mismo horario.
 
-Las empresas que migran de procesos manuales a sistemas digitales reportan consistentemente reducciones del 60% al 80% en errores operativos en los primeros tres meses. No porque el equipo mejore — sino porque el sistema no comete los errores que los humanos sí.`,
+Cada uno tiene un costo directo —un reembolso, una merma, un cliente molesto— y uno indirecto: el tiempo de resolverlo y el desgaste de quien lo resuelve.
+
+No vamos a darte un porcentaje de reducción de errores, porque depende demasiado del proceso concreto. Lo que sí es estructural: un sistema no se distrae, no se salta un paso y no depende de que alguien recuerde una regla.`,
       },
       {
-        heading: "El costo de los clientes perdidos",
-        body: `Este es el costo más difícil de ver pero el más grande. Un cliente que tuvo una mala experiencia de servicio — porque no le llegó la confirmación, porque cobró mal, porque nadie le dio seguimiento — no siempre se queja. Simplemente no vuelve.
+        heading: "El costo de los clientes que no reclaman",
+        body: `Este es el más difícil de ver. Un cliente que tuvo una mala experiencia operativa —no le llegó la confirmación, se le cobró mal, nadie le dio seguimiento— no siempre se queja. Simplemente no vuelve.
 
-En negocios de servicios, donde el valor del cliente está en la recurrencia, perder un cliente por fricción operativa es particularmente caro. Si tu cliente promedio te deja $1,500 MXN al mes y tienes una rotación del 10% mensual por problemas operativos, estás perdiendo el equivalente de 1.2 clientes al mes — sin contar lo que eso representa en referencias no generadas.
-
-Un sistema que reduce la fricción operativa no solo ahorra tiempo: retiene clientes.`,
+En negocios donde el valor está en la recurrencia, perder un cliente por fricción operativa es especialmente caro, porque además se pierde lo que hubiera comprado después y las recomendaciones que no hizo.`,
       },
       {
-        heading: "¿Cuándo tiene sentido invertir en un sistema?",
-        body: `La regla simple: si el costo mensual del sistema es menor que el costo mensual de no tenerlo, el sistema paga solo. Y en casi todos los casos que analizamos, el umbral se cruza mucho antes de lo que los dueños esperan.
+        heading: "Cuándo tiene sentido invertir",
+        body: `La regla es simple: si el costo mensual de operar sin sistema es mayor que el de tenerlo, el sistema se paga solo. Lo difícil no es la regla, es medir el primer número — y por eso vale la pena hacer el ejercicio de la semana.
 
-Para una empresa con 50 clientes activos, 3 empleados y procesos manuales, un sistema de gestión bien implementado suele amortizarse en el primer o segundo mes de uso. Lo que viene después es ganancia neta: tiempo liberado para vender, crecer y atender mejor.
-
-El Motor de Análisis de Negocio de users.mx calcula exactamente ese retorno de inversión con tus propios números, en 6 preguntas. Es gratuito y no requiere hablar con nadie hasta que tú lo decidas.`,
+Conviene también revisar si una herramienta que ya existe en el mercado resuelve tu caso. Muchas veces sí, y es la respuesta más barata. El desarrollo a medida tiene sentido cuando tu operación tiene reglas que ninguna herramienta contempla sin adaptaciones incómodas.`,
       },
     ],
   },
+
+  // ───────────────────────────────────────────────────────────────────────────
   {
     slug: "diseno-vs-desarrollo-por-que-separarlos-es-el-error-mas-caro",
-    title: "Diseño vs. desarrollo: por qué separarlos es el error más caro",
-    date: "Junio 2026",
-    author: "Equipo users.mx",
+    title: "Diseño y desarrollo por separado: por qué suele salir más caro",
+    category: "Negocio",
+    publishedAt: "2026-06-03",
+    updatedAt: "2026-08-19",
+    author: AUTHOR,
     thumbnail: "/imgs/blog/thumb-4.webp",
-    readingTime: "5 min",
     intro:
-      "Contratar al diseñador y al desarrollador por separado parece la opción más económica. En la mayoría de los casos, termina siendo la más cara. Aquí explicamos por qué.",
+      "Contratar al diseñador y al desarrollador por separado parece la opción económica. Con frecuencia termina costando más. Aquí está por qué, y qué preguntar antes de contratar.",
+    relatedSolution: "desarrollo-web",
     sections: [
       {
-        heading: "Por qué parece lógico separar diseño y desarrollo",
-        body: `La lógica es aparente: contratas al diseñador para que haga los mockups, luego los mandas al desarrollador para que los implemente. Cada uno en su rol, cada uno cobrando por su parte, y tú supervisando el resultado.
+        heading: "Por qué parece lógico separarlos",
+        body: `La lógica es aparente: contratas a alguien que haga los diseños, los mandas a quien programa, cada uno cobra por su parte y tú supervisas.
 
-El problema es que esta lógica supone que diseño y desarrollo son procesos secuenciales e independientes. En la práctica, son procesos interdependientes que se retroalimentan constantemente. Un diseño que no considera las restricciones técnicas es un diseño que no se puede implementar, o que cuesta el triple de lo presupuestado cuando se intenta.`,
+El problema es que supone que diseño y desarrollo son etapas independientes. En la práctica se retroalimentan. Un diseño que no considera las restricciones técnicas es un diseño que no se puede implementar tal cual, o que cuesta bastante más de lo presupuestado cuando se intenta.`,
       },
       {
-        heading: "Lo que pasa cuando no se comunican",
-        body: `Hemos visto este patrón docenas de veces: el diseñador entrega un archivo de Figma impecable. El desarrollador lo abre, identifica doce cosas que no se pueden hacer como están diseñadas y empieza a negociar qué se queda y qué se modifica.
+        heading: "Qué pasa cuando no se hablan",
+        body: `El patrón es reconocible: llega un archivo de diseño impecable, quien programa lo abre, identifica varias cosas que no se pueden hacer como están planteadas y empieza a negociar qué se queda y qué cambia.
 
-Cada negociación tiene un costo: tiempo del desarrollador, revisiones del diseñador, decisiones que toma el cliente sin la información completa. Al final del proyecto, el resultado es diferente a lo que se acordó, el presupuesto se excedió y ninguno de los dos responsables tiene la culpa — simplemente no hablaban el mismo idioma desde el principio.
+Cada negociación cuesta: tiempo de desarrollo, revisiones de diseño y decisiones que el cliente toma sin la información completa. Al final el resultado se parece menos a lo acordado, el presupuesto se estiró y ninguno de los dos responsables tiene toda la culpa — simplemente no compartían el mismo objetivo.
 
-El cliente, que pagó por los dos, absorbe el costo de esa fricción.`,
+Quien pagó las dos partes absorbe el costo de esa fricción.`,
       },
       {
-        heading: "El precio real de la desincronización",
-        body: `En proyectos donde diseño y desarrollo trabajan por separado sin un proceso de comunicación formal, el tiempo de iteración se duplica. Un cambio de diseño que tarda un día en un equipo integrado puede tardar una semana cuando hay que coordinar entre dos freelancers con sus propios calendarios y prioridades.
+        heading: "El costo de la desincronización",
+        body: `Cuando ambas partes trabajan por separado y sin un proceso de comunicación formal, cada cambio tarda más: hay que coordinar dos calendarios y dos listas de prioridades antes de mover nada.
 
-Además, la calidad del resultado final sufre. Un desarrollador que implementa diseños sin entender su intención estratégica toma decisiones de implementación que pueden comprometer la experiencia del usuario. Un diseñador que no conoce las limitaciones técnicas diseña cosas hermosas que se convierten en frustrantes cuando se usan en el celular.`,
+La calidad también sufre. Quien implementa un diseño sin entender su intención toma decisiones que pueden comprometer la experiencia. Y quien diseña sin conocer las limitaciones técnicas produce cosas que se ven bien en la presentación y se sienten mal en el teléfono.`,
       },
       {
-        heading: "Qué significa trabajar con un equipo integrado",
-        body: `En un equipo donde diseño y desarrollo comparten el mismo objetivo desde el día uno, las decisiones son diferentes. El diseñador sabe qué es fácil de implementar y qué no, así que diseña soluciones que funcionan técnicamente. El desarrollador conoce la intención detrás de cada elemento, así que implementa con criterio, no solo con instrucciones.
+        heading: "Qué cambia con un equipo integrado",
+        body: `Cuando diseño y desarrollo comparten objetivo desde el inicio, las decisiones son distintas. Quien diseña sabe qué es costoso de implementar y propone alternativas que funcionan. Quien desarrolla conoce la intención detrás de cada elemento e implementa con criterio, no solo con instrucciones.
 
-Cuando alguien en el equipo propone un cambio — sea visual o técnico — el impacto en ambas dimensiones se evalúa al mismo tiempo. No hay ping-pong de correos. No hay malentendidos que se descubren en la entrega final.
-
-El resultado llega más rápido, más cerca de lo acordado y con menos sorpresas.`,
+Cuando alguien propone un cambio, el impacto en ambas dimensiones se evalúa al mismo tiempo. Menos ida y vuelta, menos malentendidos que aparecen en la entrega.`,
       },
       {
-        heading: "Qué deberías buscar en tu próximo proveedor de desarrollo web",
-        body: `Antes de contratar, pregunta cómo trabajan diseño y desarrollo en conjunto. Si la respuesta es "el diseñador entrega los archivos y el desarrollador los implementa", ya tienes la información que necesitas.
+        heading: "Qué preguntar antes de contratar",
+        body: `Antes de decidir, pregunta cómo trabajan diseño y desarrollo en conjunto. Si la respuesta es "el diseñador entrega los archivos y el desarrollador los implementa", ya sabes lo que va a pasar.
 
-Busca equipos donde el proceso de diseño involucre al desarrollador desde el principio, y donde el desarrollador entienda los objetivos de negocio del proyecto, no solo las especificaciones técnicas.
+Busca que quien diseña participe desde el planteamiento del problema y que quien desarrolla entienda los objetivos de negocio, no solo las especificaciones.
 
-En users.mx trabajamos con un proceso integrado desde el día uno: estrategia, diseño y desarrollo comparten el mismo brief, los mismos objetivos y el mismo criterio de éxito. Es más caro que contratar a alguien de cada lado por separado — y casi siempre resulta más barato cuando terminas de sumar todo lo que te costó la desincronización.`,
+Y pregunta algo más concreto: qué pasa si a mitad del proyecto descubren que algo no se puede hacer como se diseñó. La respuesta te dice bastante sobre cómo trabajan de verdad.`,
       },
     ],
   },
@@ -223,4 +249,27 @@ En users.mx trabajamos con un proceso integrado desde el día uno: estrategia, d
 
 export function getPostBySlug(slug: string): BlogPost | undefined {
   return BLOG_POSTS.find((p) => p.slug === slug)
+}
+
+/** Más recientes primero. */
+export function postsByDate(): BlogPost[] {
+  return [...BLOG_POSTS].sort((a, b) => b.publishedAt.localeCompare(a.publishedAt))
+}
+
+/** Estimación a ~200 palabras por minuto, calculada del contenido real. */
+export function readingTime(post: BlogPost): string {
+  const words = [post.intro, ...post.sections.map((s) => `${s.heading ?? ""} ${s.body}`)]
+    .join(" ")
+    .trim()
+    .split(/\s+/).length
+  return `${Math.max(1, Math.round(words / 200))} min`
+}
+
+export function formatDate(iso: string): string {
+  return new Date(`${iso}T12:00:00Z`).toLocaleDateString("es-MX", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    timeZone: "UTC",
+  })
 }

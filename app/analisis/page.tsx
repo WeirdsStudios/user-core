@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from "react"
 import Link from "next/link"
 import { getWhatsAppLink } from "@/lib/whatsapp"
+import { trackEvent } from "@/lib/analytics/track"
 
 // ─── Cal.com ──────────────────────────────────────────────────────────────────
 const CAL_LINK      = "usersmx/sesion-de-analisis-de-negocio"
@@ -38,6 +39,10 @@ type FormData = {
   urgentProblem: string; features: string[]; timeline: string
   budgetRange: string; contactName: string; email: string; whatsapp: string
 }
+
+/** Cal.com invoca este callback global cuando se agenda una sesión. */
+type CalWindow = Window &
+  typeof globalThis & { __onCalBookingSuccess?: (booking: CalBooking) => void }
 
 type CalBooking = {
   uid?: string
@@ -129,7 +134,7 @@ function TextInput({ value, onChange, placeholder, type = "text" }: {
     <input type={type} value={value} placeholder={placeholder}
       onChange={(e) => onChange(e.target.value)}
       className="w-full border border-[#E5E5E5] px-4 py-3 text-sm focus:outline-none
-                 focus:border-[#0A0A0A] text-[#0A0A0A] placeholder:text-[#aaa]"
+                 focus:border-[#0A0A0A] text-[#0A0A0A] placeholder:text-[#6B6B6B]"
     />
   )
 }
@@ -277,9 +282,11 @@ function Step3({ data, update }: { data: FormData; update: (k: keyof FormData, v
 }
 
 function Step4({ data, update }: { data: FormData; update: (k: keyof FormData, v: string | string[]) => void }) {
-  const showNote = data.industry === "gimnasio-fitness" || data.industry === "salud-belleza"
-  const productName = data.industry === "gimnasio-fitness" ? "SoFit" : "Consulto"
-  const productUrl  = data.industry === "gimnasio-fitness" ? "https://sofit.com.mx" : "https://consulto.com.mx"
+  // Nota: solo se muestra para gimnasio-fitness — ACTIIVA es el único producto propio ya disponible.
+  // MEDIICA (salud-belleza) aún no existe como producto real, así que no se recomienda aquí todavía.
+  const showNote = data.industry === "gimnasio-fitness"
+  const productName = "ACTIIVA"
+  const productUrl = "https://actiiva.mx"
   return (
     <div>
       <FieldGroup>
@@ -296,19 +303,19 @@ function Step4({ data, update }: { data: FormData; update: (k: keyof FormData, v
       </FieldGroup>
       <FieldGroup>
         <FieldLabel>Funcionalidades que te interesan</FieldLabel>
-        <p className="text-xs text-[#888] mb-3">
+        <p className="text-xs text-[#6B6B6B] mb-3">
           Selecciona todas las que apliquen. Marcamos las más comunes para tu giro.
         </p>
         <CheckGroup options={FEATURES} values={data.features}
           onChange={(v) => update("features", v)} />
       </FieldGroup>
       {showNote && (
-        <div className="border border-[#4cfc0f] bg-[#f0ffe8] p-4 mt-2">
-          <p className="text-sm text-[#0A0A0A]">
+        <div className="border border-[#4cfc0f] bg-[#f0ffe8] p-4 mt-2 min-w-0">
+          <p className="text-sm text-[#0A0A0A] break-words">
             <strong>Dato útil:</strong> Para negocios como el tuyo ya existe una solución lista:{" "}
             <a href={productUrl} target="_blank" rel="noopener noreferrer"
               className="font-bold underline">{productName}</a>
-            {" "}— incluye agenda, cobros, portal de cliente y más desde $599 MXN/mes.
+            {" "}— nuestro producto propio para negocios fitness, actualmente en desarrollo.
             Puedes seguir aquí para ver tu análisis completo de todas formas.
           </p>
         </div>
@@ -331,7 +338,7 @@ function Step5({ data, update }: { data: FormData; update: (k: keyof FormData, v
       </FieldGroup>
       <FieldGroup>
         <FieldLabel>¿Tienes un rango de presupuesto en mente? (opcional)</FieldLabel>
-        <p className="text-xs text-[#888] mb-3">
+        <p className="text-xs text-[#6B6B6B] mb-3">
           No es obligatorio. Ayuda a calibrar la propuesta.
         </p>
         <RadioGroup cols={2} value={data.budgetRange} onChange={(v) => update("budgetRange", v)}
@@ -375,7 +382,7 @@ function Step6({
           <div className="border border-[#4cfc0f] bg-[#f0ffe8] p-5">
             <p className="text-sm font-semibold text-[#0A0A0A] mb-1">Sesión agendada</p>
             <p className="text-base font-bold text-[#0A0A0A]">{formattedDate}</p>
-            <p className="text-xs text-[#888] mt-2">
+            <p className="text-xs text-[#6B6B6B] mt-2">
               Recibirás la confirmación en el correo que registraste en Cal.com.
             </p>
           </div>
@@ -403,7 +410,7 @@ function Step6({
         <TextInput type="tel" value={data.whatsapp} onChange={(v) => update("whatsapp", v)}
           placeholder="+52 55 1234 5678" />
       </FieldGroup>
-      <p className="text-xs text-[#888] mt-2">
+      <p className="text-xs text-[#6B6B6B] mt-2">
         Al confirmar se generará tu reporte y se vinculará a la sesión que agendaste.
         Solo te contactaremos por los medios que indicaste.
       </p>
@@ -413,13 +420,14 @@ function Step6({
 
 // ─── Report ───────────────────────────────────────────────────────────────────
 const RECOMMENDATION_COPY: Record<string, { title: string; description: string }> = {
-  sofit: {
-    title: "SoFit — Plataforma lista para tu gimnasio",
-    description: "Para negocios de fitness, SoFit es la solución más eficiente: agenda de clases, cobros, portal de socios y notificaciones automáticas — listo en días, no en meses. Desde $599 MXN/mes.",
+  actiiva: {
+    title: "ACTIIVA — Plataforma lista para tu gimnasio",
+    description: "Para negocios de fitness estamos desarrollando ACTIIVA, nuestro producto propio. Todavía no está disponible, así que mientras tanto la ruta es un desarrollo a la medida de tu operación.",
   },
-  consulto: {
-    title: "Consulto — Plataforma lista para tu consultorio",
-    description: "Para consultorios y clínicas, Consulto es la solución más eficiente: agenda de citas, historial de seguimiento de pacientes, cobros y recordatorios. Desde $999 MXN/mes.",
+  // no es un valor alcanzable desde getRecommendation — no se muestra.
+  mediica: {
+    title: "MEDIICA — Plataforma lista para tu consultorio",
+    description: "Para consultorios y clínicas, MEDIICA es la solución más eficiente: agenda de citas, historial de seguimiento de pacientes, cobros y recordatorios. Desde $999 MXN/mes.",
   },
   "custom-advanced": {
     title: "Desarrollo a la medida — Proyecto avanzado",
@@ -455,7 +463,7 @@ function SimpleBarChart({ items }: { items: Array<{ name: string; costMin: numbe
         <div key={item.name}>
           <div className="flex justify-between items-baseline mb-1">
             <span className="text-xs text-[#444] truncate pr-4 max-w-[60%]">{item.name}</span>
-            <span className="text-xs font-mono text-[#888] shrink-0">
+            <span className="text-xs font-mono text-[#6B6B6B] shrink-0">
               {formatMXN(item.costMin)}–{formatMXN(item.costMax)}
             </span>
           </div>
@@ -481,11 +489,11 @@ function DeliveryTimeline({ weeks }: { weeks: number }) {
     <div className="space-y-2">
       {phases.map((phase, i) => (
         <div key={phase.label} className="flex items-center gap-3">
-          <div className="w-36 text-xs text-[#888] shrink-0">{phase.label}</div>
+          <div className="w-36 text-xs text-[#6B6B6B] shrink-0">{phase.label}</div>
           <div className="flex-1 h-2 bg-[#F0F0F0]">
             <div className="h-2 bg-[#0A0A0A]" style={{ width: `${phase.portion * 100}%` }} />
           </div>
-          <div className="w-14 text-xs text-[#888] text-right shrink-0">~{phaseWeeks[i]} sem.</div>
+          <div className="w-14 text-xs text-[#6B6B6B] text-right shrink-0">~{phaseWeeks[i]} sem.</div>
         </div>
       ))}
       <div className="flex items-center gap-3 pt-2 border-t border-[#E5E5E5]">
@@ -512,15 +520,15 @@ function Report({ data, result, calBooking }: { data: FormData; result: CalcResu
   return (
     <div className="max-w-3xl mx-auto px-6 py-16">
       <div className="mb-12">
-        <p className="text-xs tracking-widest uppercase text-[#888] mb-2">Reporte de análisis</p>
+        <p className="text-xs tracking-widest uppercase text-[#6B6B6B] mb-2">Reporte de análisis</p>
         <h1 className="text-3xl font-bold text-[#0A0A0A]">{data.businessName}</h1>
-        <p className="text-sm text-[#888] mt-1">
+        <p className="text-sm text-[#6B6B6B] mt-1">
           Generado el {new Date().toLocaleDateString("es-MX", { day: "numeric", month: "long", year: "numeric" })}
         </p>
       </div>
 
       <section className="mb-10 pb-10 border-b border-[#E5E5E5]">
-        <p className="text-xs font-semibold tracking-widest uppercase text-[#888] mb-4">01 — Resumen ejecutivo</p>
+        <p className="text-xs font-semibold tracking-widest uppercase text-[#6B6B6B] mb-4">01 — Resumen ejecutivo</p>
         <p className="text-[#444] leading-relaxed">
           <strong className="text-[#0A0A0A]">{data.businessName}</strong> es un negocio del giro{" "}
           <strong className="text-[#0A0A0A]">{INDUSTRY_LABELS[data.industry] ?? data.industry}</strong> con{" "}
@@ -535,7 +543,7 @@ function Report({ data, result, calBooking }: { data: FormData; result: CalcResu
       </section>
 
       <section className="mb-10 pb-10 border-b border-[#E5E5E5]">
-        <p className="text-xs font-semibold tracking-widest uppercase text-[#888] mb-4">02 — Diagnóstico</p>
+        <p className="text-xs font-semibold tracking-widest uppercase text-[#6B6B6B] mb-4">02 — Diagnóstico</p>
         <div className="space-y-4">
           {[
             {
@@ -563,34 +571,34 @@ function Report({ data, result, calBooking }: { data: FormData; result: CalcResu
       </section>
 
       <section className="mb-10 pb-10 border-b border-[#E5E5E5]">
-        <p className="text-xs font-semibold tracking-widest uppercase text-[#888] mb-4">03 — Recomendación</p>
-        <div className="bg-[#0A0A0A] p-6">
+        <p className="text-xs font-semibold tracking-widest uppercase text-[#6B6B6B] mb-4">03 — Recomendación</p>
+        <div className="bg-[#0A0A0A] p-6 min-w-0">
           <p className="text-[#4cfc0f] text-xs font-semibold tracking-widest uppercase mb-2">Solución recomendada</p>
-          <p className="text-white text-lg font-bold mb-3">{rec.title}</p>
-          <p className="text-[#888] text-sm leading-relaxed">{rec.description}</p>
+          <p className="text-white text-lg font-bold mb-3 break-words">{rec.title}</p>
+          <p className="text-[#6B6B6B] text-sm leading-relaxed break-words">{rec.description}</p>
         </div>
       </section>
 
       <section className="mb-10 pb-10 border-b border-[#E5E5E5]">
-        <p className="text-xs font-semibold tracking-widest uppercase text-[#888] mb-4">04 — Inversión estimada</p>
+        <p className="text-xs font-semibold tracking-widest uppercase text-[#6B6B6B] mb-4">04 — Inversión estimada</p>
         <div className="mb-6">
           <p className="text-4xl font-bold text-[#0A0A0A]">
             {formatMXN(result.budgetMin)} – {formatMXN(result.budgetMax)}
           </p>
-          <p className="text-xs text-[#888] mt-2">
+          <p className="text-xs text-[#6B6B6B] mt-2">
             Rango estimado · El alcance exacto se confirma en tu sesión · No es precio cerrado
           </p>
         </div>
         <SimpleBarChart items={result.breakdown} />
-        <p className="text-xs text-[#888] mt-4">
+        <p className="text-xs text-[#6B6B6B] mt-4">
           <strong className="text-[#0A0A0A]">Cálculo real con tus datos:</strong>{" "}
           basado en las funcionalidades que seleccionaste y tus ajustes de urgencia e identidad visual.
         </p>
       </section>
 
       <section className="mb-10 pb-10 border-b border-[#E5E5E5]">
-        <p className="text-xs font-semibold tracking-widest uppercase text-[#888] mb-4">05 — Tiempo estimado de entrega</p>
-        <p className="text-sm text-[#888] mb-6">
+        <p className="text-xs font-semibold tracking-widest uppercase text-[#6B6B6B] mb-4">05 — Tiempo estimado de entrega</p>
+        <p className="text-sm text-[#6B6B6B] mb-6">
           Timeline{" "}
           <span className="text-[#0A0A0A] font-semibold">{URGENCY_LABELS[data.timeline] ?? data.timeline}</span>
           {" "}— estimado total:{" "}
@@ -600,7 +608,7 @@ function Report({ data, result, calBooking }: { data: FormData; result: CalcResu
       </section>
 
       <section className="mb-10 pb-10 border-b border-[#E5E5E5]">
-        <p className="text-xs font-semibold tracking-widest uppercase text-[#888] mb-4">06 — Proyección de impacto</p>
+        <p className="text-xs font-semibold tracking-widest uppercase text-[#6B6B6B] mb-4">06 — Proyección de impacto</p>
         <div className="space-y-4">
           <div className="border border-[#E5E5E5] p-5">
             <span className="text-[#4cfc0f] text-xs font-bold px-2 py-0.5 bg-[#0A0A0A] inline-block mb-3">
@@ -610,7 +618,7 @@ function Report({ data, result, calBooking }: { data: FormData; result: CalcResu
               Con {data.clientsPerMonth.replace("-", " a ")} clientes al mes y ticket promedio de{" "}
               {data.avgTicket.replace("-", "–")} MXN, un aumento de conversión del 10% representa
               aproximadamente{" "}
-              <strong>{formatMXN(conversionGain)} MXN adicionales al mes</strong> —
+              <strong>{formatMXN(conversionGain)} adicionales al mes</strong> —
               aritmética simple sobre tus propios números.
             </p>
           </div>
@@ -622,7 +630,7 @@ function Report({ data, result, calBooking }: { data: FormData; result: CalcResu
               Negocios del giro {INDUSTRY_LABELS[data.industry] ?? data.industry} que digitalizaron
               su operación reportan reducir entre 30% y 50% el tiempo en respuestas repetitivas a
               clientes.{" "}
-              <em className="text-[#888]">
+              <em className="text-[#6B6B6B]">
                 Estimado basado en casos comparables, no garantizado para tu negocio específico.
               </em>
             </p>
@@ -631,7 +639,7 @@ function Report({ data, result, calBooking }: { data: FormData; result: CalcResu
       </section>
 
       <section className="mb-10">
-        <p className="text-xs font-semibold tracking-widest uppercase text-[#888] mb-4">07 — Tu sesión de estrategia</p>
+        <p className="text-xs font-semibold tracking-widest uppercase text-[#6B6B6B] mb-4">07 — Tu sesión de estrategia</p>
         <div className="bg-[#F9F9F9] border border-[#E5E5E5] p-6">
           <p className="text-sm font-semibold text-[#0A0A0A] mb-1">
             Sesión agendada para {data.contactName}
@@ -639,7 +647,7 @@ function Report({ data, result, calBooking }: { data: FormData; result: CalcResu
           {sessionDate && (
             <p className="text-base font-bold text-[#0A0A0A] mb-2">{sessionDate}</p>
           )}
-          <p className="text-xs text-[#888]">
+          <p className="text-xs text-[#6B6B6B]">
             Recibirás confirmación en <strong>{data.email}</strong>
             {data.whatsapp && <> y WhatsApp al <strong>{data.whatsapp}</strong></>}.
             En la sesión revisaremos este análisis, afinaremos el alcance y te compartiremos
@@ -720,12 +728,19 @@ export default function AnalisisPage() {
   const [calBooking, setCalBooking] = useState<CalBooking | null>(null)
   const calInitialized              = useRef(false)
 
-  // Cargar borrador guardado al montar
+  /**
+   * Cargar borrador guardado al montar.
+   *
+   * Tiene que ser un efecto: localStorage no existe en el render del servidor
+   * y leerlo en el inicializador del estado rompería la hidratación. Corre
+   * una sola vez.
+   */
   useEffect(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY)
       if (!saved) return
       const { step: savedStep, data: savedData } = JSON.parse(saved)
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- ver arriba
       if (savedData) setData((prev) => ({ ...prev, ...savedData }))
       if (savedStep && savedStep <= 5) setStep(savedStep)
     } catch {
@@ -737,6 +752,9 @@ export default function AnalisisPage() {
   useEffect(() => {
     if (step >= 6) return
     try {
+      // Los datos de contacto se descartan a propósito: el borrador vive en
+      // localStorage y no debe guardar información personal.
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { contactName, email, whatsapp, ...safeData } = data
       localStorage.setItem(STORAGE_KEY, JSON.stringify({ step, data: safeData }))
     } catch {
@@ -758,7 +776,7 @@ export default function AnalisisPage() {
     calInitialized.current = true
 
     // Exponer callback antes de inyectar el script
-    ;(window as any).__onCalBookingSuccess = handleBookingSuccess
+    ;(window as CalWindow).__onCalBookingSuccess = handleBookingSuccess
 
     const script = document.createElement("script")
     script.id = "cal-embed-init"
@@ -812,7 +830,7 @@ export default function AnalisisPage() {
     document.head.appendChild(script)
 
     return () => {
-      delete (window as any).__onCalBookingSuccess
+      delete (window as CalWindow).__onCalBookingSuccess
     }
   }, [step, handleBookingSuccess])
 
@@ -842,6 +860,9 @@ export default function AnalisisPage() {
         console.error("[guardar-progreso] fetch error:", err)
       }
     }
+    // Solo el número de paso: las respuestas del negocio nunca salen de aquí.
+    trackEvent("analysis_step_completed", { step })
+    if (step === 1) trackEvent("analysis_started", { step: 1 })
     setStep((s) => s + 1)
   }
 
@@ -863,6 +884,7 @@ export default function AnalisisPage() {
       if (json._meta?.emailError) console.error("[submit] Email error:", json._meta.emailError)
 
       setResult(json)
+      trackEvent("analysis_completed", { step: 7 })
       setStep(7)
       try { localStorage.removeItem(STORAGE_KEY) } catch { /* ignore */ }
     } catch {
@@ -879,7 +901,7 @@ export default function AnalisisPage() {
         <nav className="sticky top-0 z-10 bg-white border-b border-[#E5E5E5] px-6 py-4">
           <div className="max-w-3xl mx-auto flex items-center justify-between">
             <Link href="/" className="text-sm font-bold tracking-wide">users.mx</Link>
-            <span className="text-xs text-[#888]">Reporte listo</span>
+            <span className="text-xs text-[#6B6B6B]">Reporte listo</span>
           </div>
         </nav>
         <Report data={data} result={result} calBooking={calBooking} />
@@ -897,7 +919,7 @@ export default function AnalisisPage() {
           <Link href="/" className="text-sm font-bold tracking-wide text-[#0A0A0A]">
             ← users.mx
           </Link>
-          <span className="text-xs text-[#888]">Paso {step} de 6</span>
+          <span className="text-xs text-[#6B6B6B]">Paso {step} de 6</span>
         </div>
         <div className="h-0.5 bg-[#F0F0F0]">
           <div className="h-0.5 bg-[#4cfc0f] transition-all duration-300"
@@ -908,14 +930,14 @@ export default function AnalisisPage() {
       {/* Content */}
       <div className="flex-1 max-w-2xl mx-auto w-full px-6 py-10 lg:py-16">
         <div className="mb-10">
-          <p className="text-xs tracking-widest uppercase text-[#888] mb-2">
+          <p className="text-xs tracking-widest uppercase text-[#6B6B6B] mb-2">
             Paso {step} de 6 — {STEP_TITLES[step - 1]}
           </p>
           <h1 className="text-2xl lg:text-3xl font-bold text-[#0A0A0A]">
             {STEP_HEADINGS[step - 1]}
           </h1>
           {step === 6 && !calBooking && (
-            <p className="text-sm text-[#888] mt-3">
+            <p className="text-sm text-[#6B6B6B] mt-3">
               Selecciona un horario en el calendario. La confirmación llegará a tu correo de inmediato.
             </p>
           )}
@@ -941,7 +963,7 @@ export default function AnalisisPage() {
         <div className="flex items-center justify-between pt-4 border-t border-[#E5E5E5]">
           {step > 1 ? (
             <button onClick={() => setStep((s) => s - 1)}
-              className="text-sm font-semibold text-[#888] hover:text-[#0A0A0A] transition-colors">
+              className="text-sm font-semibold text-[#6B6B6B] hover:text-[#0A0A0A] transition-colors">
               ← Atrás
             </button>
           ) : <span />}
@@ -950,7 +972,7 @@ export default function AnalisisPage() {
             <button onClick={handleNext} disabled={!valid}
               className={`px-8 py-3 text-sm font-bold transition-all ${
                 valid ? "bg-[#4cfc0f] text-black hover:opacity-90"
-                      : "bg-[#F0F0F0] text-[#aaa] cursor-not-allowed"
+                      : "bg-[#F0F0F0] text-[#5F5F5F] cursor-not-allowed"
               }`}>
               Continuar →
             </button>
@@ -958,7 +980,7 @@ export default function AnalisisPage() {
             <button onClick={submit} disabled={!valid || loading}
               className={`px-8 py-3 text-sm font-bold transition-all ${
                 valid && !loading ? "bg-[#0A0A0A] text-white hover:bg-[#222]"
-                                  : "bg-[#F0F0F0] text-[#aaa] cursor-not-allowed"
+                                  : "bg-[#F0F0F0] text-[#5F5F5F] cursor-not-allowed"
               }`}>
               {loading ? "Generando reporte..." : "Ver mi análisis →"}
             </button>

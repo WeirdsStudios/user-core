@@ -1,8 +1,18 @@
 import Image from "next/image"
+import LazyVideo from "@/components/ui/LazyVideo"
+
+/** Grabación en loop de un proyecto. Los archivos viven en /imgs/video/. */
+export interface FrameVideo {
+  /** Nombre base sin extensión, ej. "greekgym" → greekgym.webm + .mp4 + -poster.webp */
+  name: string
+}
 
 interface BrowserFrameProps {
-  screenshotSrc: string
+  /** Captura estática. Ignorado si se pasa `video`. */
+  screenshotSrc?: string
   screenshotAlt?: string
+  /** Grabación en loop. Reemplaza a la captura estática cuando está presente. */
+  video?: FrameVideo
   urlLabel?: string
   className?: string
 }
@@ -10,6 +20,7 @@ interface BrowserFrameProps {
 export default function BrowserFrame({
   screenshotSrc,
   screenshotAlt = "",
+  video,
   urlLabel = "users.mx",
   className = "",
 }: BrowserFrameProps) {
@@ -28,21 +39,30 @@ export default function BrowserFrame({
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 2a10 10 0 100 20A10 10 0 0012 2z" />
               <path strokeLinecap="round" strokeLinejoin="round" d="M2 12h20M12 2c-2.5 3-4 6.5-4 10s1.5 7 4 10M12 2c2.5 3 4 6.5 4 10s-1.5 7-4 10" />
             </svg>
-            <span className="text-[#555] text-[11px] truncate">{urlLabel}</span>
+            <span className="text-[#8A8A8A] text-[11px] truncate">{urlLabel}</span>
           </div>
         </div>
         <div className="w-[54px] shrink-0" />
       </div>
 
-      {/* Screenshot */}
+      {/* Contenido: grabación en loop o captura estática */}
       <div className="relative">
-        <Image
-          src={screenshotSrc}
-          alt={screenshotAlt}
-          width={1280}
-          height={720}
-          className="w-full block"
-        />
+        {video ? (
+          <LazyVideo
+            name={video.name}
+            label={screenshotAlt || undefined}
+            className="w-full block"
+          />
+        ) : screenshotSrc ? (
+          <Image
+            src={screenshotSrc}
+            alt={screenshotAlt}
+            width={1280}
+            height={720}
+            className="w-full block"
+            sizes="(max-width: 1024px) 100vw, 800px"
+          />
+        ) : null}
       </div>
     </div>
   )
