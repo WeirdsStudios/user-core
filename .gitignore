@@ -39,3 +39,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Grabaciones originales en GIF.
+# Se convirtieron a WebM/MP4 en la Fase 2 (55 MB → 3.5 MB) y ninguna página las
+# solicita: se comprobó recorriendo las 22 rutas y registrando cada archivo que
+# el navegador pide de verdad. Se dejan de versionar para que no viajen en cada
+# despliegue; las copias locales siguen en public/imgs/portfolio/.
+public/imgs/portfolio/*.gif
