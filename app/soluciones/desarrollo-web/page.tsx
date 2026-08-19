@@ -66,10 +66,15 @@ export default function DesarrolloWebPage() {
           solution={solution}
           eyebrow="Presencia digital"
           h1="Desarrollo web para negocios que necesitan algo más que una página bonita"
-          lede="Un sitio que se ve bien pero no explica el negocio ni genera contacto es una tarjeta de presentación cara. Construimos webs con un trabajo asignado, y que puedan conectarse después con tus sistemas."
+          lede="Para PyMEs mexicanas que ya venden y necesitan que su sitio trabaje: un sitio que se ve bien pero no explica el negocio ni genera contacto es una tarjeta de presentación cara. Construimos webs con un trabajo asignado, que puedan conectarse después con tus sistemas."
           proof={
+            /* Tráfico frío de campaña abandona cuando no sabe si el precio
+               está en su rango. El ancla va aquí, en el primer viewport, no
+               solo en la sección de precio que está a tres pantallas. */
             <p className="font-mono text-[11px] text-[#8A8A8A] leading-relaxed">
-              Greek Gym y Las Frescas empezaron aquí ·{" "}
+              Desde{" "}
+              <span className="text-white">{siteConfig.pricing.startingPriceLabel}</span>{" "}
+              · Greek Gym y Las Frescas empezaron aquí ·{" "}
               <Link
                 href="/proyectos"
                 className="text-[#4cfc0f] hover:underline underline-offset-4 py-1.5 inline-block"

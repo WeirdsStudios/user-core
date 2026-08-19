@@ -76,6 +76,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.6,
     },
     {
+      url: `${url}/aviso-de-privacidad`,
+      lastModified: LAST_CONTENT_UPDATE,
+      changeFrequency: "yearly",
+      priority: 0.3,
+    },
+    {
       url: `${url}/centro-de-atencion`,
       lastModified: LAST_CONTENT_UPDATE,
       changeFrequency: "monthly",

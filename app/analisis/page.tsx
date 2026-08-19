@@ -861,7 +861,7 @@ export default function AnalisisPage() {
       }
     }
     // Solo el número de paso: las respuestas del negocio nunca salen de aquí.
-    trackEvent("analysis_step_completed", { step })
+    trackEvent("analysis_progressed", { step })
     if (step === 1) trackEvent("analysis_started", { step: 1 })
     setStep((s) => s + 1)
   }

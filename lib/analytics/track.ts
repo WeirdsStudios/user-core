@@ -1,30 +1,59 @@
 "use client"
 
 import type { AnalyticsEvent, EventMeta } from "./events"
-import { getAttribution } from "./attribution"
+import { attributionMeta } from "./attribution"
+import { hasConsent } from "./consent"
+import {
+  advanceStage,
+  pageTypeOf,
+  readStage,
+  stageForEvent,
+  stageForPage,
+} from "./funnel"
+import { ga4, meta, vercel } from "./providers"
 
 /**
  * Punto único de emisión de eventos.
  *
- * Ningún componente habla con GA, Meta o Vercel directamente: llaman a
- * `trackEvent` y esta capa decide a dónde va. Cambiar de proveedor —o no
- * tener ninguno— no obliga a tocar un solo componente.
+ * Ningún componente habla con Google, Meta o Vercel directamente: llaman a
+ * `trackEvent` y esta capa decide si puede enviarse y a dónde. Cambiar de
+ * proveedor —o no tener ninguno— no obliga a tocar un solo componente.
  *
- * Funciona sin proveedor configurado: si no hay nada, no envía nada y no
- * rompe. En desarrollo escribe en consola para poder verificar la
- * instrumentación sin depender de un dashboard externo.
+ * ORDEN DE DECISIONES
+ *   1. ¿Hay consentimiento para esta categoría? Si no, no sale nada.
+ *   2. Limpiar los metadatos. Última barrera antes de salir del navegador.
+ *   3. Enriquecer con etapa de funnel y atribución.
+ *   4. Repartir a cada adapter, cada uno con su criterio.
+ *
+ * Todo va envuelto: un fallo de medición nunca puede romper el sitio.
  */
 
 /** Claves que el resto de la aplicación puede mandar. Todo lo demás se cae. */
 const ALLOWED_KEYS = new Set<keyof EventMeta>([
-  "page",
-  "category",
-  "slug",
-  "mode",
-  "surface",
+  "page_path",
+  "page_type",
+  "funnel_stage",
+  "solution",
+  "project",
+  "product",
+  "article",
+  "source",
+  "medium",
+  "campaign",
+  "content",
+  "term",
+  "first_source",
+  "first_medium",
+  "first_campaign",
+  "referrer_host",
   "step",
   "turn",
+  "category",
+  "mode",
+  "surface",
   "cta",
+  "consent_analytics",
+  "consent_advertising",
 ])
 
 /** Parece un dato personal aunque venga en una clave permitida. */
@@ -34,18 +63,18 @@ const LOOKS_PERSONAL =
 /**
  * Última barrera antes de salir del navegador.
  *
- * El tipo `EventMeta` ya restringe qué se puede mandar, pero un tipo no
- * existe en ejecución: si alguien arma metadata dinámicamente, esto es lo
- * único que impide que un correo o un mensaje completo termine en analytics.
+ * `EventMeta` ya restringe qué se puede mandar, pero un tipo no existe en
+ * ejecución: si alguien arma metadata dinámicamente, esto es lo único que
+ * impide que un correo o un mensaje completo termine en analytics.
  */
-function sanitizeMeta(meta: EventMeta): Record<string, string | number> {
-  const clean: Record<string, string | number> = {}
+function sanitizeMeta(meta: EventMeta): Record<string, string | number | boolean> {
+  const clean: Record<string, string | number | boolean> = {}
 
   for (const [key, value] of Object.entries(meta)) {
     if (!ALLOWED_KEYS.has(key as keyof EventMeta)) continue
     if (value === undefined || value === null) continue
 
-    if (typeof value === "number") {
+    if (typeof value === "number" || typeof value === "boolean") {
       clean[key] = value
       continue
     }
@@ -59,36 +88,61 @@ function sanitizeMeta(meta: EventMeta): Record<string, string | number> {
   return clean
 }
 
-declare global {
-  interface Window {
-    gtag?: (...args: unknown[]) => void
-    fbq?: (...args: unknown[]) => void
-    va?: (event: string, name: string, data?: Record<string, unknown>) => void
+/**
+ * Modo de depuración.
+ *
+ * Se activa con `?debug_analytics=1` o en desarrollo. Imprime lo que se
+ * enviaría —ya saneado, así que nunca muestra datos personales— y marca los
+ * eventos para poder filtrarlos si el proveedor lo permite.
+ */
+function debugEnabled(): boolean {
+  if (process.env.NODE_ENV === "development") return true
+  try {
+    if (new URLSearchParams(window.location.search).has("debug_analytics")) {
+      sessionStorage.setItem("users-debug-analytics", "1")
+    }
+    return sessionStorage.getItem("users-debug-analytics") === "1"
+  } catch {
+    return false
   }
 }
 
-export function trackEvent(name: AnalyticsEvent, meta: EventMeta = {}) {
+export function trackEvent(name: AnalyticsEvent, extra: EventMeta = {}) {
   if (typeof window === "undefined") return
 
-  const payload = {
-    ...sanitizeMeta(meta),
-    // La atribución viaja con cada evento para poder separar por origen sin
-    // depender de que el proveedor conserve la sesión.
-    ...getAttribution(),
-  }
-
   try {
-    // Vercel Analytics — sin cookies, no necesita ID.
-    window.va?.("event", name, payload)
+    const path = extra.page_path ?? window.location.pathname
 
-    // GA4 — solo si hay Measurement ID configurado y el script cargó.
-    window.gtag?.("event", name, payload)
+    // La etapa avanza con lo que la persona hace, no con dónde está.
+    const candidate = stageForEvent(name) ?? stageForPage(path)
+    const funnel_stage = advanceStage(candidate)
 
-    // Meta Pixel — eventos personalizados.
-    window.fbq?.("trackCustom", name, payload)
+    const payload = sanitizeMeta({
+      page_path: path,
+      page_type: pageTypeOf(path),
+      funnel_stage,
+      ...extra,
+      ...attributionMeta(),
+    })
 
-    if (process.env.NODE_ENV === "development") {
-      console.debug("[analytics]", name, payload)
+    const analytics = hasConsent("analytics")
+    const advertising = hasConsent("advertising")
+
+    if (debugEnabled()) {
+      console.debug(
+        `[analytics] ${name}`,
+        payload,
+        `consent: analytics=${analytics} ads=${advertising}`
+      )
+    }
+
+    // El consentimiento de medición decide, no la disponibilidad del script.
+    if (analytics) {
+      vercel.send(name, payload)
+      ga4.send(name, payload)
+    }
+    if (advertising) {
+      meta.send(name, payload)
     }
   } catch {
     // La medición nunca puede romper el sitio.
@@ -96,10 +150,32 @@ export function trackEvent(name: AnalyticsEvent, meta: EventMeta = {}) {
 }
 
 /**
- * Página vista. Se llama desde un solo lugar (`AnalyticsProvider`), no desde
- * cada página: en el App Router la navegación es cliente y hacerlo por página
+ * Página vista. Se llama desde un solo lugar (`Analytics`), no desde cada
+ * página: en el App Router la navegación es de cliente y hacerlo por página
  * se duplica en cuanto alguien añade un layout.
  */
 export function trackPageView(path: string) {
-  trackEvent("page_view", { page: path })
+  if (typeof window === "undefined") return
+  try {
+    const funnel_stage = advanceStage(stageForPage(path))
+    const payload = sanitizeMeta({
+      page_path: path,
+      page_type: pageTypeOf(path),
+      funnel_stage,
+      ...attributionMeta(),
+    })
+
+    if (debugEnabled()) {
+      console.debug("[analytics] page_view", payload)
+    }
+
+    if (hasConsent("analytics")) {
+      vercel.send("page_view", payload)
+      ga4.pageView(path, payload)
+    }
+  } catch {
+    /* la medición nunca rompe la navegación */
+  }
 }
+
+export { readStage as currentFunnelStage }

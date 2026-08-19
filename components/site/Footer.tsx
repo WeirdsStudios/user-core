@@ -1,5 +1,6 @@
 import Link from "next/link"
 import Image from "next/image"
+import ConsentPreferencesLink from "@/components/consent/ConsentPreferencesLink"
 import { siteConfig } from "@/lib/site-config"
 import { PROJECTS } from "@/lib/projects"
 import { SOLUTIONS } from "@/lib/solutions"
@@ -167,9 +168,23 @@ export default function Footer() {
           <p className="font-mono text-[11px] text-[#8A8A8A]">
             {siteConfig.wordmark} © 2026
           </p>
-          <p className="font-mono text-[11px] text-[#8A8A8A]">
-            Proyectos desde {siteConfig.pricing.startingPriceLabel}
-          </p>
+
+          {/* Poder revocar el consentimiento tiene que estar siempre a la
+              vista, no solo la primera vez que se pregunta. */}
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
+            <Link
+              href="/aviso-de-privacidad"
+              className="font-mono text-[11px] text-[#8A8A8A] hover:text-white transition-colors py-1.5"
+            >
+              Aviso de privacidad
+            </Link>
+            <ConsentPreferencesLink className="font-mono text-[11px] text-[#8A8A8A] hover:text-white transition-colors py-1.5">
+              Preferencias de cookies
+            </ConsentPreferencesLink>
+            <p className="font-mono text-[11px] text-[#8A8A8A]">
+              Proyectos desde {siteConfig.pricing.startingPriceLabel}
+            </p>
+          </div>
         </div>
       </div>
     </footer>

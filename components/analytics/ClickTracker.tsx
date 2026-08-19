@@ -30,10 +30,10 @@ function eventFor(href: string, pathname: string): { event: AnalyticsEvent; meta
     return { event: "cta_analysis_clicked", meta: {} }
   }
   if (href.startsWith("/soluciones/")) {
-    return { event: "solution_cta_clicked", meta: { slug: href.split("/")[2] } }
+    return { event: "solution_cta_clicked", meta: { solution: href.split("/")[2] } }
   }
   if (href.startsWith("/proyectos/")) {
-    return { event: "project_cta_clicked", meta: { slug: href.split("/")[2] } }
+    return { event: "project_cta_clicked", meta: { project: href.split("/")[2] } }
   }
   return null
 }
@@ -61,8 +61,8 @@ export default function ClickTracker() {
       // Un `data-cta` explícito manda sobre la deducción por href.
       if (explicit === "product_trial") {
         trackEvent("product_trial_clicked", {
-          slug: link.getAttribute("data-slug") ?? undefined,
-          page: pathname,
+          product: link.getAttribute("data-slug") ?? undefined,
+          page_path: pathname,
         })
         return
       }
@@ -72,7 +72,7 @@ export default function ClickTracker() {
 
       trackEvent(match.event, {
         ...match.meta,
-        page: pathname,
+        page_path: pathname,
         surface: surfaceOf(link),
       })
     }

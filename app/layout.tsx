@@ -5,6 +5,7 @@ import WhatsAppButton from "@/components/site/WhatsAppButton"
 import SmoothScroll from "@/components/site/SmoothScroll"
 import SupportWidget from "@/components/support/SupportWidget"
 import Analytics from "@/components/analytics/Analytics"
+import ConsentBanner from "@/components/consent/ConsentBanner"
 import { siteConfig } from "@/lib/site-config"
 
 const dmSans = DM_Sans({
@@ -93,6 +94,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <SupportWidget />
         <WhatsAppButton />
         <Analytics />
+        <ConsentBanner />
       </body>
     </html>
   )

@@ -14,15 +14,23 @@ import type { AnalyticsEvent } from "@/lib/analytics/events"
  * Se monta en páginas de servidor sin volverlas cliente: solo este componente
  * lo es.
  */
-export default function ViewTracker({
-  event,
-  slug,
-}: {
-  event: Extract<AnalyticsEvent, "solution_viewed" | "project_viewed" | "product_viewed">
-  slug: string
-}) {
+type ViewEvent = Extract<
+  AnalyticsEvent,
+  "solution_viewed" | "project_viewed" | "product_viewed" | "article_viewed"
+>
+
+/** Cada tipo de contenido viaja en su propia clave, no en un "slug" genérico:
+ *  así una audiencia se define por "vio esta solución" sin ambigüedad. */
+const KEY_BY_EVENT: Record<ViewEvent, "solution" | "project" | "product" | "article"> = {
+  solution_viewed: "solution",
+  project_viewed: "project",
+  product_viewed: "product",
+  article_viewed: "article",
+}
+
+export default function ViewTracker({ event, slug }: { event: ViewEvent; slug: string }) {
   useEffect(() => {
-    trackEvent(event, { slug, page: window.location.pathname })
+    trackEvent(event, { [KEY_BY_EVENT[event]]: slug, page_path: window.location.pathname })
   }, [event, slug])
 
   return null

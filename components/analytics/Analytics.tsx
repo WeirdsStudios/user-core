@@ -1,36 +1,33 @@
 "use client"
 
-import { useEffect, Suspense } from "react"
+import { useEffect, useState, Suspense } from "react"
 import Script from "next/script"
 import { usePathname, useSearchParams } from "next/navigation"
 import { Analytics as VercelAnalytics } from "@vercel/analytics/react"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { captureAttribution } from "@/lib/analytics/attribution"
 import { trackPageView } from "@/lib/analytics/track"
+import { readConsent, onConsentChange, type ConsentValue } from "@/lib/analytics/consent"
+import { GA_ID, META_PIXEL_ID, GOOGLE_ADS_ID, metaPageView } from "@/lib/analytics/providers"
 import ClickTracker from "./ClickTracker"
 
 /**
  * Carga de proveedores y disparo de `page_view`.
  *
- * QUÉ ESTÁ ACTIVO
- *   · Vercel Analytics y Speed Insights: sin cookies, sin ID, sin banner de
- *     consentimiento. Se activan desde el panel del proyecto.
- *   · GA4 y Meta Pixel: solo si existe su variable de entorno. Sin ID no se
- *     carga el script, no se ponen cookies y `trackEvent` simplemente no
- *     encuentra a dónde enviar. El sitio compila y funciona igual.
+ * NADA SE CARGA SIN PERMISO. Los scripts de GA4 y Meta ni siquiera se
+ * inyectan hasta que la persona acepta la categoría correspondiente. No es
+ * "cargar y no disparar": es no cargar. Rechazar significa que el script no
+ * existe en la página.
  *
- * COOKIES: GA4 y Meta sí las usan. Mientras no estén configurados el sitio
- * no pone ninguna cookie de terceros — por eso hoy no hay banner de consen-
- * timiento. El día que se agreguen esos IDs hay que añadir el aviso.
+ * Vercel Analytics y Speed Insights son la excepción justificada: no usan
+ * cookies ni identificadores publicitarios, no siguen a nadie entre sitios y
+ * son los que miden si el sitio funciona. Aun así solo miden con permiso de
+ * medición — se montan condicionados igual que el resto.
+ *
+ * COOKIES: GA4 y Meta sí las usan. Sin sus variables de entorno no se pone
+ * ninguna cookie de terceros, con o sin consentimiento.
  */
 
-const GA_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID
-const META_PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID
-
-/**
- * `useSearchParams` obliga a suspender el árbol; aislarlo aquí evita que toda
- * la página caiga a render dinámico solo por medir.
- */
 function PageViews() {
   const pathname = usePathname()
   const searchParams = useSearchParams()
@@ -42,25 +39,46 @@ function PageViews() {
   useEffect(() => {
     if (!pathname) return
     // Solo la ruta: los parámetros pueden traer datos de campaña o de
-    // formulario, y ya viajan por separado como atribución.
+    // formulario, y la campaña ya viaja por separado como atribución.
     trackPageView(pathname)
+    // Meta cuenta su propio PageView al inicializarse; este es para las
+    // navegaciones posteriores, que el SDK no ve en el App Router.
+    metaPageView()
   }, [pathname])
 
   return null
 }
 
 export default function Analytics() {
+  const [consent, setConsent] = useState<ConsentValue>(null)
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- localStorage no existe en el render del servidor
+    setConsent(readConsent())
+    return onConsentChange(setConsent)
+  }, [])
+
+  const analytics = consent?.analytics === true
+  const advertising = consent?.advertising === true
+
   return (
     <>
-      <VercelAnalytics />
-      <SpeedInsights />
+      {/* El seguimiento de clics no envía nada por su cuenta: llama a
+          trackEvent, que vuelve a comprobar el consentimiento. */}
       <ClickTracker />
 
       <Suspense fallback={null}>
         <PageViews />
       </Suspense>
 
-      {GA_ID && (
+      {analytics && (
+        <>
+          <VercelAnalytics />
+          <SpeedInsights />
+        </>
+      )}
+
+      {analytics && GA_ID && (
         <>
           <Script
             src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
@@ -70,12 +88,19 @@ export default function Analytics() {
             {`window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
-gtag('config', '${GA_ID}', { send_page_view: false });`}
+gtag('config', '${GA_ID}', { send_page_view: false });
+${GOOGLE_ADS_ID ? `gtag('config', '${GOOGLE_ADS_ID}');` : ""}
+gtag('consent', 'update', {
+  ad_storage: '${advertising ? "granted" : "denied"}',
+  ad_user_data: '${advertising ? "granted" : "denied"}',
+  ad_personalization: '${advertising ? "granted" : "denied"}',
+  analytics_storage: 'granted'
+});`}
           </Script>
         </>
       )}
 
-      {META_PIXEL_ID && (
+      {advertising && META_PIXEL_ID && (
         <Script id="meta-pixel" strategy="afterInteractive">
           {`!function(f,b,e,v,n,t,s)
 {if(f.fbq)return;n=f.fbq=function(){n.callMethod?

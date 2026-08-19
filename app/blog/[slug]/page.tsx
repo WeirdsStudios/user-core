@@ -14,6 +14,7 @@ import {
 import { getSolution } from "@/lib/solutions"
 import { getProject } from "@/lib/projects"
 import { siteConfig } from "@/lib/site-config"
+import ViewTracker from "@/components/analytics/ViewTracker"
 
 export function generateStaticParams() {
   return BLOG_POSTS.map((p) => ({ slug: p.slug }))
@@ -102,6 +103,7 @@ export default async function BlogPostPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      <ViewTracker event="article_viewed" slug={post.slug} />
       <Header />
       <main className="bg-[#0A0A0A] text-white">
         <article>

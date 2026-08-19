@@ -41,7 +41,7 @@ export default function LazyVideo({ name, dir = "video", label, className = "" }
           setLoad(true)
           if (!reported) {
             reported = true
-            trackEvent("project_media_started", { slug: name, page: window.location.pathname })
+            trackEvent("project_media_started", { project: name, page_path: window.location.pathname })
           }
           el.play().catch(() => {
             /* autoplay bloqueado: se queda el póster, no es un error */

@@ -99,7 +99,7 @@ export default function SupportChat({
     // eslint-disable-next-line react-hooks/set-state-in-effect -- ver arriba
     if (saved?.messages?.length) setState(saved)
     setHydrated(true)
-    track("support_opened", { surface, page: window.location.pathname })
+    track("support_opened", { surface, page_path: window.location.pathname })
   }, [surface])
 
   useEffect(() => {
