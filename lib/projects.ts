@@ -140,9 +140,14 @@ export const PROJECTS: Project[] = [
      *   1. Coloca los archivos en public/imgs/projects/llevelin/ siguiendo la
      *      convención: <nombre>.webm + <nombre>.mp4 + <nombre>-poster.webp
      *      (o una sola imagen .webp si no hay grabación).
-     *   2. En el slot correspondiente: quita `placeholder` y `expectedPath`,
-     *      y añade `video: "<nombre>"` — o `image: "/imgs/projects/llevelin/x.webp"`.
-     *   El layout no cambia: la proporción 16:9 ya está reservada.
+     *   2. En el slot correspondiente: quita `placeholder`, `expectedPath` y
+     *      `cover`, y añade `video: "<nombre>"` — o
+     *      `image: "/imgs/projects/llevelin/x.webp"`.
+     *   El layout no cambia: la proporción ya está reservada.
+     *
+     * Mientras tanto cada slot lleva `cover`: una portada compuesta con la
+     * información real del trabajo. Llevelín es un proyecto entregado; lo que
+     * falta es grabarlo, y eso no tiene por qué notarse en el sitio.
      */
     assets: [
       {
@@ -150,6 +155,12 @@ export const PROJECTS: Project[] = [
         dir: "projects/llevelin",
         expectedPath: "/imgs/projects/llevelin/caja.{webm,mp4,-poster.webp}",
         badge: "Caja",
+        cover: {
+          title: "Llevelín",
+          eyebrow: "Punto de venta a medida",
+          subtitle: "Un mismo sistema operando en los tres puntos donde el supermercado cobra.",
+          parts: ["Caja", "Autocobro", "Islas de atención", "Venta por peso"],
+        },
         caption: "Cobro en caja — el flujo principal de la jornada",
         alt: "Sistema de punto de venta de Llevelín operado por un cajero",
       },
@@ -158,6 +169,12 @@ export const PROJECTS: Project[] = [
         dir: "projects/llevelin",
         expectedPath: "/imgs/projects/llevelin/autocobro.{webm,mp4,-poster.webp}",
         badge: "Autocobro",
+        cover: {
+          title: "Autocobro",
+          eyebrow: "Llevelín · modo autoservicio",
+          subtitle: "El mismo sistema, operado por alguien que nunca lo había visto.",
+          parts: ["Sin cajero", "Errores recuperables", "Interfaz reducida"],
+        },
         caption: "Autocobro — el mismo sistema, operado por el cliente",
         alt: "Interfaz de autocobro del supermercado, operada directamente por el cliente",
       },
@@ -166,6 +183,12 @@ export const PROJECTS: Project[] = [
         dir: "projects/llevelin",
         expectedPath: "/imgs/projects/llevelin/isla-atencion.{webm,mp4,-poster.webp}",
         badge: "Isla",
+        cover: {
+          title: "Islas de atención",
+          eyebrow: "Llevelín · mostrador",
+          subtitle: "Salchichonería, frutas y verduras: se despacha, se pesa y se etiqueta antes de cobrar.",
+          parts: ["Venta por peso", "Etiquetado", "Despacho a granel"],
+        },
         caption: "Isla de atención — venta por peso en mostrador",
         alt: "Sistema en uso en un mostrador de salchichonería o de frutas y verduras",
       },

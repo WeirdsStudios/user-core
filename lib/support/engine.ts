@@ -1,6 +1,6 @@
 import { getEntry, type KbEntry } from "@/lib/knowledge-base"
 import { siteConfig } from "@/lib/site-config"
-import { retrieve, CONFIDENCE_THRESHOLD, normalize } from "./retrieval"
+import { retrieve, CONFIDENCE_THRESHOLD, normalize, tokenize } from "./retrieval"
 import { classifyIntent, isOtherProductSupport, isInScope } from "./classify"
 import { getAvailability } from "./schedule"
 import type {
@@ -127,9 +127,38 @@ function unknownReply(): Message {
 }
 
 /**
+ * Pide contexto en vez de adivinar.
+ *
+ * Para un mensaje corto o ambiguo —"ayuda", "sí", "vengo de Instagram"— el
+ * retrieval siempre devuelve algo, y ese algo suele ser una entrada sin
+ * relación. En la revisión manual, "ayuda" contestaba sobre configuración de
+ * correo. Preguntar cuesta un turno; contestar cualquier cosa cuesta la
+ * conversación.
+ */
+function clarifyReply(): Message {
+  return msg(
+    "Cuéntame un poco más para ayudarte bien. ¿Es sobre un proyecto que quieres cotizar, o sobre algo que ya tienes con nosotros?",
+    {
+      // Es un UNKNOWN honesto —no sabemos qué necesita— pero con una salida
+      // en vez de un muro. La métrica sigue contándolo como no resuelto.
+      decision: "UNKNOWN",
+      actions: [
+        { id: "cotizar", label: "Quiero cotizar un proyecto", kind: "send", value: "quiero cotizar un proyecto para mi negocio" },
+        { id: "soporte", label: "Ya soy cliente", kind: "send", value: "necesito soporte de mi proyecto" },
+        ESCALATE_ACTION,
+      ],
+    }
+  )
+}
+
+/**
  * Fuera de tema. Es distinto de UNKNOWN: aquí no es que falte información,
  * es que la pregunta no es de nuestra competencia. Decirlo así evita que el
  * Centro responda con seriedad a algo que no le toca.
+ *
+ * SOLO EN EL PRIMER TURNO. Una vez que hay conversación, quien escribe está
+ * hablando con nosotros de nosotros: decirle "eso se sale de lo que puedo
+ * atender" porque mencionó su ferretería es la peor respuesta posible.
  */
 function outOfScopeReply(): Message {
   return msg(
@@ -164,6 +193,14 @@ function anchorFor(intent: Intent): KbEntry | undefined {
  * coincidencia suele ser una palabra suelta compartida por casualidad.
  */
 const BLIND_QUERY_THRESHOLD = 0.5
+
+/**
+ * Señales de que la persona está molesta o siente que no la atienden.
+ * Se evalúan antes que nada: la respuesta correcta es una persona, no una
+ * respuesta más.
+ */
+const FRUSTRATION =
+  /\b(no sirve|no funciona nada|es un desastre|pesimo|pésimo|malisimo|nadie (me )?(contesta|responde|atiende)|llevo (dias|semanas|meses)|ya les? (escribi|habia escrito|mande)|otra vez|harto|molest|queja|reclamo|urge que alguien)\w*/
 
 /**
  * Por debajo de esto, una intención clara pesa más que la entrada recuperada.
@@ -259,6 +296,29 @@ export function respond(state: ConversationState, userText: string): EngineResul
     return { reply: greetingReply(), state: next }
   }
 
+  /**
+   * 1b. Frustración.
+   *
+   * Quien escribe "ya les escribí tres veces" o "esto no sirve" no quiere una
+   * entrada de la base de conocimiento: quiere que alguien lo atienda. Buscar
+   * y contestar con lo más parecido —en la prueba manual salió el plan de
+   * mantenimiento— confirma exactamente lo que esa persona está diciendo.
+   */
+  if (FRUSTRATION.test(normalize(text))) {
+    next.intent = "hablar-humano"
+    if (!next.collected.problema) next.collected.problema = text.trim()
+    const { specialistAvailable, label } = getAvailability()
+    return {
+      reply: msg(
+        specialistAvailable
+          ? "Entiendo. Esto lo ve una persona del equipo, no yo. Te paso con alguien ahora mismo."
+          : `Entiendo. Esto lo tiene que ver una persona del equipo. Atienden ${label.toLowerCase()} (hora del centro de México); puedo dejar tu solicitud lista para que la retomen en cuanto abran.`,
+        { decision: "SPECIALIST", actions: [ESCALATE_ACTION] }
+      ),
+      state: next,
+    }
+  }
+
   // 2. Petición explícita de humano: no hace falta buscar nada.
   if (intent === "hablar-humano") {
     next.intent = "hablar-humano"
@@ -299,7 +359,18 @@ export function respond(state: ConversationState, userText: string): EngineResul
     }
   }
 
-  // 4. Nueva consulta: recuperar conocimiento.
+  /**
+   * 4. Mensaje demasiado corto para buscar nada.
+   *
+   * "ayuda", "sí", "info": una o dos palabras sin señal de intención. El
+   * retrieval devolvería la entrada que comparta una palabra suelta.
+   */
+  const palabrasUtiles = tokenize(text).length
+  if (palabrasUtiles <= 1 && intent === "desconocido") {
+    return { reply: clarifyReply(), state: next }
+  }
+
+  // 5. Nueva consulta: recuperar conocimiento.
   const hits = retrieve(text)
   const top = hits[0]
 
@@ -316,11 +387,38 @@ export function respond(state: ConversationState, userText: string): EngineResul
    * respuestas correctas a preguntas como "¿cuánto se tardan en entregar?"
    * solo porque la frase no contenía ninguna palabra de la lista.
    */
+  const primerTurno = next.messages.filter((m) => m.role === "center").length === 0
   const blind = intent === "desconocido" && !isInScope(text)
   const required = blind ? BLIND_QUERY_THRESHOLD : CONFIDENCE_THRESHOLD
 
-  if (!top || top.confidence < required) {
-    if (blind) return { reply: outOfScopeReply(), state: next }
+  /**
+   * Un resultado que domina al resto merece confianza aunque su valor
+   * absoluto sea bajo.
+   *
+   * "¿Por qué no mejor uso Wix?" recuperaba la entrada correcta en primer
+   * lugar con el doble de puntaje que la siguiente, pero con confianza 0.12
+   * porque "mejor" y "uso" son palabras corrientes que diluyen el promedio.
+   * Quedarse callado ante la objeción comercial más frecuente por un umbral
+   * es peor que responderla.
+   */
+  const segundo = hits[1]?.confidence ?? 0
+  const domina =
+    !blind && top !== undefined && top.confidence >= 0.1 && top.confidence >= segundo * 2
+
+  if (!top || (top.confidence < required && !domina)) {
+    /**
+     * Fuera de tema solo ante una pregunta ajena y sustancial.
+     *
+     * Con pocas palabras no se puede distinguir "vengo de Instagram" de
+     * "capital de Mongolia": ninguna deja términos que la base reconozca. Y
+     * los dos errores no cuestan igual — decirle a un prospecto real que su
+     * tema no nos compete pierde la venta; pedirle contexto a quien pregunta
+     * por otra cosa solo la deja sin responder. Ante la duda, se pregunta.
+     */
+    const preguntaAjenaSustancial = primerTurno && palabrasUtiles >= 3
+    if (blind) {
+      return { reply: preguntaAjenaSustancial ? outOfScopeReply() : clarifyReply(), state: next }
+    }
 
     const anchor = anchorFor(intent)
     if (anchor) {
@@ -331,6 +429,29 @@ export function respond(state: ConversationState, userText: string): EngineResul
 
     next.intent = intent === "desconocido" ? next.intent : intent
     return { reply: unknownReply(), state: next }
+  }
+
+  /**
+   * Quien reporta algo roto nunca debe recibir una respuesta comercial.
+   *
+   * "Mi sitio se cayó" comparte la palabra "sitio" con la entrada de precios,
+   * y con suficiente confianza léxica el motor contestaba con la tarifa de
+   * los proyectos. Para alguien cuyo negocio está fuera de línea, eso no es
+   * una respuesta imprecisa: es una falta de respeto y la señal de que nadie
+   * lo va a ayudar.
+   *
+   * El coste de los dos errores no es simétrico. Contestar de más con soporte
+   * a una consulta comercial es recuperable; lo contrario, no. Así que ante
+   * una intención de incidente clara, solo valen entradas de soporte.
+   */
+  const SUPPORT_CATEGORIES = new Set(["ajustes", "despues"])
+  if (intent === "incidente" && !SUPPORT_CATEGORIES.has(top.entry.category)) {
+    const anchor = anchorFor("incidente")
+    if (anchor) {
+      next.intent = "incidente"
+      if (!next.collected.problema) next.collected.problema = text.trim()
+      return { reply: fromEntry({ ...anchor, mode: "SPECIALIST" }, next), state: next }
+    }
   }
 
   /**

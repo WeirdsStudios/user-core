@@ -419,15 +419,26 @@ function Step6({
 }
 
 // ─── Report ───────────────────────────────────────────────────────────────────
+/**
+ * Texto de la recomendación del diagnóstico.
+ *
+ * ACTIIVA y MEDIICA están en desarrollo y NO tienen precio publicado. Este
+ * bloque se lee en el momento de mayor intención —justo antes de dejar
+ * datos— así que cualquier promesa de aquí se toma como compromiso.
+ *
+ * `mediica` sí es alcanzable: `getRecommendation` lo devuelve para el giro
+ * "salud-belleza". Un comentario anterior afirmaba lo contrario y por eso el
+ * texto había quedado sin revisar, anunciando el producto como disponible y
+ * con una mensualidad que no existe en ninguna otra parte del sitio.
+ */
 const RECOMMENDATION_COPY: Record<string, { title: string; description: string }> = {
   actiiva: {
-    title: "ACTIIVA — Plataforma lista para tu gimnasio",
-    description: "Para negocios de fitness estamos desarrollando ACTIIVA, nuestro producto propio. Todavía no está disponible, así que mientras tanto la ruta es un desarrollo a la medida de tu operación.",
+    title: "Desarrollo a la medida para tu negocio fitness",
+    description: "Para gimnasios y estudios estamos desarrollando ACTIIVA, nuestro producto propio, pero todavía no está disponible. La ruta hoy es un desarrollo a la medida de tu operación, y podemos avisarte cuando ACTIIVA esté lista.",
   },
-  // no es un valor alcanzable desde getRecommendation — no se muestra.
   mediica: {
-    title: "MEDIICA — Plataforma lista para tu consultorio",
-    description: "Para consultorios y clínicas, MEDIICA es la solución más eficiente: agenda de citas, historial de seguimiento de pacientes, cobros y recordatorios. Desde $999 MXN/mes.",
+    title: "Desarrollo a la medida para tu consultorio",
+    description: "Para consultorios y clínicas estamos desarrollando MEDIICA, nuestro producto propio, pero está en una etapa temprana y todavía no está disponible. La ruta hoy es un desarrollo a la medida, y podemos avisarte cuando MEDIICA esté lista.",
   },
   "custom-advanced": {
     title: "Desarrollo a la medida — Proyecto avanzado",

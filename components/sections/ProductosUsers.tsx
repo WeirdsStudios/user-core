@@ -54,7 +54,9 @@ export default function ProductosUsers() {
             return (
               <li key={product.name}>
                 <article className="bg-[#0A0A0A] text-white h-full flex flex-col">
-                  {/* Visual grande */}
+                  {/* Portada del producto. Mientras no exista captura real,
+                      MediaFrame pinta la identidad y lo que resuelve — nunca
+                      un aviso de material pendiente. */}
                   <div className="p-3 sm:p-4 border-b border-[#1A1A1A]">
                     <MediaFrame slot={presentation.media} chrome={false} />
                   </div>

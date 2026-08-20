@@ -253,7 +253,7 @@ export const KB_ENTRIES: KbEntry[] = [
     answer:
       "Es el mantenimiento después del lanzamiento. Un proyecto publicado necesita hosting, dominio activo, respaldos y actualizaciones de seguridad; si además es un sistema con usuarios y datos, necesita monitoreo. Todos los proyectos incluyen soporte el primer mes; después el seguimiento es opcional y sin contrato forzoso.",
     mode: "INFO",
-    tags: ["mantenimiento", "seguimiento", "soporte", "después"],
+    tags: ["mantenimiento", "seguimiento", "soporte", "después", "mensualidad", "qué cubre", "pago mensual", "qué incluye al mes"],
     related: [{ label: "Ver planes", href: "/#seguimiento" }],
   },
   {
@@ -326,6 +326,45 @@ export const KB_ENTRIES: KbEntry[] = [
     mode: "INFO",
     tags: ["mediica", "consultorio", "clínica", "salud", "producto", "citas"],
     related: [{ label: "Ver productos USERS", href: "/productos" }],
+  },
+  {
+    /**
+     * La objeción más frecuente de una PyME y la que más veces decide la
+     * venta. No estaba en la base: el Centro la trataba como fuera de tema.
+     *
+     * La respuesta compara casos de uso, no calidades. Atacar a Wix sería
+     * mentir —para muchos negocios es la opción correcta— y además deja mal
+     * a quien lo está usando, que es justamente con quien hablamos.
+     */
+    id: "por-que-no-un-constructor",
+    category: "empezar",
+    question: "¿Por qué no usar Wix, Squarespace o una plantilla de WordPress?",
+    answer:
+      "Para muchos negocios un constructor es la opción correcta, y decirte lo contrario sería venderte de más: si necesitas una página de presentación y la vas a mantener tú, adelante. La diferencia aparece cuando el sitio tiene que hacer algo — cotizar con tus reglas, conectarse con tu punto de venta, dar acceso a tus clientes o crecer hacia un sistema. Ahí una plantilla se convierte en una serie de parches, y termina costando más en tiempo que lo que ahorró en la mensualidad. Nosotros construimos la segunda clase de proyecto.",
+    mode: "INFO",
+    tags: ["wix", "squarespace", "wordpress", "plantilla", "constructor", "por qué no", "diferencia", "comparación", "shopify", "godaddy"],
+    related: [
+      { label: "Ver desarrollo web", href: "/soluciones/desarrollo-web" },
+      { label: "Ver proyectos", href: "/proyectos" },
+    ],
+  },
+  {
+    /**
+     * La otra mitad de la misma objeción. Un freelance más barato es una
+     * comparación legítima; la respuesta habla de qué cubre cada uno, no de
+     * quién es mejor.
+     */
+    id: "por-que-no-un-freelance",
+    category: "empezar",
+    question: "¿Por qué no contratar a un freelance más barato?",
+    answer:
+      "Un freelance puede hacer un gran trabajo y suele salir más barato en el momento. Lo que cambia es qué pasa después: quién responde si algo falla, quién mantiene el hosting y las actualizaciones, y qué ocurre si la persona deja de estar disponible. En nuestros proyectos hay varias disciplinas en la misma mesa —desarrollo, diseño, infraestructura— y un canal de atención con horario declarado. Si tu proyecto es acotado y tienes con quién darle seguimiento, un freelance es una opción razonable.",
+    mode: "INFO",
+    tags: ["freelance", "freelancer", "independiente", "mas barato", "barato", "por qué ustedes", "comparación", "precio alto", "caro"],
+    related: [
+      { label: "Cómo trabajamos", href: "/#como-trabajamos" },
+      { label: "Ver planes de seguimiento", href: "/#seguimiento" },
+    ],
   },
   {
     id: "diferencia-producto-y-medida",
@@ -408,7 +447,7 @@ export const KB_ENTRIES: KbEntry[] = [
     answer:
       "Escríbenos por WhatsApp con tres datos: qué estabas haciendo, qué esperabas que pasara y qué pasó en su lugar. Si puedes, adjunta una captura y dinos desde qué dispositivo. Con eso podemos empezar a revisar sin pedirte información de ida y vuelta.",
     mode: "SPECIALIST",
-    tags: ["error", "falla", "no funciona", "caído", "roto", "bug", "urgente"],
+    tags: ["error", "falla", "no funciona", "caído", "roto", "bug", "urgente", "se borró", "desapareció", "se perdió", "contenido borrado", "ya no aparece"],
   },
   {
     id: "perdi-un-acceso",

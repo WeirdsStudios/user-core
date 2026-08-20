@@ -69,8 +69,14 @@ export default function MotorCTA() {
                 Analizar mi negocio gratis
                 <span className="transition-transform group-hover:translate-x-0.5" aria-hidden="true">→</span>
               </Link>
+              {/* "Unos 8 minutos" no está medido con nadie: era una
+                  estimación escrita a mano. Lo que sí es verificable es la
+                  estructura —6 pasos, 20 preguntas, casi todas de opción— y
+                  eso es lo que se promete. Cuando haya datos reales de
+                  finalización se puede volver a poner un número. */}
               <p className="text-xs text-[#8A8A8A] mt-4">
-                6 pasos · unos 8 minutos · sin registro ni tarjeta
+                6 pasos · 20 preguntas, casi todas de opción múltiple · sin
+                registro ni tarjeta
               </p>
             </div>
           </div>

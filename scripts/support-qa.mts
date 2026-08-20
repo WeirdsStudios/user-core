@@ -96,6 +96,10 @@ const routing: [string, string, string[]][] = [
   ["Incidente", "se ve todo desacomodado en el celular", ["SPECIALIST", "GUIDED", "UNKNOWN"]],
   ["Incidente", "olvide mi contraseña del administrador", ["SPECIALIST", "GUIDED"]],
   ["Incidente", "el boton de whatsapp ya no funciona", ["SPECIALIST", "GUIDED"]],
+  // Reportar una caída jamás debe recibir la tarifa de los proyectos.
+  ["Incidente", "mi sitio se cayo", ["SPECIALIST", "GUIDED"]],
+  ["Incidente", "se cayó la página", ["SPECIALIST", "GUIDED"]],
+  ["Incidente", "no jala mi sistema", ["SPECIALIST", "GUIDED"]],
 
   // ── Funcionalidad nueva ──
   ["Funcionalidad", "quiero agregar un carrito de compras", ["SPECIALIST"]],
@@ -109,6 +113,14 @@ const routing: [string, string, string[]][] = [
   ["Funcionalidad", "se puede meter un chat como el suyo", ["SPECIALIST", "GUIDED", "UNKNOWN"]],
 
   // ── Comercial ──
+  // Estas frases son la entrada más probable de tráfico pagado. Antes caían
+  // en UNKNOWN porque el patrón exigía "quiero un" y la gente escribe
+  // "quiero una página".
+  ["Comercial", "quiero una pagina", ["INFO", "GUIDED", "SPECIALIST"]],
+  ["Comercial", "quiero una página para mi negocio", ["INFO", "GUIDED", "SPECIALIST"]],
+  ["Comercial", "necesito un sitio web", ["INFO", "GUIDED", "SPECIALIST"]],
+  ["Comercial", "cuanto por una web sencilla", ["INFO", "GUIDED", "SPECIALIST"]],
+  ["Comercial", "kiero una pajina web para mi negosio", ["INFO", "GUIDED", "SPECIALIST"]],
   ["Comercial", "¿cuánto cuesta un sitio web?", ["INFO", "GUIDED", "SPECIALIST"]],
   ["Comercial", "cuanto me sale un sistema para mi negocio", ["INFO", "GUIDED", "SPECIALIST"]],
   ["Comercial", "quiero cotizar", ["INFO", "GUIDED", "SPECIALIST"]],
@@ -160,6 +172,68 @@ for (const [label, q, expected] of routing) {
     `${label}: "${q}" → ${reply.decision}`,
     expected.includes(reply.decision ?? ""),
     `esperaba ${expected.join("|")}, dio ${reply.decision}\n        "${reply.text.slice(0, 140)}"`
+  )
+}
+
+console.log("\n1b. UN INCIDENTE NUNCA RECIBE RESPUESTA COMERCIAL")
+/**
+ * El coste de los dos errores no es simétrico: contestar de más con soporte a
+ * una consulta comercial se recupera; responder con la tarifa a quien tiene
+ * el negocio fuera de línea, no.
+ */
+for (const q of [
+  "mi sitio se cayo",
+  "se cayó la página",
+  "el sistema está caído",
+  "no me llegan los correos del formulario",
+  "creo que me hackearon",
+]) {
+  const { reply } = turn(initialState(), q)
+  const vendePrecio = /comienzan desde \$|punto de entrada|se cotiza/i.test(reply.text)
+  check(`"${q}" no responde con precios`, !vendePrecio, reply.text.slice(0, 160))
+}
+
+console.log("\n1c. EXPERIENCIA COMERCIAL (hallazgos de revisión manual)")
+/**
+ * Casos que los 137 tests de enrutamiento no cubrían porque técnicamente
+ * "acertaban": la decisión era plausible pero la respuesta espantaba al
+ * prospecto. Salieron de leer conversaciones, no de clasificar frases.
+ */
+const experiencia: [string, RegExp][] = [
+  // Nunca decirle a alguien que ya está conversando que su tema no nos toca.
+  ["tengo una ferreteria chica", /sale de lo que puedo atender/i],
+  ["vengo de instagram", /sale de lo que puedo atender/i],
+  ["si", /sale de lo que puedo atender/i],
+  // Una objeción comercial no es un tema ajeno.
+  ["por que no mejor uso wix", /sale de lo que puedo atender/i],
+  ["me conviene mas un freelance", /sale de lo que puedo atender/i],
+]
+for (const [q, prohibido] of experiencia) {
+  const { reply } = turn(initialState(), q)
+  check(`"${q}" no se rechaza como fuera de tema`, !prohibido.test(reply.text), reply.text.slice(0, 150))
+}
+
+// Frustración: la respuesta correcta es una persona, no otra respuesta.
+for (const q of [
+  "ya les escribi 3 veces y nadie contesta",
+  "esto no sirve para nada",
+  "llevo semanas esperando",
+]) {
+  const { reply } = turn(initialState(), q)
+  check(
+    `"${q}" escala en vez de responder del catálogo`,
+    reply.decision === "SPECIALIST",
+    `${reply.decision}: ${reply.text.slice(0, 120)}`
+  )
+}
+
+// Pérdida de contenido es un incidente, no una edición de texto.
+{
+  const { reply } = turn(initialState(), "se me borro todo el contenido de mi pagina")
+  check(
+    "pérdida de contenido no se trata como ajuste simple",
+    !/ajuste simple/i.test(reply.text),
+    reply.text.slice(0, 150)
   )
 }
 

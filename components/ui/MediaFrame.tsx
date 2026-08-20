@@ -1,5 +1,6 @@
 import Image from "next/image"
 import LazyVideo from "@/components/ui/LazyVideo"
+import EditorialCover from "@/components/ui/EditorialCover"
 import { mediaSources, type MediaSlot } from "@/lib/media"
 
 /**
@@ -82,24 +83,17 @@ export default function MediaFrame({
               loading={priority ? undefined : "lazy"}
             />
           </div>
+        ) : slot.cover ? (
+          /* Sin grabación todavía: portada editorial con información real.
+             Nunca un aviso de "material pendiente" — eso es una nota interna
+             y a un prospecto solo le dice que el sitio está a medias. */
+          <EditorialCover {...slot.cover} uniform={uniform} />
         ) : (
           <div
-            className={`relative flex items-center justify-center ${uniform ? "aspect-[16/10]" : "aspect-[16/9]"}`}
-            role="img"
-            aria-label={`${slot.caption} — material pendiente de publicación`}
+            className={`relative ${uniform ? "aspect-[16/10]" : "aspect-[16/9]"}`}
+            aria-hidden="true"
           >
-            <span className="grid-tech absolute inset-0 opacity-50" aria-hidden="true" />
-            <span
-              aria-hidden="true"
-              className="absolute inset-0 opacity-15"
-              style={{ background: "radial-gradient(ellipse at center, #4cfc0f 0%, transparent 65%)" }}
-            />
-            <span
-              aria-hidden="true"
-              className="relative font-mono text-[10px] uppercase tracking-[0.16em] text-[#4cfc0f] border border-[#4cfc0f]/40 px-2.5 py-1"
-            >
-              Material pendiente
-            </span>
+            <span className="grid-tech absolute inset-0 opacity-50" />
           </div>
         )}
 

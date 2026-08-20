@@ -8,10 +8,25 @@ import Analytics from "@/components/analytics/Analytics"
 import ConsentBanner from "@/components/consent/ConsentBanner"
 import { siteConfig } from "@/lib/site-config"
 
+/**
+ * `optional` y no `swap`.
+ *
+ * Con `swap`, en una conexión lenta el H1 se pinta con la fuente de sistema y
+ * al llegar DM Sans cambia el número de líneas del titular: medido en Slow 4G
+ * daba CLS 0.170, muy por encima del umbral de 0.1. El ajuste automático de
+ * métricas no lo evita, porque una vez que cambia el conteo de líneas ninguna
+ * corrección de tamaño lo compensa.
+ *
+ * `optional` le da al navegador una ventana breve: si la fuente llega a
+ * tiempo se usa, y si no, esa carga se queda con la de sistema y NO reflowa.
+ * A partir de la segunda página ya está en caché. Se prefiere una primera
+ * visita lenta con tipografía de sistema a que el titular salte bajo el dedo
+ * de alguien que acaba de llegar desde un anuncio.
+ */
 const dmSans = DM_Sans({
   subsets: ["latin"],
   variable: "--font-sans",
-  display: "swap",
+  display: "optional",
 })
 
 /**
@@ -23,7 +38,7 @@ const dmSans = DM_Sans({
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
   variable: "--font-mono",
-  display: "swap",
+  display: "optional",
   weight: ["400", "500", "700"],
 })
 

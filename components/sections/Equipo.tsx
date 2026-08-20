@@ -94,8 +94,9 @@ export default function Equipo() {
           {/* Cierre de la retícula: convierte el hueco de la sexta celda en mensaje */}
           <li className="bg-[#0E0E0E] p-4 sm:p-5 lg:p-6 flex items-center">
             <p className="text-[#8A8A8A] text-sm leading-relaxed">
-              No subcontratamos ninguna de estas áreas. Las decisiones técnicas,
-              de diseño y de negocio se toman juntas, en el mismo proyecto.
+              Estas disciplinas trabajan juntas dentro del equipo que construye
+              tu proyecto. Las decisiones técnicas, de diseño y de negocio se
+              toman en la misma mesa, no entre proveedores que no se hablan.
             </p>
           </li>
         </ul>

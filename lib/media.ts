@@ -8,8 +8,9 @@
  *     /imgs/<dir>/x.webm   · /imgs/<dir>/x.mp4   · /imgs/<dir>/x-poster.webp
  *   Una `image` es la ruta completa.
  *
- * Mientras no exista el material, se declara `placeholder: true` y se reserva
- * la proporción final. Sustituir = quitar `placeholder` y añadir `video`/`image`.
+ * Mientras no exista el material, se declara `placeholder: true` y el marco
+ * pinta una portada editorial con `cover` — nunca un aviso de que falta algo.
+ * Sustituir = quitar `placeholder` y añadir `video`/`image`; el layout no cambia.
  */
 export interface MediaSlot {
   /** Nombre base del video, sin extensión. Relativo a `dir`. */
@@ -27,6 +28,19 @@ export interface MediaSlot {
   alt: string
   /** Etiqueta corta sobre el marco, ej. "Caja" o "Autocobro". */
   badge?: string
+  /**
+   * Qué mostrar mientras no hay material real.
+   *
+   * Solo información verificable: la marca, su categoría y las piezas que el
+   * trabajo sí incluye. Nunca una interfaz simulada — una captura falsa de un
+   * punto de venta se leería como el producto real del cliente.
+   */
+  cover?: {
+    title: string
+    eyebrow?: string
+    subtitle?: string
+    parts?: readonly string[]
+  }
 }
 
 const DEFAULT_DIR = "video"

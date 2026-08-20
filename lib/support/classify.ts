@@ -29,9 +29,10 @@ const SIGNALS: Record<Exclude<Intent, "desconocido">, Signal[]> = {
       patterns: [
         /\bno (funciona|abre|carga|sirve|entra|deja|puedo)\b/,
         /\bdejo de (funcionar|servir|cargar)\b/,
+        /\b(borro|borraron|borrado|desaparecio|desaparecieron|perdio|perdimos|ya no aparece|ya no esta)\w*/,
         /\b(error|falla|fallando|caido|caida|roto|rota|bug)\b/,
         /\b(hacke|virus|comprometid|spam|suplant)\w*/,
-        /\b(lent[oa]|tarda|no responde|se traba|se cae)\b/,
+        /\b(lent[oa]|tarda|no responde|se traba|se cae|se cayo|cayo|caido|se murio|no jala|no abre)\b/,
       ],
       weight: 4,
     },
@@ -74,7 +75,7 @@ const SIGNALS: Record<Exclude<Intent, "desconocido">, Signal[]> = {
       patterns: [
         /\b(cuanto cuesta|precio|costo|presupuesto|cotiza|tarifa|vale)\w*/,
         /\b(forma de pago|como se paga|anticipo|mensualidad|se paga)\b/,
-        /\b(quiero un|necesito un|pueden hacer|hacen)\b.*\b(sitio|pagina|web|sistema|software|punto de venta|pdv|app|tienda)\b/,
+        /\b(quiero|necesito|busco|ocupo|me interesa|pueden hacer|hacen|cuanto por)\b[^.?!]{0,20}\b(sitio|sitios|pagina|paginas|web|landing|sistema|software|punto de venta|pdv|app|tienda|ecommerce|catalogo)\w*/,
         /\b(contratar|empezar|arrancar|proyecto nuevo)\b/,
         /\bno (se|tengo idea|estoy segur)\w*\b.*\b(que|por donde|como)\b/,
         /\btengo (un|una) [a-z]+ y\b/,
@@ -176,7 +177,7 @@ export function isOtherProductSupport(text: string): "ACTIIVA" | "MEDIICA" | nul
  * cualquier consulta real del dominio ya la produce.
  */
 const DOMAIN_TERMS =
-  /\b(sitio|sitios|pagina|paginas|web|website|landing|sistema|sistemas|software|app|aplicacion|plataforma|proyecto|desarrollo|desarrollar|programar|dominio|hosting|servidor|correo|email|seo|google|posicionamiento|diseno|panel|administrador|base de datos|pdv|punto de venta|tienda|ecommerce|carrito|users|actiiva|mediica|plan|planes|precio|costo|cotiza|presupuesto|pag|factura|contrato|seguimiento|mantenimiento|soporte|cliente|clientes|negocio|empresa|whatsapp|formulario|boton|texto|imagen|foto|logo|contenido|reserva|reservacion|cita|agenda|respaldo|backup|acceso|cuenta|usuario|celular|movil|navegador|velocidad|lento|analitica|contactar|contacto|cotizador|integrar|api)\w*/
+  /\b(sitio|sitios|pagina|paginas|web|website|landing|sistema|sistemas|software|app|aplicacion|plataforma|proyecto|desarrollo|desarrollar|programar|dominio|hosting|servidor|correo|email|seo|google|posicionamiento|diseno|panel|administrador|base de datos|pdv|punto de venta|tienda|ecommerce|carrito|users|actiiva|mediica|plan|planes|precio|costo|cotiza|presupuesto|pag|factura|contrato|seguimiento|mantenimiento|soporte|cliente|clientes|negocio|empresa|whatsapp|formulario|boton|texto|imagen|foto|logo|contenido|reserva|reservacion|cita|agenda|respaldo|backup|acceso|cuenta|usuario|celular|movil|navegador|velocidad|lento|analitica|contactar|contacto|cotizador|integrar|api|wix|wordpress|squarespace|shopify|godaddy|plantilla|constructor|freelance|freelancer|agencia)\w*/
 
 export function isInScope(text: string): boolean {
   return DOMAIN_TERMS.test(normalize(text))

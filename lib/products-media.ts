@@ -11,9 +11,12 @@ import type { WhatsAppOrigin } from "@/lib/whatsapp"
  *   1. Coloca los archivos en public/imgs/products/<producto>/ siguiendo la
  *      convención: preview.webm + preview.mp4 + preview-poster.webp
  *      (o una sola imagen: preview.webp).
- *   2. En el slot de abajo: quita `placeholder` y `expectedPath`, y añade
- *      `video: "preview"` — o `image: "/imgs/products/<producto>/preview.webp"`.
- *   El layout no cambia: la proporción 16:9 ya está reservada.
+ *   2. En el slot de abajo: quita `placeholder`, `expectedPath` y `cover`, y
+ *      añade `video: "preview"` — o `image: "/imgs/products/<x>/preview.webp"`.
+ *   El layout no cambia: la proporción ya está reservada.
+ *
+ * Mientras tanto se muestra `cover`: una portada con la identidad del producto
+ * y lo que resuelve. No se simula una interfaz de algo que todavía no existe.
  */
 export interface ProductPresentation {
   /** Logotipo propio si existe. */
@@ -33,7 +36,13 @@ export const PRODUCT_PRESENTATION: Record<string, ProductPresentation> = {
       placeholder: true,
       dir: "products/actiiva",
       expectedPath: "/imgs/products/actiiva/preview.{webm,mp4,-poster.webp} o preview.webp",
-      caption: "ACTIIVA — vista del producto",
+      cover: {
+        title: "ACTIIVA",
+        // Sin eyebrow ni subtítulo: la tarjeta los repite cuatro líneas más
+        // abajo. La portada aporta identidad, no información duplicada.
+        parts: ["Membresías", "Reservas", "Cobros"],
+      },
+      caption: "ACTIIVA — producto propio de USERS",
       alt: "Vista de la plataforma ACTIIVA para negocios fitness",
     },
     highlights: [
@@ -48,7 +57,11 @@ export const PRODUCT_PRESENTATION: Record<string, ProductPresentation> = {
       placeholder: true,
       dir: "products/mediica",
       expectedPath: "/imgs/products/mediica/preview.{webm,mp4,-poster.webp} o preview.webp",
-      caption: "MEDIICA — vista del producto",
+      cover: {
+        title: "MEDIICA",
+        parts: ["Agenda", "Expediente", "Recordatorios"],
+      },
+      caption: "MEDIICA — producto propio de USERS",
       alt: "Vista del sistema MEDIICA para consultorios y clínicas",
     },
     highlights: [
