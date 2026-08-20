@@ -26,6 +26,7 @@ export type AnalyticsEvent =
   // ── Intención: la persona quiere avanzar ──
   | "analysis_progressed"
   | "analysis_completed"
+  | "analysis_contact_clicked"
   | "cta_analysis_clicked"
   | "cta_contact_clicked"
   | "whatsapp_clicked"

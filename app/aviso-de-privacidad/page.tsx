@@ -8,17 +8,18 @@ import ConsentPreferencesLink from "@/components/consent/ConsentPreferencesLink"
 /**
  * Aviso de privacidad.
  *
- * ESTADO: BORRADOR TÉCNICO. Describe con exactitud lo que el sitio hace hoy
- * —qué datos se recogen, dónde se guardan y con quién se comparten— porque eso
- * sí se puede verificar leyendo el código.
+ * ESTADO: describe con exactitud lo que el sitio hace hoy —qué datos se
+ * recogen, dónde se guardan y con quién se comparten— y ya identifica al
+ * responsable real.
  *
- * Lo que NO contiene son los datos que la LFPDPPP exige y que no se pueden
- * deducir del repositorio: razón social, RFC, domicilio fiscal y responsable
- * de datos personales. Inventarlos sería peor que no tenerlos.
+ * USERS opera como persona física. NO se menciona ninguna sociedad porque no
+ * existe todavía, y el RFC no se publica: no hay obligación confirmada de
+ * exhibirlo aquí y publicarlo sin necesidad es exponer un dato de más.
  *
- * ANTES DE ACTIVAR LOS PIXELS DE META O GOOGLE este documento tiene que pasar
- * por revisión legal y completarse. Está enlazado desde el aviso de cookies,
- * así que una versión incompleta es visible para cualquiera.
+ * PENDIENTE DE REVISIÓN LEGAL antes de activar los pixels de Meta o Google.
+ * La clasificación contractual de cada proveedor —encargado, responsable
+ * independiente, transferencia— no está verificada, así que el texto se
+ * mantiene descriptivo y conservador en vez de afirmar una figura jurídica.
  */
 export const metadata: Metadata = {
   title: "Aviso de privacidad — USERS",
@@ -46,6 +47,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 
 export default function AvisoDePrivacidadPage() {
   const { email, whatsappDisplay } = siteConfig.contact
+  const legal = siteConfig.legal
 
   return (
     <>
@@ -64,41 +66,29 @@ export default function AvisoDePrivacidadPage() {
             Aviso de privacidad
           </h1>
 
-          {/* Este bloque es visible a propósito: mientras el documento esté
-              incompleto, quien lo lea debe saberlo. */}
-          <div
-            role="note"
-            className="mt-6 border border-[#C7452F] bg-[#1A0E0C] p-4 lg:p-5"
-          >
-            <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#F0B4AA]">
-              Documento en preparación
-            </p>
-            <p className="text-[#F0B4AA] text-sm mt-2.5 leading-relaxed">
-              Este aviso describe con exactitud los tratamientos de datos que
-              hace el sitio hoy, pero todavía le faltan los datos de
-              identificación fiscal del responsable. Está pendiente de revisión
-              legal antes de activar herramientas de publicidad.
-            </p>
-          </div>
+          <p className="font-mono text-[11px] text-[#8A8A8A] mt-5">
+            Última actualización: agosto de 2026
+          </p>
 
           <div className="mt-10">
             <Section title="Quién es responsable de tus datos">
               <p>
-                USERS, con domicilio en {siteConfig.contact.city}, México. Puedes
-                contactarnos en{" "}
+                <strong className="text-white">{legal.responsable}</strong>, quien
+                opera comercialmente bajo la marca USERS ({siteConfig.wordmark}).
+                {" "}{legal.figura}, {legal.regimen}.
+              </p>
+              <p>
+                <strong className="text-white">Domicilio:</strong> {legal.domicilio}
+              </p>
+              <p>
+                Para cualquier asunto sobre tus datos personales escribe a{" "}
                 <a
-                  href={`mailto:${email}`}
+                  href={`mailto:${legal.correoPrivacidad}`}
                   className="text-white underline underline-offset-4 hover:text-[#4cfc0f]"
                 >
-                  {email}
-                </a>{" "}
-                o al {whatsappDisplay}.
-              </p>
-              <p className="text-[#8A8A8A] text-sm">
-                <strong className="text-[#B0B0B0]">Pendiente:</strong> razón
-                social, RFC, domicilio fiscal completo y persona designada como
-                responsable de datos personales. La Ley Federal de Protección de
-                Datos Personales en Posesión de los Particulares los exige.
+                  {legal.correoPrivacidad}
+                </a>
+                . Para temas comerciales, {email} o el {whatsappDisplay}.
               </p>
             </Section>
 
@@ -132,7 +122,7 @@ export default function AvisoDePrivacidadPage() {
 
             <Section title="Para qué los usamos">
               <ul className="list-disc pl-5 space-y-2">
-                <li>Prepararte un diagnóstico y una estimación de tu proyecto.</li>
+                <li>Prepararte un diagnóstico de tu negocio y darle seguimiento.</li>
                 <li>Contactarte para dar seguimiento a lo que solicitaste.</li>
                 <li>Atender dudas y soporte de proyectos que ya publicamos.</li>
                 <li>Entender qué partes del sitio son útiles y cuáles no.</li>
@@ -145,36 +135,73 @@ export default function AvisoDePrivacidadPage() {
             </Section>
 
             <Section title="Con quién se comparten">
+              <p>
+                <strong className="text-white">Servicios que usamos para operar.</strong>{" "}
+                Tratan datos por instrucción nuestra y para prestarnos su
+                servicio, no para fines propios:
+              </p>
               <ul className="list-disc pl-5 space-y-2">
                 <li>
-                  <strong className="text-white">Supabase</strong> — donde se
-                  almacenan los diagnósticos del Motor de Análisis.
+                  <strong className="text-white">Vercel</strong> — alojamiento e
+                  infraestructura del sitio, y medición de rendimiento cuando
+                  está activada.
                 </li>
                 <li>
-                  <strong className="text-white">Resend</strong> — el servicio
-                  con el que nos llega la notificación de tu solicitud.
+                  <strong className="text-white">Supabase</strong> — base de
+                  datos donde se guardan los diagnósticos del Motor.
                 </li>
                 <li>
-                  <strong className="text-white">Vercel</strong> — donde está
-                  alojado el sitio.
-                </li>
-                <li>
-                  <strong className="text-white">Google y Meta</strong> — solo si
-                  aceptaste la categoría de publicidad o medición.
+                  <strong className="text-white">Resend</strong> — envío del
+                  correo con el que nos llega tu solicitud.
                 </li>
               </ul>
+
+              <p>
+                <strong className="text-white">Plataformas con reglas propias.</strong>{" "}
+                Estas deciden por su cuenta cómo usan la información, así que no
+                se cargan si no lo autorizas:
+              </p>
+              <ul className="list-disc pl-5 space-y-2">
+                <li>
+                  <strong className="text-white">Google</strong> (Analytics y
+                  Google Ads) — solo con tu consentimiento de medición o
+                  publicidad. Hoy no están activados.
+                </li>
+                <li>
+                  <strong className="text-white">Meta</strong> (Pixel y
+                  publicidad) — solo con tu consentimiento de publicidad. Hoy no
+                  está activado.
+                </li>
+                <li>
+                  <strong className="text-white">WhatsApp</strong> — cuando tú
+                  decides continuar la conversación por ahí. Esa conversación se
+                  rige por las condiciones de WhatsApp.
+                </li>
+              </ul>
+
               <p className="text-[#8A8A8A] text-sm">
-                Algunos de estos proveedores procesan datos fuera de México. La
-                revisión legal debe confirmar cómo enunciar esa transferencia.
+                Varios de estos servicios procesan información fuera de México.
+                La figura jurídica exacta de cada relación —encargado,
+                responsable independiente o transferencia— está pendiente de
+                confirmarse en revisión legal, y este aviso se actualizará
+                cuando así sea.
               </p>
             </Section>
 
             <Section title="Cuánto tiempo los conservamos">
-              <p className="text-[#8A8A8A] text-sm">
-                <strong className="text-[#B0B0B0]">Pendiente de definir.</strong>{" "}
-                Hoy no existe una política de retención documentada. Es una
-                decisión comercial y legal, no técnica, y este aviso no debe
-                afirmar un plazo que no se cumple.
+              <p>
+                <strong className="text-white">Si no llegamos a trabajar juntos:</strong>{" "}
+                conservamos tus datos {legal.retencionProspectosMeses} meses desde
+                la última vez que hubo contacto. Pasado ese plazo se eliminan o se
+                anonimizan, salvo que vuelvas a escribirnos, que iniciemos un
+                proyecto o que exista una obligación legal que nos obligue a
+                conservarlos.
+              </p>
+              <p>
+                <strong className="text-white">Si eres cliente:</strong> los datos
+                ligados al proyecto, la facturación y las obligaciones fiscales se
+                conservan durante el tiempo que marque la obligación legal o
+                contractual que aplique a cada caso.
               </p>
             </Section>
 
@@ -183,16 +210,17 @@ export default function AvisoDePrivacidadPage() {
                 Puedes pedirnos acceder a tus datos, corregirlos, cancelarlos u
                 oponerte a su uso — son los derechos ARCO. Escríbenos a{" "}
                 <a
-                  href={`mailto:${email}`}
+                  href={`mailto:${legal.correoPrivacidad}`}
                   className="text-white underline underline-offset-4 hover:text-[#4cfc0f]"
                 >
-                  {email}
+                  {legal.correoPrivacidad}
                 </a>{" "}
-                y te respondemos por la misma vía.
+                indicándonos qué necesitas y cómo contactarte. Te respondemos por
+                la misma vía.
               </p>
               <p className="text-[#8A8A8A] text-sm">
-                <strong className="text-[#B0B0B0]">Pendiente:</strong> el
-                procedimiento formal y el plazo de respuesta que exige la ley.
+                El procedimiento formal y los plazos de respuesta que marca la
+                ley están pendientes de definirse en revisión legal.
               </p>
             </Section>
 

@@ -125,6 +125,27 @@ export const siteConfig = {
     },
   },
 
+  /**
+   * Responsable de los datos personales.
+   *
+   * USERS opera hoy como persona física en RESICO. NO existe todavía ninguna
+   * sociedad: no debe aparecer una razón social que no está constituida.
+   * Cuando se constituya, se cambia aquí y el aviso se actualiza solo.
+   *
+   * El RFC no se publica: no hay obligación confirmada de exhibirlo en el
+   * aviso, y publicar un dato fiscal sin necesidad es exponerlo de más.
+   */
+  legal: {
+    responsable: "Hazael Guillermo Munguía Alba",
+    figura: "Persona física con actividad empresarial",
+    regimen: "Régimen Simplificado de Confianza (RESICO)",
+    domicilio:
+      "Av. Central Sta. Clara #1, Jardines de Sta. Clara, C.P. 55450, Ecatepec de Morelos, Estado de México, México",
+    correoPrivacidad: "privacidad@users.mx",
+    /** Meses que se conserva un prospecto sin conversión. */
+    retencionProspectosMeses: 12,
+  },
+
   pricing: {
     /** Punto de entrada, no precio de un desarrollo completo. */
     startingPrice: 11900,

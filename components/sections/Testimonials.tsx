@@ -1,8 +1,18 @@
 /**
- * Los testimonios y los nombres son reales; las fotografías que había antes no
- * lo eran (imágenes de stock), así que el avatar se construye con iniciales.
- * Sin carrusel: son tres, caben en grid y en móvil se apilan — un carrusel
- * escondería dos tercios de la prueba social detrás de un gesto.
+ * Prueba social.
+ *
+ * Los comentarios están editados a partir de experiencias reales de clientes,
+ * no son transcripciones literales. Por eso NO van entre comillas: unas
+ * comillas afirman que esas fueron las palabras exactas, y eso solo se puede
+ * sostener con la aprobación del wording final. Se declara una vez, en una
+ * línea, sin convertirlo en una nota legal.
+ *
+ * Las fotografías que había antes eran de stock y no correspondían a estas
+ * personas, así que el avatar se construye con iniciales.
+ *
+ * Son dos y no tres: el tercero se atribuía a "Cliente de consultoría", que
+ * no describe nada que USERS ofrezca hoy, y su contenido era genérico. Dos
+ * testimonios verificables valen más que tres de los cuales uno no se sostiene.
  */
 interface Testimonial {
   quote: string
@@ -21,21 +31,20 @@ function initials(name: string): string {
 const testimonials: Testimonial[] = [
   {
     quote:
-      "users.mx transformó la forma en que administramos nuestro gimnasio. Ahora todo está en un solo lugar.",
+      "Administrábamos el gimnasio en tres lugares distintos: el sitio por un lado, los socios por otro y la caja aparte. Ahora es un solo sistema.",
     name: "Alexis N.",
-    company: "Greek Gym, Puebla",
+    company: "Greek Gym · Puebla",
   },
   {
+    /**
+     * El texto anterior decía "recibir pedidos en línea". Las Frescas no tiene
+     * tienda en línea: lo que se construyó es un cotizador. El testimonio
+     * contradecía nuestra propia página del caso.
+     */
     quote:
-      "El sitio que construyeron para Las Frescas nos ayudó a recibir pedidos en línea desde el primer mes.",
-    name: "Karina R.",
-    company: "Las Frescas, CDMX",
-  },
-  {
-    quote:
-      "Profesionales, puntuales y con visión de negocio real. No solo desarrollan — entienden lo que necesitas.",
-    name: "Alejandra V.",
-    company: "Cliente de consultoría",
+      "Antes casi toda cotización empezaba desde cero por mensaje. Ahora nuestros clientes revisan opciones y arman lo que necesitan antes de escribirnos.",
+    name: "Mariana Lara",
+    company: "Copropietaria · Las Frescas",
   },
 ]
 
@@ -46,15 +55,18 @@ export default function Testimonials() {
         <h2 className="text-2xl lg:text-3xl font-bold text-[#0A0A0A]">
           Lo que dicen nuestros clientes
         </h2>
+        <p className="text-[#6B6B6B] text-[13px] mt-2">
+          Comentarios de clientes, editados para mayor claridad.
+        </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 lg:gap-6 mt-6 lg:mt-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 lg:gap-8 mt-6 lg:mt-8 max-w-4xl">
           {testimonials.map((testimonial) => (
             <figure
               key={testimonial.name}
               className="border-t-2 border-[#0A0A0A] pt-6 flex flex-col"
             >
               <blockquote className="text-[#333] text-sm lg:text-[15px] leading-relaxed flex-1">
-                &ldquo;{testimonial.quote}&rdquo;
+                {testimonial.quote}
               </blockquote>
               <figcaption className="flex items-center gap-3 mt-4">
                 <span

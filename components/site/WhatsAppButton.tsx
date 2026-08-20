@@ -1,11 +1,20 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import { usePathname } from "next/navigation"
 import { getWhatsAppLink } from "@/lib/whatsapp"
 
 const SESSION_KEY = "wa-entered"
 
+/**
+ * En el Motor de Análisis no aparece: es un flujo enfocado de cinco pasos y un
+ * resultado largo, y el botón flotante terminaba encima de las tarjetas del
+ * diagnóstico. Quien está ahí ya tiene un CTA claro en pantalla.
+ */
+const OCULTO_EN = ["/analisis"]
+
 export default function WhatsAppButton() {
+  const pathname = usePathname()
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {
@@ -25,6 +34,8 @@ export default function WhatsAppButton() {
     const t = setTimeout(() => setVisible(true), alreadyShown ? 0 : 1200)
     return () => clearTimeout(t)
   }, [])
+
+  if (OCULTO_EN.some((r) => pathname?.startsWith(r))) return null
 
   return (
     <a

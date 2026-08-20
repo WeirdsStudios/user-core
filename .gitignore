@@ -46,3 +46,8 @@ next-env.d.ts
 # el navegador pide de verdad. Se dejan de versionar para que no viajen en cada
 # despliegue; las copias locales siguen en public/imgs/portfolio/.
 public/imgs/portfolio/*.gif
+
+# Material original sin procesar (videos y capturas a resolución completa).
+# Se convierte a public/imgs/. Los originales pesan demasiado para el
+# repositorio y no deben terminar en producción.
+_incoming-media/
