@@ -20,7 +20,7 @@ export const metadata = {
 const DESTINOS = [
   { href: "/soluciones", label: "Soluciones", hint: "Qué construimos y para qué sirve" },
   { href: "/proyectos", label: "Proyectos", hint: "Casos reales que ya publicamos" },
-  { href: "/productos", label: "Productos USERS", hint: "ACTIIVA y MEDIICA" },
+  { href: "/productos", label: "Productos USERS", hint: "ACTIIVA, nuestro producto propio" },
   { href: "/ayuda", label: "Central de Ayuda", hint: "Respuestas sobre cómo trabajamos" },
 ]
 

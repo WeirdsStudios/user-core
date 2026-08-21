@@ -251,12 +251,16 @@ console.log("\n── PRIVACIDAD ──")
 {
   const { ctx, page } = await newPage(CONSENT)
   await page.goto(BASE + "/analisis", { waitUntil: "domcontentloaded" })
+  await page.waitForTimeout(600)
+  // El Motor V2 usa controles con rol radio/checkbox, no botones sueltos, y
+  // el contacto ya no es un paso: va después del diagnóstico.
   await page.getByPlaceholder("Ej. Taquería El Güero").fill("Mi Negocio Confidencial SA")
-  await page.getByRole("button", { name: "Restaurante / Alimentos" }).click()
-  await page.getByRole("button", { name: "1–3 años" }).click()
-  await page.getByRole("button", { name: "1–5", exact: true }).click()
+  for (const grupo of await page.locator("[role=radiogroup]").all()) {
+    const ops = await grupo.locator("[role=radio]").all()
+    if (ops.length) await ops[0].click()
+  }
   await page.route("**/api/analisis/**", (r) =>
-    r.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ id: "qa" }) })
+    r.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ ok: true }) })
   )
   await page.getByRole("button", { name: /Continuar/ }).click()
   await page.waitForTimeout(700)

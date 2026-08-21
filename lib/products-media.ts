@@ -50,26 +50,8 @@ export const PRODUCT_PRESENTATION: Record<string, ProductPresentation> = {
       "Reservas de clases",
       "Cobros y perfiles de acceso",
     ],
-  },
-  MEDIICA: {
-    whatsappOrigin: "mediica",
-    media: {
-      placeholder: true,
-      dir: "products/mediica",
-      expectedPath: "/imgs/products/mediica/preview.{webm,mp4,-poster.webp} o preview.webp",
-      cover: {
-        title: "MEDIICA",
-        parts: ["Agenda", "Expediente", "Recordatorios"],
-      },
-      caption: "MEDIICA — producto propio de USERS",
-      alt: "Vista del sistema MEDIICA para consultorios y clínicas",
-    },
-    highlights: [
-      "Agenda de citas",
-      "Expediente e historial de pacientes",
-      "Recordatorios automáticos",
-    ],
-  },
+  }
+
 }
 
 /** CTA según el estado. Cambiar `status` a "live" en siteConfig lo alterna. */

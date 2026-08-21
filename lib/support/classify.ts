@@ -85,7 +85,7 @@ const SIGNALS: Record<Exclude<Intent, "desconocido">, Signal[]> = {
   ],
 
   producto: [
-    { patterns: [/\bactiiva\b/, /\bmediica\b/], weight: 6 },
+    { patterns: [/\bactiiva\b/], weight: 6 },
   ],
 
   "hablar-humano": [
@@ -135,7 +135,7 @@ export function classifyIntent(text: string): { intent: Intent; strength: number
 }
 
 /**
- * ¿La consulta es sobre soporte de ACTIIVA/MEDIICA?
+ * ¿La consulta es sobre soporte de ACTIIVA?
  *
  * Este Centro atiende USERS. Si alguien pide soporte de producto, hay que
  * decirlo y orientar — no responder con la base de conocimiento de USERS.
@@ -143,13 +143,9 @@ export function classifyIntent(text: string): { intent: Intent; strength: number
  * "¿Qué es ACTIIVA?" sí se responde: es información comercial de USERS.
  * "¿Cómo doy de alta a un alumno en ACTIIVA?" no: es operación del producto.
  */
-export function isOtherProductSupport(text: string): "ACTIIVA" | "MEDIICA" | null {
+export function isOtherProductSupport(text: string): "ACTIIVA" | null {
   const t = normalize(text)
-  const mentionsProduct = /\bactiiva\b/.test(t)
-    ? "ACTIIVA"
-    : /\bmediica\b/.test(t)
-      ? "MEDIICA"
-      : null
+  const mentionsProduct = /\bactiiva\b/.test(t) ? "ACTIIVA" : null
   if (!mentionsProduct) return null
 
   // Señal de soporte: algo va mal, o necesitan credenciales/facturación.
@@ -177,7 +173,7 @@ export function isOtherProductSupport(text: string): "ACTIIVA" | "MEDIICA" | nul
  * cualquier consulta real del dominio ya la produce.
  */
 const DOMAIN_TERMS =
-  /\b(sitio|sitios|pagina|paginas|web|website|landing|sistema|sistemas|software|app|aplicacion|plataforma|proyecto|desarrollo|desarrollar|programar|dominio|hosting|servidor|correo|email|seo|google|posicionamiento|diseno|panel|administrador|base de datos|pdv|punto de venta|tienda|ecommerce|carrito|users|actiiva|mediica|plan|planes|precio|costo|cotiza|presupuesto|pag|factura|contrato|seguimiento|mantenimiento|soporte|cliente|clientes|negocio|empresa|whatsapp|formulario|boton|texto|imagen|foto|logo|contenido|reserva|reservacion|cita|agenda|respaldo|backup|acceso|cuenta|usuario|celular|movil|navegador|velocidad|lento|analitica|contactar|contacto|cotizador|integrar|api|wix|wordpress|squarespace|shopify|godaddy|plantilla|constructor|freelance|freelancer|agencia)\w*/
+  /\b(sitio|sitios|pagina|paginas|web|website|landing|sistema|sistemas|software|app|aplicacion|plataforma|proyecto|desarrollo|desarrollar|programar|dominio|hosting|servidor|correo|email|seo|google|posicionamiento|diseno|panel|administrador|base de datos|pdv|punto de venta|tienda|ecommerce|carrito|users|actiiva|plan|planes|precio|costo|cotiza|presupuesto|pag|factura|contrato|seguimiento|mantenimiento|soporte|cliente|clientes|negocio|empresa|whatsapp|formulario|boton|texto|imagen|foto|logo|contenido|reserva|reservacion|cita|agenda|respaldo|backup|acceso|cuenta|usuario|celular|movil|navegador|velocidad|lento|analitica|contactar|contacto|cotizador|integrar|api|wix|wordpress|squarespace|shopify|godaddy|plantilla|constructor|freelance|freelancer|agencia)\w*/
 
 export function isInScope(text: string): boolean {
   return DOMAIN_TERMS.test(normalize(text))

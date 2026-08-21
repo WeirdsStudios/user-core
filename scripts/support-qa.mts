@@ -240,7 +240,6 @@ for (const q of [
 console.log("\n2. PRODUCTOS — no se atienden con la KB de USERS")
 for (const p of [
   "Necesito soporte de ACTIIVA",
-  "tengo un problema con MEDIICA",
   "cómo doy de alta a un alumno en ACTIIVA",
 ]) {
   const { reply } = turn(initialState(), p)

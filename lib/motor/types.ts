@@ -121,7 +121,7 @@ export interface Recommendation {
   title: string
   body: string
   /** Producto propio cuando el giro y las necesidades encajan. */
-  product?: "ACTIIVA" | "MEDIICA"
+  product?: "ACTIIVA"
   /** Qué construiríamos primero. */
   fase_inicial: string[]
   /** Qué puede esperar a una segunda etapa. */

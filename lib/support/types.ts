@@ -4,7 +4,7 @@ import type { KbEntry, ResolutionMode } from "@/lib/knowledge-base"
  * Centro de Atención USERS — tipos compartidos.
  *
  * ALCANCE: solo USERS (proyectos a medida, desarrollo, seguimiento, soporte y
- * dudas comerciales de USERS). ACTIIVA y MEDIICA tendrán su propio Centro y su
+ * dudas comerciales de USERS). ACTIIVA tendrá su propio Centro y su
  * propia base de conocimiento; este Centro los reconoce para redirigir, no
  * para dar soporte de producto.
  */

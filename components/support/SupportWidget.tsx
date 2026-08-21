@@ -22,6 +22,7 @@ const SupportChat = lazy(() => import("./SupportChat"))
 const HIDDEN_ON = ["/centro-de-atencion", "/analisis"]
 
 export default function SupportWidget() {
+  const panelId = "centro-de-atencion-widget"
   const pathname = usePathname()
   const router = useRouter()
   const [open, setOpen] = useState(false)
@@ -51,14 +52,15 @@ export default function SupportWidget() {
     <>
       {open && (
         <div
+          id={panelId}
           ref={panelRef}
           tabIndex={-1}
           role="dialog"
           aria-modal="false"
           aria-label="Centro de Atención USERS"
           className="fixed z-50 bg-[#0A0A0A] border border-[#2A2A2A] shadow-[0_8px_40px_rgba(0,0,0,0.6)] flex flex-col
-                     inset-x-3 bottom-20 top-16
-                     sm:inset-x-auto sm:top-auto sm:left-5 sm:bottom-20 sm:w-[26rem] sm:h-[min(34rem,calc(100dvh-8rem))]"
+                     inset-x-3 bottom-[5.25rem] top-16
+                     sm:inset-x-auto sm:top-auto sm:left-4 lg:sm:left-6 sm:bottom-[5.25rem] sm:w-[26rem] sm:h-[min(34rem,calc(100dvh-9rem))]"
         >
           <div className="flex items-center justify-between gap-3 px-4 py-3 border-b border-[#1F1F1F] shrink-0">
             <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#4cfc0f]">
@@ -99,12 +101,44 @@ export default function SupportWidget() {
         type="button"
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
-        /* El panel se detiene en bottom-20, así que el disparador y el botón
-           de WhatsApp siguen visibles y separados mientras está abierto. */
-        className="fixed bottom-5 left-4 lg:bottom-6 lg:left-6 z-50 inline-flex items-center gap-2 border border-[#2E2E2E] bg-[#0E0E0E] text-white px-3.5 py-3 text-xs font-semibold shadow-[0_4px_20px_rgba(0,0,0,0.4)] transition-colors hover:border-[#4cfc0f] hover:text-[#4cfc0f] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4cfc0f]"
+        aria-controls={panelId}
+        aria-label={open ? "Cerrar el Centro de Atención" : "Abrir el Centro de Atención"}
+        /*
+          Una sola superficie, no una burbuja pegada a un rectángulo. Altura
+          fija de 48px —por encima del mínimo táctil de 44— con el icono
+          ópticamente centrado y el mismo radio en todo el pill.
+          `pb-[env(safe-area-inset-bottom)]` a través del contenedor evita que
+          en iPhone quede debajo de la barra de gestos.
+        */
+        className={`group fixed left-4 lg:left-6 z-50 inline-flex h-12 items-center gap-2.5 rounded-full border pl-3.5 pr-4 text-[13px] font-semibold shadow-[0_6px_24px_rgba(0,0,0,0.45)] transition-[colors,transform] duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4cfc0f] ${
+          open
+            ? "border-[#4cfc0f]/60 bg-[#0E0E0E] text-[#4cfc0f]"
+            : "border-[#2E2E2E] bg-[#0E0E0E]/95 text-white backdrop-blur hover:border-[#4cfc0f]/60 hover:text-[#4cfc0f] active:scale-[0.97]"
+        }`}
+        style={{ bottom: "calc(1.25rem + env(safe-area-inset-bottom, 0px))" }}
       >
-        <span className="w-1.5 h-1.5 rounded-full bg-[#4cfc0f] shrink-0" aria-hidden="true" />
-        {open ? "Cerrar" : "¿Necesitas ayuda?"}
+        {/*
+          Icono propio: dos líneas de conversación sobre la retícula técnica de
+          USERS. Deliberadamente distinto del verde sólido de WhatsApp —uno es
+          soporte, el otro es contacto directo, y dos círculos verdes iguales
+          en la misma pantalla no comunican dos cosas distintas.
+        */}
+        <span
+          aria-hidden="true"
+          className="relative flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-[#2A2A2A] bg-[#141414] transition-colors group-hover:border-[#4cfc0f]/40"
+        >
+          {open ? (
+            <svg viewBox="0 0 12 12" className="h-3 w-3" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
+              <path d="M2.5 2.5l7 7M9.5 2.5l-7 7" />
+            </svg>
+          ) : (
+            <svg viewBox="0 0 14 14" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round">
+              <path d="M2 3.4h10M2 6.4h7" />
+              <path d="M2 9.4h4" className="text-[#4cfc0f]" stroke="#4cfc0f" />
+            </svg>
+          )}
+        </span>
+        <span className="whitespace-nowrap">{open ? "Cerrar" : "¿Necesitas ayuda?"}</span>
       </button>
     </>
   )

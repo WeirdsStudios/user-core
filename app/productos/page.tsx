@@ -1,35 +1,29 @@
 import Link from "next/link"
-import Image from "next/image"
 import type { Metadata } from "next"
 import Header from "@/components/site/Header"
 import Footer from "@/components/site/Footer"
 import { siteConfig, defaultOgImage } from "@/lib/site-config"
 import { getWhatsAppLink } from "@/lib/whatsapp"
+import { PRODUCT_PRESENTATION, productCta } from "@/lib/products-media"
+import ActiivaVisual from "@/components/products/ActiivaVisual"
+import MediaFrame from "@/components/ui/MediaFrame"
 import ViewTracker from "@/components/analytics/ViewTracker"
 
 export const metadata: Metadata = {
   title: "Productos USERS — software especializado por industria | USERS",
   description:
-    "ACTIIVA para negocios fitness y MEDIICA para servicios de salud: plataformas propias de USERS construidas a partir del trabajo hecho con clientes reales.",
+    "ACTIIVA: la plataforma propia de USERS para negocios fitness, construida a partir del trabajo hecho con clientes reales.",
   alternates: { canonical: "/productos" },
   openGraph: {
       images: [defaultOgImage],
     title: "Productos USERS — software especializado por industria",
     description:
-      "ACTIIVA para negocios fitness y MEDIICA para servicios de salud. Productos propios de USERS.",
+      "ACTIIVA, el producto propio de USERS para negocios fitness.",
     url: "/productos",
   },
 }
 
-/** Logotipo propio cuando existe; si no, tratamiento tipográfico. */
-const productLogos: Record<string, string> = {
-  ACTIIVA: "/logos/products/actiiva.svg",
-}
 
-const statusLabel: Record<string, string> = {
-  "in-development": "En desarrollo",
-  live: "Disponible",
-}
 
 export default function ProductosPage() {
   const jsonLd = {
@@ -69,114 +63,101 @@ export default function ProductosPage() {
             </nav>
 
             <h1 className="text-[1.85rem] sm:text-4xl lg:text-[3rem] font-bold leading-[1.12] mt-5 max-w-3xl text-balance tracking-tight">
-              Software especializado por industria
+              Software propio, nacido de proyectos reales
             </h1>
             <p className="text-[#9E9E9E] text-[15px] lg:text-lg mt-4 lg:mt-5 max-w-2xl leading-relaxed">
-              Construimos a la medida, detectamos qué se repite entre negocios
-              del mismo giro y lo convertimos en producto. Si tu negocio encaja
-              en uno de ellos, quizá no necesites empezar desde cero.
+              USERS convierte la experiencia de trabajar con varios negocios del
+              mismo giro en software especializado. ACTIIVA es donde esa
+              estrategia se ve completa: si tu negocio encaja, quizá no
+              necesites empezar desde cero.
             </p>
           </div>
         </section>
 
-        {/* Productos */}
+        {/* Producto vigente */}
         <section aria-label="Productos de USERS" className="pb-14 lg:pb-20">
           <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
-            <ul className="grid grid-cols-1 md:grid-cols-2 gap-5 lg:gap-8">
-              {siteConfig.products.map((product) => {
-                const logo = productLogos[product.name]
-                const isLive = product.status === "live"
+            {/*
+              Un solo producto. No se enumera "1 de 2" ni se anuncia lo que no
+              está: un catálogo enseña la oferta vigente. La composición 60/40
+              le da a ACTIIVA el peso que tendría cualquier producto propio.
+            */}
+            {siteConfig.products.map((product) => {
+              const presentation = PRODUCT_PRESENTATION[product.name]
+              const cta = productCta(product.name, product.status)
+              const href = cta.isExternal
+                ? product.url
+                : getWhatsAppLink(presentation.whatsappOrigin)
 
-                return (
-                  <li key={product.name}>
-                    <article className="border border-[#222] bg-[#0E0E0E] h-full flex flex-col">
-                      {/* Marca */}
-                      <div className="relative aspect-[16/9] flex items-center justify-center overflow-hidden border-b border-[#1F1F1F]">
-                        <span className="grid-tech absolute inset-0 opacity-60" aria-hidden="true" />
-                        <span
-                          aria-hidden="true"
-                          className="absolute inset-0 opacity-20"
-                          style={{
-                            background: "radial-gradient(ellipse at center, #4cfc0f 0%, transparent 65%)",
-                          }}
-                        />
-                        {logo ? (
-                          <Image
-                            src={logo}
-                            alt={`Logotipo de ${product.name}`}
-                            width={220}
-                            height={40}
-                            className="relative w-[45%] max-w-[220px] h-auto brightness-0 invert opacity-90"
-                          />
-                        ) : (
-                          <span className="relative font-bold text-2xl sm:text-3xl tracking-[0.2em] text-white/90">
-                            {product.name}
-                          </span>
-                        )}
-                      </div>
+              return (
+                <article
+                  key={product.name}
+                  className="lg:grid lg:grid-cols-12 lg:gap-10 lg:items-center"
+                >
+                  <div className="lg:col-span-7">
+                    {presentation.media.placeholder ? (
+                      <ActiivaVisual logo={presentation.logo} />
+                    ) : (
+                      <MediaFrame slot={presentation.media} chrome={false} />
+                    )}
+                  </div>
 
-                      <div className="p-6 lg:p-8 flex flex-col flex-1">
-                        <div className="flex items-center gap-2.5 flex-wrap">
-                          <h2 className="text-xl font-bold">{product.name}</h2>
+                  <div className="lg:col-span-5 mt-6 lg:mt-0">
+                    <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#4cfc0f]">
+                      Producto USERS · {product.vertical}
+                    </p>
+                    <h2 className="text-2xl lg:text-[2.25rem] font-bold tracking-tight mt-3">
+                      {product.name}
+                    </h2>
+                    <p className="text-[#9E9E9E] text-[15px] lg:text-base mt-3.5 leading-relaxed">
+                      {product.description}
+                    </p>
+
+                    <ul className="mt-6 space-y-2.5">
+                      {presentation.highlights.map((h) => (
+                        <li key={h} className="flex items-start gap-2.5">
                           <span
-                            className={`font-mono text-[9px] font-bold uppercase tracking-[0.14em] px-2 py-1 ${
-                              isLive
-                                ? "bg-[#4cfc0f] text-black"
-                                : "border border-[#4cfc0f]/40 text-[#4cfc0f]"
-                            }`}
+                            className="text-[#4cfc0f] font-mono text-xs shrink-0 mt-0.5"
+                            aria-hidden="true"
                           >
-                            {statusLabel[product.status]}
+                            +
                           </span>
-                        </div>
+                          <span className="text-[#B0B0B0] text-sm leading-relaxed">{h}</span>
+                        </li>
+                      ))}
+                    </ul>
 
-                        <p className="text-[#9E9E9E] text-sm lg:text-base mt-3 leading-relaxed flex-1">
-                          {product.description}
-                        </p>
+                    <ul className="flex flex-wrap gap-1.5 mt-6 pt-6 border-t border-[#1F1F1F]">
+                      {product.tags.map((tag) => (
+                        <li
+                          key={tag}
+                          className="font-mono text-[10px] text-[#8A8A8A] border border-[#2A2A2A] px-2 py-1"
+                        >
+                          {tag}
+                        </li>
+                      ))}
+                    </ul>
 
-                        <ul className="flex flex-wrap gap-1.5 mt-5 pt-5 border-t border-[#1F1F1F]">
-                          {product.tags.map((tag) => (
-                            <li
-                              key={tag}
-                              className="font-mono text-[10px] text-[#8A8A8A] border border-[#2A2A2A] px-2 py-1"
-                            >
-                              {tag}
-                            </li>
-                          ))}
-                        </ul>
-
-                        {isLive ? (
-                          <a
-                            href={product.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            data-cta="product_trial"
-                            data-slug={product.name.toLowerCase()}
-                            className="inline-flex items-center gap-2 mt-6 text-sm font-semibold text-white border-b-2 border-[#4cfc0f] pb-2 pt-2 self-start transition-colors hover:text-[#4cfc0f] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#4cfc0f]"
-                          >
-                            Ver {product.urlLabel}
-                            <span aria-hidden="true">→</span>
-                          </a>
-                        ) : (
-                          <a
-                            href={getWhatsAppLink(
-                              product.name === "ACTIIVA" ? "actiiva" : "mediica"
-                            )}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            data-cta="product_trial"
-                            data-slug={product.name.toLowerCase()}
-                            className="inline-flex items-center gap-2 mt-6 text-sm font-semibold text-white border-b-2 border-[#4cfc0f] pb-2 pt-2 self-start transition-colors hover:text-[#4cfc0f] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#4cfc0f]"
-                          >
-                            Avísame cuando esté lista
-                            <span aria-hidden="true">→</span>
-                          </a>
-                        )}
-                      </div>
-                    </article>
-                  </li>
-                )
-              })}
-            </ul>
+                    <a
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      data-cta="product_trial"
+                      data-slug={product.name.toLowerCase()}
+                      className="bg-[#4cfc0f] text-black font-bold px-6 py-3.5 text-sm inline-flex items-center justify-center gap-2.5 mt-7 transition-all hover:shadow-[0_0_28px_rgba(76,252,15,0.35)] active:scale-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                    >
+                      {cta.label}
+                      <span aria-hidden="true">→</span>
+                    </a>
+                    {!cta.isExternal && (
+                      <p className="text-[#8A8A8A] text-[13px] mt-3 leading-relaxed">
+                        Solicita acceso y te contactamos para conocer tu negocio.
+                      </p>
+                    )}
+                  </div>
+                </article>
+              )
+            })}
 
             {/* Puente al trabajo a medida */}
             <div className="mt-10 lg:mt-14 border border-[#222] bg-[#0E0E0E] p-6 lg:p-8">

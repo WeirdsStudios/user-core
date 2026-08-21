@@ -31,18 +31,17 @@ const works: Work[] = [
 ]
 
 /**
- * Productos propios. Todavía no hay capturas de ACTIIVA ni de MEDIICA, así que
+ * Productos propios. Todavía no hay capturas de ACTIIVA, así que
  * la card usa un tratamiento gráfico propio en lugar de una captura falsa.
  *
  * PARA SUSTITUIR CUANDO HAYA CAPTURAS:
- *   1. Coloca la grabación en public/imgs/video/{actiiva|mediica}.webm + .mp4
- *      y el póster en {actiiva|mediica}-poster.webp
+ *   1. Coloca la grabación en public/imgs/video/actiiva.webm + .mp4
+ *      y el póster en actiiva-poster.webp
  *   2. Añade `video: { name: "actiiva" }` al objeto correspondiente de abajo.
  *   3. El componente detecta el video y reemplaza el placeholder solo.
  */
 const productMedia: Record<string, { video?: FrameVideo; logo?: string }> = {
   ACTIIVA: { logo: "/logos/products/actiiva.svg" },
-  MEDIICA: {},
 }
 
 function ProductPlaceholder({ name, logo }: { name: string; logo?: string }) {
@@ -202,7 +201,7 @@ export default function Portfolio() {
                       </a>
                     ) : (
                       <a
-                        href={getWhatsAppLink(product.name === "ACTIIVA" ? "actiiva" : "mediica")}
+                        href={getWhatsAppLink("actiiva")}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-2 mt-5 text-sm font-semibold text-[#9A9A9A] border-b border-[#333] pb-2 pt-2 self-start transition-colors hover:text-white hover:border-[#4cfc0f] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#4cfc0f]"

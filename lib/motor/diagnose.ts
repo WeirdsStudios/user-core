@@ -216,16 +216,14 @@ function buildRecommendation(
       evolucion: ["Acceso anticipado a ACTIIVA cuando esté disponible", "O un desarrollo a la medida si prefieres no esperar"],
     }
   }
-  if (industry === "salud" && (notable("operacion") || notable("clientes"))) {
-    return {
-      category: "product",
-      product: "MEDIICA",
-      title: "Un producto pensado para consultorios, y una web que lo sostenga",
-      body: "Lo que describes —agenda, historial, recordatorios— es justo lo que estamos construyendo en MEDIICA. Está en una etapa temprana: no hay fecha ni precio publicado, pero podemos avisarte cuando puedas probarla. La presencia pública, en cambio, se puede resolver desde ahora.",
-      fase_inicial: ["Sitio público con servicios, ubicación y contacto"],
-      evolucion: ["Acceso anticipado a MEDIICA cuando esté disponible", "O una agenda a la medida si necesitas resolverlo antes"],
-    }
-  }
+  /**
+   * Salud ya no tiene producto propio.
+   *
+   * El diagnóstico de un consultorio sale de sus necesidades, como el de
+   * cualquier otro giro. Tampoco se presenta a USERS como especialista en
+   * regulación sanitaria: haber explorado el sector no nos vuelve expertos
+   * en sus permisos, y afirmarlo sería vender algo que no podemos sostener.
+   */
 
   // ── No necesita software a medida ──
   const todoOrdenado =

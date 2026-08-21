@@ -7,7 +7,7 @@
  *    fuente, se reformula sin número. Si no aporta, se elimina.
  *  · Los ejemplos numéricos se marcan como hipotéticos, no como hallazgos.
  *  · Un artículo enseña a evaluar; la landing vende. No deben competir.
- *  · Nada sobre ACTIIVA o MEDIICA que dé a entender que ya están disponibles.
+ *  · Nada sobre ACTIIVA que dé a entender que ya está disponible.
  */
 
 export type BlogCategory = "Web" | "Software" | "Operación" | "Clientes" | "Negocio"

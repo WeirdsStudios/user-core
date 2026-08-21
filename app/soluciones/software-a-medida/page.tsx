@@ -217,7 +217,7 @@ export default function SoftwareAMedidaPage() {
                 href="/productos"
                 className="inline-flex items-center gap-2 mt-5 text-sm font-semibold text-white border-b-2 border-[#4cfc0f] pb-2 pt-2 transition-colors hover:text-[#4cfc0f] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#4cfc0f]"
               >
-                Ver ACTIIVA y MEDIICA
+                Ver ACTIIVA
                 <span aria-hidden="true">→</span>
               </Link>
             </div>

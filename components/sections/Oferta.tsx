@@ -6,7 +6,7 @@ import { PROJECTS } from "@/lib/projects"
 /**
  * Separa las dos formas de comprar: trabajo a la medida y producto propio.
  *
- * Sin este bloque, ACTIIVA y MEDIICA se leían como "proyectos que hacemos
+ * Sin este bloque, ACTIIVA se leía como "proyectos que hacemos
  * cuando no tenemos clientes". Puestos como una segunda vía de la oferta,
  * pasan a ser propiedad intelectual de USERS — y le dan al visitante de un
  * giro específico una entrada más rápida que empezar de cero.

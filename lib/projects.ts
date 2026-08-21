@@ -2,7 +2,7 @@
  * Casos reales de cliente. Fuente única para /proyectos, /proyectos/[slug],
  * el bloque de casos de la home y el sitemap.
  *
- * REGLA: aquí solo entra trabajo hecho PARA UN CLIENTE. ACTIIVA y MEDIICA son
+ * REGLA: aquí solo entra trabajo hecho PARA UN CLIENTE. ACTIIVA es
  * productos propios de USERS y viven en siteConfig.products — mezclarlos aquí
  * haría parecer que son clientes.
  *

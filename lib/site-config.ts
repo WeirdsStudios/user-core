@@ -215,6 +215,10 @@ export const siteConfig = {
   /**
    * Productos propios de USERS. Cambiar `status` a "live" es todo lo que hace
    * falta para activar el enlace externo en el sitio.
+   *
+   * La lista es la oferta VIGENTE. Un producto que no se está ofreciendo no se
+   * anuncia como pausado ni como próximo: simplemente no está aquí. Anunciar
+   * ausencias no vende nada y obliga a explicar por qué.
    */
   products: [
     {
@@ -226,16 +230,6 @@ export const siteConfig = {
       description:
         "Plataforma para gimnasios boutique, estudios fitness y entrenadores: membresías, reservas y cobros en un solo lugar.",
       tags: ["Producto propio", "Fitness", "Membresías", "Reservas"],
-    },
-    {
-      name: "MEDIICA",
-      vertical: "Salud",
-      status: "in-development",
-      url: "https://mediica.mx",
-      urlLabel: "mediica.mx",
-      description:
-        "Sistema de gestión para consultorios y clínicas: agenda de citas, expediente e historial de pacientes.",
-      tags: ["Producto propio", "Salud", "Agenda", "Expediente"],
     },
   ] as Product[],
 

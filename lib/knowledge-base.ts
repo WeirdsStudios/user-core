@@ -4,7 +4,7 @@ import { siteConfig } from "@/lib/site-config"
  * Base de conocimiento pública de USERS — `usersKnowledgeBase`.
  *
  * ALCANCE: atiende ÚNICAMENTE a clientes de USERS, proyectos a medida de USERS
- * y dudas comerciales de USERS. ACTIIVA y MEDIICA tendrán cada uno su propia
+ * y dudas comerciales de USERS. ACTIIVA tendrá su propia
  * base de conocimiento y su propio Centro de Atención — no mezclar respuestas,
  * productos ni soporte entre ellos.
  *
@@ -81,7 +81,7 @@ export const KB_CATEGORIES: KbCategory[] = [
   {
     id: "productos",
     label: "Productos USERS",
-    description: "ACTIIVA y MEDIICA: qué son y en qué punto están.",
+    description: "ACTIIVA: qué es y en qué punto está.",
   },
   {
     id: "ajustes",
@@ -318,16 +318,6 @@ export const KB_ENTRIES: KbEntry[] = [
     ],
   },
   {
-    id: "que-es-mediica",
-    category: "productos",
-    question: "¿Qué es MEDIICA?",
-    answer:
-      "Un producto propio de USERS para consultorios y clínicas: agenda de citas, expediente e historial de pacientes. Está en desarrollo y en una etapa más temprana que ACTIIVA. Todavía no está disponible ni tiene precio publicado.",
-    mode: "INFO",
-    tags: ["mediica", "consultorio", "clínica", "salud", "producto", "citas"],
-    related: [{ label: "Ver productos USERS", href: "/productos" }],
-  },
-  {
     /**
      * La objeción más frecuente de una PyME y la que más veces decide la
      * venta. No estaba en la base: el Centro la trataba como fuera de tema.
@@ -382,9 +372,9 @@ export const KB_ENTRIES: KbEntry[] = [
   {
     id: "avisar-cuando-este-lista",
     category: "productos",
-    question: "¿Me pueden avisar cuando ACTIIVA o MEDIICA estén disponibles?",
+    question: "¿Me pueden avisar cuando ACTIIVA esté disponible?",
     answer:
-      "Sí. Escríbenos por WhatsApp diciéndonos cuál te interesa y te avisamos cuando abramos acceso.",
+      "Sí. Escríbenos por WhatsApp y te avisamos en cuanto abramos acceso.",
     mode: "GUIDED",
     tags: ["avisar", "lista de espera", "cuándo sale", "disponible", "lanzamiento"],
     related: [{ label: "Ver productos USERS", href: "/productos" }],
@@ -697,6 +687,6 @@ export function searchEntries(query: string): KbEntry[] {
 /**
  * Alias con nombre explícito. El Centro de Atención de la Fase 7B debe
  * consumir `usersKnowledgeBase` para que quede claro de qué base habla cuando
- * existan las de ACTIIVA y MEDIICA.
+ * exista la de ACTIIVA.
  */
 export const usersKnowledgeBase = KB_ENTRIES

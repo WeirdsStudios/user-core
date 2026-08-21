@@ -182,8 +182,9 @@ for (const { nombre, d } of resultados) {
 console.log("\n── NADA INVENTADO ──")
 const PROHIBIDO: [string, RegExp][] = [
   ["precio cerrado de proyecto", /\$\s?\d{2},\d{3}(?!\s*MXN\b)|costará|tu proyecto cuesta/i],
-  ["precio de producto propio", /ACTIIVA.{0,40}\$|MEDIICA.{0,40}\$|\$\d+\s*(mxn)?\/mes/i],
-  ["producto anunciado como listo", /(ACTIIVA|MEDIICA)[^.]{0,30}(lista|listo|disponible ya|ya está)/i],
+  ["precio de producto propio", /ACTIIVA.{0,40}\$|\$\d+\s*(mxn)?\/mes/i],
+  ["producto anunciado como listo", /ACTIIVA[^.]{0,30}(lista|listo|disponible ya|ya está)/i],
+  ["cualquier rastro de MEDIICA", /mediica/i],
   ["ROI o retorno inventado", /ROI|retorno de inversión|recuperas?\s+\$|payback|% de crecimiento/i],
   ["pérdidas estimadas", /pierdes\s+\$|estás perdiendo|dejas de ganar/i],
   ["certeza absoluta", /necesitas obligatoriamente|tu negocio requiere sin duda|garantizamos/i],
@@ -227,14 +228,21 @@ console.log("\n── PUEDE DECIR QUE NO ──")
 console.log("\n── PRODUCTOS PROPIOS ──")
 {
   const actiiva = resultados.filter((r) => r.d.recomendacion.product === "ACTIIVA")
-  const mediica = resultados.filter((r) => r.d.recomendacion.product === "MEDIICA")
   check(`ACTIIVA solo aparece en fitness (${actiiva.length})`,
     actiiva.every((r) => r.a.industry === "fitness"))
-  check(`MEDIICA solo aparece en salud (${mediica.length})`,
-    mediica.every((r) => r.a.industry === "salud"))
-  const todos = [...actiiva, ...mediica]
-  check("los productos se presentan como en desarrollo",
-    todos.every((r) => /desarrollo|todavía|no podemos prometer|etapa temprana/i.test(r.d.recomendacion.body)))
+  check("ACTIIVA se presenta como en desarrollo",
+    actiiva.every((r) => /desarrollo|todavía|no podemos prometer|etapa temprana/i.test(r.d.recomendacion.body)))
+
+  // MEDIICA salió de la oferta pública: ningún consultorio ni clínica puede
+  // recibirla, y ningún diagnóstico debe mencionarla.
+  const salud = resultados.filter((r) => r.a.industry === "salud")
+  check(`ningún perfil de salud recibe un producto propio (${salud.length} perfiles)`,
+    salud.every((r) => !r.d.recomendacion.product),
+    salud.map((r) => `${r.nombre}: ${r.d.recomendacion.product}`).join(", "))
+  check("los perfiles de salud sí reciben diagnóstico útil",
+    salud.every((r) => r.d.observaciones.length > 0 && r.d.recomendacion.title.length > 0))
+  check("USERS no se presenta como especialista en regulación sanitaria",
+    !/regulaci[óo]n|normativ|COFEPRIS|permisos sanitarios|NOM-/i.test(JSON.stringify(resultados)))
 }
 
 console.log("\n── INGRESOS: AJUSTAN ALCANCE, NO DIAGNÓSTICO ──")

@@ -208,8 +208,8 @@ const FRUSTRATION =
 const INTENT_OVERRIDE_CONFIDENCE = 0.35
 
 /** El Centro de USERS no da soporte de producto: orienta y lo dice. */
-function otherProductReply(product: "ACTIIVA" | "MEDIICA"): Message {
-  const entry = getEntry(product === "ACTIIVA" ? "que-es-actiiva" : "que-es-mediica")
+function otherProductReply(product: "ACTIIVA"): Message {
+  const entry = getEntry("que-es-actiiva")
   return msg(
     `Este Centro atiende proyectos y servicios de USERS, no el soporte de ${product} — cuando esté disponible tendrá su propio canal de atención.\n\nLo que sí te puedo decir: ${entry?.answer ?? ""}`,
     {

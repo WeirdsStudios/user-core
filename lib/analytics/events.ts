@@ -64,7 +64,7 @@ export interface EventMeta {
   solution?: string
   /** Slug del proyecto visto. */
   project?: string
-  /** Nombre del producto (actiiva | mediica). */
+  /** Nombre del producto (actiiva). */
   product?: string
   /** Slug del artículo. */
   article?: string
