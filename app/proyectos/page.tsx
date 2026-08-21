@@ -78,7 +78,7 @@ export default function ProyectosPage() {
                         lo que debe distinguirlos es el trabajo, no el formato
                         del material disponible. */}
                     <MediaFrame
-                      slot={project.assets[0]}
+                      slot={project.preview ?? project.assets[0]}
                       urlLabel={project.externalLabel ?? project.industry}
                       uniform
                     />

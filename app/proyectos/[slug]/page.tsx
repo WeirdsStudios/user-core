@@ -140,8 +140,7 @@ export default async function ProyectoPage({
                 <MediaFrame
                   key={asset.caption}
                   slot={asset}
-                  urlLabel={asset.video ? project.externalLabel : undefined}
-                  chrome={Boolean(asset.video)}
+                  urlLabel={project.externalLabel ?? project.industry}
                 />
               ))}
             </div>

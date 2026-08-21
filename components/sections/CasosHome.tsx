@@ -45,7 +45,7 @@ export default function CasosHome() {
             <li key={project.slug}>
               <article className="h-full flex flex-col">
                 <MediaFrame
-                  slot={project.assets[0]}
+                  slot={project.preview ?? project.assets[0]}
                   urlLabel={project.externalLabel ?? project.industry}
                   uniform
                 />

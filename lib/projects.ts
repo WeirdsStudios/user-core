@@ -37,6 +37,15 @@ export interface Project {
   /** Qué demuestra este caso sobre las capacidades de USERS. */
   demonstrates: string[]
   assets: MediaSlot[]
+  /**
+   * Clip corto para la rejilla de casos.
+   *
+   * En la home y en /proyectos el material se ve pequeño y compite con otras
+   * dos tarjetas: ahí conviene un fragmento breve que se entienda de un
+   * vistazo, no la escena completa de la página de detalle. Si no se define,
+   * se usa el primer asset.
+   */
+  preview?: MediaSlot
 
   /** Slugs de /soluciones que este caso respalda. */
   solutions: string[]
@@ -136,61 +145,52 @@ export const PROJECTS: Project[] = [
       "El desarrollo se organiza alrededor de cómo vende el negocio, incluso cuando vende de varias formas a la vez.",
     ],
     /**
-     * PARA SUSTITUIR POR MATERIAL REAL:
-     *   1. Coloca los archivos en public/imgs/projects/llevelin/ siguiendo la
-     *      convención: <nombre>.webm + <nombre>.mp4 + <nombre>-poster.webp
-     *      (o una sola imagen .webp si no hay grabación).
-     *   2. En el slot correspondiente: quita `placeholder`, `expectedPath` y
-     *      `cover`, y añade `video: "<nombre>"` — o
-     *      `image: "/imgs/projects/llevelin/x.webp"`.
-     *   El layout no cambia: la proporción ya está reservada.
+     * Material real, grabado sobre el sistema en uso.
      *
-     * Mientras tanto cada slot lleva `cover`: una portada compuesta con la
-     * información real del trabajo. Llevelín es un proyecto entregado; lo que
-     * falta es grabarlo, y eso no tiene por qué notarse en el sitio.
+     * Los tres clips salen de una misma sesión de 2:08 y se cortaron por
+     * escena: venta, inventario y reporte. Ninguno se etiqueta como autocobro
+     * ni como isla de atención — esas partes del proyecto existen y están
+     * descritas en el texto, pero este material no las muestra, y poner la
+     * etiqueta encima sería fabricar evidencia.
+     *
+     * QUÉ SE DEJÓ FUERA: la pantalla de corte de caja. Lista los cortes por
+     * cajero con identificadores que siguen el patrón de un RFC de persona
+     * física (cuatro letras y fecha de nacimiento). Es dato fiscal de personas
+     * reales y no se publica. El reporte de ventas cuenta lo mismo —control
+     * del día y del mes— sin identificar a nadie.
+     *
+     * `preview` es el clip corto para la rejilla de casos; los otros tres
+     * viven en la página del proyecto.
      */
+    preview: {
+      video: "preview",
+      dir: "projects/llevelin",
+      badge: "Caja",
+      caption: "Cobro en caja — el flujo principal de la jornada",
+      alt: "Punto de venta de Llevelín registrando productos en una venta",
+    },
+
     assets: [
       {
-        placeholder: true,
+        video: "caja",
         dir: "projects/llevelin",
-        expectedPath: "/imgs/projects/llevelin/caja.{webm,mp4,-poster.webp}",
         badge: "Caja",
-        cover: {
-          title: "Llevelín",
-          eyebrow: "Punto de venta a medida",
-          subtitle: "Un mismo sistema operando en los tres puntos donde el supermercado cobra.",
-          parts: ["Caja", "Autocobro", "Islas de atención", "Venta por peso"],
-        },
-        caption: "Cobro en caja — el flujo principal de la jornada",
-        alt: "Sistema de punto de venta de Llevelín operado por un cajero",
+        caption: "Cobro en caja — del carrito al cambio a devolver",
+        alt: "Punto de venta de Llevelín: carrito, método de pago y cálculo del cambio",
       },
       {
-        placeholder: true,
+        video: "inventario",
         dir: "projects/llevelin",
-        expectedPath: "/imgs/projects/llevelin/autocobro.{webm,mp4,-poster.webp}",
-        badge: "Autocobro",
-        cover: {
-          title: "Autocobro",
-          eyebrow: "Llevelín · modo autoservicio",
-          subtitle: "El mismo sistema, operado por alguien que nunca lo había visto.",
-          parts: ["Sin cajero", "Errores recuperables", "Interfaz reducida"],
-        },
-        caption: "Autocobro — el mismo sistema, operado por el cliente",
-        alt: "Interfaz de autocobro del supermercado, operada directamente por el cliente",
+        badge: "Inventario",
+        caption: "Inventario — alta de producto y existencias",
+        alt: "Pantalla de inventario de Llevelín con listado de productos y alta de uno nuevo",
       },
       {
-        placeholder: true,
+        video: "reporte",
         dir: "projects/llevelin",
-        expectedPath: "/imgs/projects/llevelin/isla-atencion.{webm,mp4,-poster.webp}",
-        badge: "Isla",
-        cover: {
-          title: "Islas de atención",
-          eyebrow: "Llevelín · mostrador",
-          subtitle: "Salchichonería, frutas y verduras: se despacha, se pesa y se etiqueta antes de cobrar.",
-          parts: ["Venta por peso", "Etiquetado", "Despacho a granel"],
-        },
-        caption: "Isla de atención — venta por peso en mostrador",
-        alt: "Sistema en uso en un mostrador de salchichonería o de frutas y verduras",
+        badge: "Reporte",
+        caption: "Reporte de ventas — el día y el mes contra su meta",
+        alt: "Reporte de ventas de Llevelín con totales del día, balance mensual y tickets",
       },
     ],
 
