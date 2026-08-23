@@ -1,11 +1,13 @@
-const WA_NUMBER = "5215612934010"
+import { siteConfig } from "@/lib/site-config"
+
+const WA_NUMBER = siteConfig.contact.whatsapp
 
 const WA_MESSAGES = {
   default:  "Hola, vengo de users.mx y quiero saber más de sus servicios.",
   hero:     "Hola, vi users.mx y me interesa cotizar un proyecto para mi negocio.",
   analisis: "Hola, acabo de terminar el Análisis de Negocio en users.mx y quiero platicar los resultados.",
-  sofit:    "Hola, me interesa SoFit para mi gimnasio.",
-  consulto: "Hola, me interesa Consulto para mi consultorio.",
+  actiiva:  "Hola, me interesa probar ACTIIVA y conocer cómo podría funcionar para mi negocio.",
+  soporte:  "Hola, necesito ayuda con un proyecto que USERS desarrolló.",
   faq:      "Hola, tengo dudas sobre precios y planes de users.mx.",
   footer:   "Hola, quiero contactar a users.mx.",
 } as const

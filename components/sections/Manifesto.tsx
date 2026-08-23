@@ -3,7 +3,7 @@ import GhostButton from "@/components/ui/GhostButton"
 
 export default function Manifesto() {
   return (
-    <section className="bg-[#F5F5F5] py-24 lg:py-32 relative overflow-hidden">
+    <section className="bg-[#F5F5F5] py-14 lg:py-28 relative overflow-hidden">
       {/* Decorative image right edge */}
       <div className="absolute right-0 top-0 bottom-0 w-1/3 hidden lg:block pointer-events-none select-none">
         <Image

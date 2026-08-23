@@ -1,20 +1,41 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import { usePathname } from "next/navigation"
 import { getWhatsAppLink } from "@/lib/whatsapp"
 
 const SESSION_KEY = "wa-entered"
 
+/**
+ * En el Motor de Análisis no aparece: es un flujo enfocado de cinco pasos y un
+ * resultado largo, y el botón flotante terminaba encima de las tarjetas del
+ * diagnóstico. Quien está ahí ya tiene un CTA claro en pantalla.
+ */
+const OCULTO_EN = ["/analisis"]
+
 export default function WhatsAppButton() {
+  const pathname = usePathname()
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {
-    const alreadyShown = sessionStorage.getItem(SESSION_KEY)
-    const delay = alreadyShown ? 0 : 1200
-    if (!alreadyShown) sessionStorage.setItem(SESSION_KEY, "1")
-    const t = setTimeout(() => setVisible(true), delay)
+    /**
+     * En navegación privada o con cookies de terceros bloqueadas, tocar
+     * sessionStorage lanza una excepción. Sin este resguardo el error subía
+     * y se llevaba por delante la hidratación del resto de la página —el
+     * Centro de Atención dejaba de responder por culpa de este botón.
+     */
+    let alreadyShown: string | null = null
+    try {
+      alreadyShown = sessionStorage.getItem(SESSION_KEY)
+      if (!alreadyShown) sessionStorage.setItem(SESSION_KEY, "1")
+    } catch {
+      // Sin memoria de sesión: se muestra con la animación completa siempre.
+    }
+    const t = setTimeout(() => setVisible(true), alreadyShown ? 0 : 1200)
     return () => clearTimeout(t)
   }, [])
+
+  if (OCULTO_EN.some((r) => pathname?.startsWith(r))) return null
 
   return (
     <a
@@ -22,14 +43,19 @@ export default function WhatsAppButton() {
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Contactar por WhatsApp"
-      className={`group fixed bottom-6 right-6 z-50 flex items-center bg-[#25D366] text-white shadow-[0_4px_24px_rgba(37,211,102,0.40)] transition-all duration-500 ${
+      /* Circular y compacto en móvil: un cuadro grande fijo tapaba texto de las
+         secciones. El área táctil sigue por encima de 44px. */
+      /* El verde de marca de WhatsApp deja el texto blanco en 2.1:1. Al
+         desplegar la etiqueta el fondo pasa al verde oscuro oficial, donde el
+         mismo blanco llega a 7.7:1. */
+      className={`group fixed bottom-5 right-4 lg:bottom-6 lg:right-6 z-50 flex items-center rounded-full lg:rounded-none bg-[#25D366] hover:bg-[#075E54] focus-visible:bg-[#075E54] text-white shadow-[0_4px_20px_rgba(0,0,0,0.35)] transition-all duration-500 ${
         visible
           ? "opacity-100 translate-y-0"
           : "opacity-0 translate-y-6 pointer-events-none"
       }`}
     >
       {/* Icon */}
-      <div className="p-4 shrink-0 flex items-center justify-center">
+      <div className="p-3 lg:p-4 shrink-0 flex items-center justify-center">
         <svg
           viewBox="0 0 24 24"
           fill="currentColor"

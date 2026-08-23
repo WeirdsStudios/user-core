@@ -11,8 +11,8 @@ const services = [
 
 export default function Services() {
   return (
-    <section id="servicios" className="py-24 lg:py-32 bg-white">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+    <section id="servicios" className="py-14 lg:py-28 bg-white">
+      <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
         {/* Top row */}
         <div className="flex items-center justify-between mb-16">
           <p className="text-xs font-semibold tracking-widest uppercase text-[#888]">

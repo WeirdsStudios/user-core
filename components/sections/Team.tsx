@@ -1,118 +1,80 @@
-import Image from "next/image"
-import GhostButton from "@/components/ui/GhostButton"
+import { siteConfig } from "@/lib/site-config"
 
-const members = [
-  {
-    role: "Desarrollo",
-    label: "Equipo users.mx",
-    image: "/imgs/team/sec-6-member-1.webp",
-    description: "Código que se mantiene simple, para que crecer contigo no signifique reconstruir todo.",
-  },
-  {
-    role: "Diseño",
-    label: "Equipo users.mx",
-    image: "/imgs/team/sec-6-member-2.webp",
-    description: "Cada interfaz que diseñamos empieza por entender a quien la va a usar, no por elegir colores.",
-  },
-  {
-    role: "Estrategia",
-    label: "Equipo users.mx",
-    image: "/imgs/team/sec-6-member-3.webp",
-    description: "Analizamos tu negocio antes de escribir una sola línea de código.",
-  },
-  {
-    role: "Marketing",
-    label: "Equipo users.mx",
-    image: "/imgs/team/sec-6-member-4.webp",
-    description: "Tu presencia digital no termina en el lanzamiento — la hacemos crecer con datos reales.",
-  },
+/**
+ * Equipo real. El avatar es gráfico (iniciales sobre rejilla técnica) y no una
+ * fotografía: las imágenes que había antes eran de stock y no correspondían a
+ * estas personas.
+ *
+ * Las especialidades son deliberadamente concretas —electrónica, redes,
+ * pedagogía— porque son justo lo que no tiene una agencia de páginas web.
+ */
+const team = [
+  { name: "Haza Munguía", area: "Estrategia y desarrollo" },
+  { name: "Nahum Munguía", area: "Microcómputo y electrónica" },
+  { name: "Jonathan Ayala", area: "Cloud y redes" },
+  { name: "Alejandra Zebadúa", area: "Diseño" },
+  { name: "Karina Romero", area: "Pedagogía y comportamiento del usuario" },
 ]
 
-// Actualiza con las certificaciones reales del equipo o elimina si no aplica
-const badges = ["Google UX Design", "Microsoft AI"]
+function initials(name: string): string {
+  return name
+    .split(" ")
+    .slice(0, 2)
+    .map((part) => part[0])
+    .join("")
+    .toUpperCase()
+}
 
 export default function Team() {
   return (
-    <section className="py-24 lg:py-32 bg-white">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="lg:grid lg:grid-cols-2 lg:gap-16 items-start">
-          {/* Left */}
-          <div>
-            <span className="text-xs tracking-widest uppercase text-[#888] border border-[#E5E5E5] px-3 py-1 inline-block mb-6">
-              Por qué elegirnos
+    <section id="equipo" className="bg-[#0A0A0A] text-white py-14 lg:py-24 border-t border-[#1A1A1A]">
+      <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
+        <div className="lg:grid lg:grid-cols-12 lg:gap-12 lg:items-start">
+          <div className="lg:col-span-4">
+            <span className="font-mono text-[10px] sm:text-[11px] tracking-[0.18em] uppercase text-[#4cfc0f]">
+              Quiénes somos
             </span>
-
-            {/* Stat de experiencia */}
-            <div className="mb-6">
-              <p className="text-5xl font-bold text-[#0A0A0A] leading-none">10+</p>
-              <p className="text-sm text-[#888] mt-1">años de experiencia combinada</p>
-            </div>
-
-            <h2 className="text-3xl lg:text-4xl font-bold text-[#0A0A0A] leading-tight">
-              El equipo detrás de users.mx
+            <h2 className="text-[1.6rem] sm:text-2xl lg:text-3xl font-bold leading-tight mt-3">
+              Ingeniería, diseño y negocio en el mismo equipo
             </h2>
-            <p className="text-[#888] mt-4 text-base leading-relaxed">
-              Desarrolladores y consultores con experiencia real construyendo
-              productos digitales que funcionan.
+            <p className="text-[#8E8E8E] text-sm lg:text-base mt-4 leading-relaxed">
+              No somos una agencia que subcontrata. Las decisiones técnicas, de
+              diseño y de negocio se toman en la misma mesa.
             </p>
-            <GhostButton
-              href="mailto:hola@users.mx"
-              tone="light"
-              className="mt-6"
-              line1="Trabaja con nosotros"
-              line2="hola@users.mx"
-            />
+          </div>
 
-            {/* Badges de certificación */}
-            <div className="flex flex-wrap gap-2 mt-6">
-              {badges.map((badge) => (
+          <ul className="lg:col-span-8 mt-8 lg:mt-0 grid grid-cols-1 sm:grid-cols-2 gap-px bg-[#1F1F1F] border border-[#1F1F1F]">
+            {team.map((person) => (
+              <li key={person.name} className="bg-[#0A0A0A] p-5 flex items-center gap-4">
                 <span
-                  key={badge}
-                  className="text-xs border border-[#E5E5E5] px-3 py-1.5 text-[#555] rounded-full"
+                  className="relative w-11 h-11 shrink-0 border border-[#2E2E2E] bg-[#111] flex items-center justify-center overflow-hidden"
+                  aria-hidden="true"
                 >
-                  {badge}
+                  <span className="grid-tech absolute inset-0 opacity-70" />
+                  <span className="relative font-mono text-[13px] font-bold text-[#4cfc0f] tracking-wide">
+                    {initials(person.name)}
+                  </span>
                 </span>
-              ))}
-            </div>
-
-            <div className="mt-8 border-t border-[#E5E5E5] pt-8 text-sm text-[#888]">
-              Ciudad de México, México · hola@users.mx
-            </div>
-          </div>
-
-          {/* Right: 2×2 grid con fotos y descripción por rol */}
-          <div className="grid grid-cols-2 gap-4 mt-12 lg:mt-0">
-            {members.map((item) => (
-              <div key={item.role}>
-                {/* Photo card */}
-                <div className="group rounded-2xl overflow-hidden relative">
-                  <div className="aspect-square overflow-hidden relative">
-                    <Image
-                      src={item.image}
-                      alt={`${item.role} — ${item.label}`}
-                      fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
-                      sizes="(max-width:1024px) 50vw, 300px"
-                    />
-                  </div>
-                  {/* Label overlay */}
-                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4">
-                    <p className="text-[#4cfc0f] text-xs uppercase tracking-wider font-semibold">
-                      {item.role}
-                    </p>
-                    <p className="text-white text-sm font-medium mt-0.5">
-                      {item.label}
-                    </p>
-                  </div>
-                </div>
-                {/* Descripción del rol */}
-                <p className="text-[#888] text-xs mt-3 leading-relaxed">
-                  {item.description}
-                </p>
-              </div>
+                <span className="min-w-0">
+                  <span className="block text-[15px] font-semibold leading-tight">{person.name}</span>
+                  <span className="block font-mono text-[10px] uppercase tracking-[0.1em] text-[#8A8A8A] mt-1.5 leading-relaxed">
+                    {person.area}
+                  </span>
+                </span>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
+
+        <p className="font-mono text-[11px] text-[#8A8A8A] mt-8 pt-6 border-t border-[#1A1A1A]">
+          {siteConfig.contact.city}, México ·{" "}
+          <a
+            href={`mailto:${siteConfig.contact.email}`}
+            className="text-[#8A8A8A] hover:text-white transition-colors underline underline-offset-4 inline-block py-1.5"
+          >
+            {siteConfig.contact.email}
+          </a>
+        </p>
       </div>
     </section>
   )

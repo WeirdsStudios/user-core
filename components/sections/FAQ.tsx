@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { getWhatsAppLink } from "@/lib/whatsapp"
 import GhostButton from "@/components/ui/GhostButton"
+import { siteConfig } from "@/lib/site-config"
 
 interface FAQItem {
   question: string
@@ -33,8 +34,7 @@ const faqs: FAQItem[] = [
   },
   {
     question: "¿Quién me da soporte después de lanzar?",
-    answer:
-      "Tienes soporte gratuito el primer mes. Después puedes contratar uno de nuestros planes de mantenimiento (desde $399 MXN/mes) que incluyen hosting, respaldos, cambios de contenido y soporte por WhatsApp.",
+    answer: `Tienes soporte gratuito el primer mes. Después puedes contratar uno de nuestros planes de mantenimiento (desde ${siteConfig.pricing.maintenanceFromLabel}) que incluyen hosting, respaldos, cambios de contenido y soporte por WhatsApp.`,
     link: { href: "#mantenimiento", label: "Ver planes de mantenimiento" },
   },
 ]
@@ -47,12 +47,12 @@ export default function FAQ() {
   }
 
   return (
-    <section className="py-24 lg:py-32 bg-[#F5F5F5]">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="lg:grid lg:grid-cols-12 lg:gap-16">
+    <section className="py-12 lg:py-20 bg-[#F5F5F5]">
+      <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
+        <div className="lg:grid lg:grid-cols-12 lg:gap-12">
           {/* Left */}
-          <div className="lg:col-span-4 mb-12 lg:mb-0">
-            <h2 className="text-3xl font-bold italic text-[#0A0A0A]">
+          <div className="lg:col-span-4 mb-8 lg:mb-0">
+            <h2 className="text-2xl lg:text-3xl font-bold text-[#0A0A0A] leading-tight">
               Preguntas frecuentes
             </h2>
             <p className="text-[#888] text-sm mt-4">
@@ -93,7 +93,7 @@ export default function FAQ() {
                         size="compact"
                         className="mt-3"
                         line1={faq.link.label}
-                        line2="desde $399 MXN/mes"
+                        line2={`desde ${siteConfig.pricing.maintenanceFromLabel}`}
                       />
                     )}
                   </div>

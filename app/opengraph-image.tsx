@@ -1,4 +1,5 @@
 import { ImageResponse } from "next/og"
+import { siteConfig } from "@/lib/site-config"
 
 export const contentType = "image/png"
 export const size = { width: 1200, height: 630 }
@@ -43,7 +44,7 @@ export default function OGImage() {
               maxWidth: "820px",
             }}
           >
-            Desarrollo Web &amp; Consultoría de Negocio para PyMEs Mexicanas
+            Desarrollo web y software para PyMEs en México
           </div>
         </div>
 
@@ -58,10 +59,10 @@ export default function OGImage() {
               fontWeight: "bold",
             }}
           >
-            Proyectos desde $11,900 MXN
+            {`Proyectos desde ${siteConfig.pricing.startingPriceLabel}`}
           </div>
           <div style={{ color: "#666", fontSize: "14px" }}>
-            Ciudad de México · hola@users.mx
+            {`${siteConfig.contact.city} · ${siteConfig.contact.email}`}
           </div>
         </div>
       </div>

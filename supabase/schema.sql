@@ -81,3 +81,30 @@ CREATE TABLE IF NOT EXISTS sesiones_agendadas (
 -- ─── RLS desactivado: todas las operaciones van desde server-side con service_role ──
 ALTER TABLE analisis_negocio  DISABLE ROW LEVEL SECURITY;
 ALTER TABLE sesiones_agendadas DISABLE ROW LEVEL SECURITY;
+
+-- ─── Motor de Análisis V2 ────────────────────────────────────────────────────
+-- El Motor dejó de calcular presupuestos y ahora produce un diagnóstico
+-- explicable. Las columnas por pregunta de la V1 se quedan cortas: el
+-- cuestionario cambia y no queremos una migración por cada pregunta nueva.
+--
+-- `respuestas` guarda el cuestionario tal cual se respondió (solo campos de
+-- negocio: nunca datos de contacto, que tienen sus propias columnas).
+-- `diagnostico` guarda el resumen que vio la persona, para poder retomar la
+-- conversación sabiendo exactamente qué se le mostró.
+--
+-- Las columnas viejas se conservan: hay leads históricos guardados en ellas.
+ALTER TABLE analisis_negocio
+  ADD COLUMN IF NOT EXISTS respuestas  JSONB,
+  ADD COLUMN IF NOT EXISTS diagnostico JSONB,
+  ADD COLUMN IF NOT EXISTS referencia  TEXT;
+
+CREATE INDEX IF NOT EXISTS analisis_negocio_referencia_idx
+  ON analisis_negocio (referencia);
+
+-- Conservación de prospectos: 12 meses desde la última interacción.
+-- La ejecución es manual o por tarea programada; queda documentada aquí para
+-- que la política viva junto al esquema y no solo en el aviso de privacidad.
+-- Los registros con status 'completado' que se convirtieron en cliente deben
+-- excluirse antes de aplicar esto.
+COMMENT ON TABLE analisis_negocio IS
+  'Leads del Motor de Análisis. Prospectos no convertidos: conservar 12 meses desde la última interacción significativa, después eliminar o anonimizar. Clientes: conservar según obligación contractual o fiscal aplicable.';

@@ -1,19 +1,53 @@
 import type { Metadata } from "next"
-import { DM_Sans } from "next/font/google"
+import { DM_Sans, JetBrains_Mono } from "next/font/google"
 import "./globals.css"
 import WhatsAppButton from "@/components/site/WhatsAppButton"
 import SmoothScroll from "@/components/site/SmoothScroll"
+import SupportWidget from "@/components/support/SupportWidget"
+import Analytics from "@/components/analytics/Analytics"
+import ConsentBanner from "@/components/consent/ConsentBanner"
+import { siteConfig } from "@/lib/site-config"
 
+/**
+ * `optional` y no `swap`.
+ *
+ * Con `swap`, en una conexión lenta el H1 se pinta con la fuente de sistema y
+ * al llegar DM Sans cambia el número de líneas del titular: medido en Slow 4G
+ * daba CLS 0.170, muy por encima del umbral de 0.1. El ajuste automático de
+ * métricas no lo evita, porque una vez que cambia el conteo de líneas ninguna
+ * corrección de tamaño lo compensa.
+ *
+ * `optional` le da al navegador una ventana breve: si la fuente llega a
+ * tiempo se usa, y si no, esa carga se queda con la de sistema y NO reflowa.
+ * A partir de la segunda página ya está en caché. Se prefiere una primera
+ * visita lenta con tipografía de sistema a que el titular salte bajo el dedo
+ * de alguien que acaba de llegar desde un anuncio.
+ */
 const dmSans = DM_Sans({
   subsets: ["latin"],
   variable: "--font-sans",
-  display: "swap",
+  display: "optional",
 })
 
+/**
+ * La variable --font-mono existía en globals.css pero apuntaba a una fuente
+ * que nunca se cargó, así que todo lo "técnico" caía al monoespaciado del
+ * sistema. JetBrains Mono da el carácter de ingeniería a índices, etiquetas
+ * y datos, que es donde vive la personalidad de la marca.
+ */
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+  display: "optional",
+  weight: ["400", "500", "700"],
+})
+
+const TITLE = "users.mx — Desarrollo web y software para PyMEs en México"
+
 export const metadata: Metadata = {
-  title: "users.mx — Desarrollo Web & Consultoría de Negocio",
-  description:
-    "Construimos productos digitales que generan resultados reales. Desarrollo web, diseño de producto y consultoría de negocio en México. Proyectos desde $11,900 MXN.",
+  metadataBase: new URL(siteConfig.url),
+  title: TITLE,
+  description: siteConfig.description,
   icons: {
     icon: [
       { url: "/favicon.svg", type: "image/svg+xml" },
@@ -22,19 +56,19 @@ export const metadata: Metadata = {
     apple: "/apple-touch-icon.png",
   },
   openGraph: {
-    title: "users.mx — Desarrollo Web & Consultoría de Negocio",
-    description: "Construimos productos digitales que generan resultados reales.",
-    url: "https://users.mx",
-    siteName: "users.mx",
-    locale: "es_MX",
+    title: TITLE,
+    description: siteConfig.description,
+    url: siteConfig.url,
+    siteName: siteConfig.wordmark,
+    locale: siteConfig.locale,
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "users.mx — Desarrollo Web & Consultoría de Negocio",
-    description: "Construimos productos digitales que generan resultados reales. Proyectos desde $11,900 MXN.",
+    title: TITLE,
+    description: siteConfig.description,
   },
-  alternates: { canonical: "https://users.mx" },
+  alternates: { canonical: "/" },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -43,70 +77,26 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     "@graph": [
       {
         "@type": ["Organization", "LocalBusiness"],
-        name: "users.mx",
-        description: "Empresa de desarrollo web y consultoría de negocio para PyMEs en México",
-        url: "https://users.mx",
-        email: "hola@users.mx",
-        telephone: "+525612934010",
-        logo: "https://users.mx/logos/imagotipo_user.svg",
+        name: siteConfig.wordmark,
+        legalName: siteConfig.name,
+        description: siteConfig.description,
+        url: siteConfig.url,
+        email: siteConfig.contact.email,
+        telephone: siteConfig.contact.telephone,
+        logo: `${siteConfig.url}/logos/imagotipo_user.svg`,
         address: {
           "@type": "PostalAddress",
-          addressLocality: "Ciudad de México",
-          addressRegion: "Ciudad de México",
-          addressCountry: "MX",
+          addressLocality: siteConfig.contact.city,
+          addressRegion: siteConfig.contact.city,
+          addressCountry: siteConfig.contact.country,
         },
         areaServed: ["Ciudad de México", "Estado de México", "México"],
-      },
-      {
-        "@type": "FAQPage",
-        mainEntity: [
-          {
-            "@type": "Question",
-            name: "¿Cuánto pago al inicio y cuánto al final?",
-            acceptedAnswer: {
-              "@type": "Answer",
-              text: "Trabajamos con 60/40 — 60% al iniciar el proyecto, 40% al entregarlo. El pago final solo se libera cuando el sitio está 100% aprobado por ti.",
-            },
-          },
-          {
-            "@type": "Question",
-            name: "¿Qué pasa si el resultado no me convence?",
-            acceptedAnswer: {
-              "@type": "Answer",
-              text: "Garantía de Aprobación: no se libera el pago final hasta que apruebes el proyecto. Si algo no cumple lo acordado en el brief inicial, seguimos ajustando dentro del alcance original sin costo adicional, retomando siempre desde tu último feedback aprobado, sin límite de rondas.",
-            },
-          },
-          {
-            "@type": "Question",
-            name: "¿Qué incluye el proyecto y qué no?",
-            acceptedAnswer: {
-              "@type": "Answer",
-              text: "Incluye dominio, hosting, hasta 3 rondas de revisión, soporte gratuito el primer mes después del lanzamiento (o 2 meses de descuento si contratas el plan de soporte anual), manual de uso de tu plataforma, y acceso a nuestra Central de Ayuda disponible 24/7.",
-            },
-          },
-          {
-            "@type": "Question",
-            name: "¿Por qué es más caro que Wix o que alguien conocido me lo haga más barato?",
-            acceptedAnswer: {
-              "@type": "Answer",
-              text: "No solo entregamos un sitio — cada funcionalidad se personaliza a tu negocio basándonos en estudio de mercado, análisis de negocio y proyección de retorno de inversión. Hacemos estrategia de negocio digital completa que respalda y le da forma al sitio, no solo una plantilla con tu logo encima.",
-            },
-          },
-          {
-            "@type": "Question",
-            name: "¿Quién me da soporte después de lanzar?",
-            acceptedAnswer: {
-              "@type": "Answer",
-              text: "Tienes soporte gratuito el primer mes. Después puedes contratar uno de nuestros planes de mantenimiento (desde $399 MXN/mes) que incluyen hosting, respaldos, cambios de contenido y soporte por WhatsApp.",
-            },
-          },
-        ],
-      },
+      }
     ],
   }
 
   return (
-    <html lang="es" className={dmSans.variable}>
+    <html lang="es" className={`${dmSans.variable} ${jetbrainsMono.variable}`}>
       <head>
         <script
           type="application/ld+json"
@@ -116,7 +106,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="min-h-full flex flex-col font-sans antialiased bg-white text-[#0A0A0A]">
         <SmoothScroll />
         {children}
+        <SupportWidget />
         <WhatsAppButton />
+        <Analytics />
+        <ConsentBanner />
       </body>
     </html>
   )

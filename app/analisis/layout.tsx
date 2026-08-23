@@ -1,15 +1,23 @@
 import type { Metadata } from "next"
+import { siteConfig, defaultOgImage } from "@/lib/site-config"
 
+/**
+ * El metadata anterior prometía un "cotizador" con "estimado de inversión" en
+ * 6 pasos. El Motor ya no cotiza —no hay tabulador real detrás— ni tiene 6
+ * pasos de preguntas: son 5, y el sexto era la captura de datos que ahora va
+ * después del resultado.
+ */
 export const metadata: Metadata = {
-  title: "Análisis de Negocio Digital Gratis — users.mx",
+  title: "Diagnóstico digital gratis para tu negocio — users.mx",
   description:
-    "Cotizador gratuito en 6 pasos para tu negocio. Recibe un reporte visual con diagnóstico, estimado de inversión y agenda una sesión estratégica sin compromiso. Proyectos desde $11,900 MXN.",
-  alternates: { canonical: "https://users.mx/analisis" },
+    "Responde 12 preguntas sobre tu negocio y recibe un diagnóstico con las prioridades reales, por dónde conviene empezar y qué puede esperar. Sin registro y sin costo.",
+  alternates: { canonical: "/analisis" },
   openGraph: {
-    title: "Analiza tu negocio digital gratis — users.mx",
+    images: [defaultOgImage],
+    title: "Diagnóstico digital gratis para tu negocio — users.mx",
     description:
-      "6 preguntas, un reporte visual personalizado y estimado de inversión sin compromiso. Proyectos desde $11,900 MXN.",
-    url: "https://users.mx/analisis",
+      "12 preguntas y un diagnóstico con prioridades y siguiente paso. Sin registro para verlo.",
+    url: `${siteConfig.url}/analisis`,
   },
 }
 

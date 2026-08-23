@@ -8,7 +8,7 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-mono: var(--font-mono);
   --font-heading: var(--font-sans);
   --color-ring: var(--ring);
   --color-input: var(--input);
@@ -103,4 +103,80 @@
 .animate-marquee {
   animation: marquee 25s linear infinite;
   will-change: transform;
+}
+
+/* ── Lenguaje visual: rejilla de ingeniería ────────────────────────────────
+   Rejilla técnica en CSS puro (sin imágenes que descargar) que se desvanece
+   hacia los bordes. Se usa como fondo de las secciones oscuras. */
+.grid-tech {
+  background-image:
+    linear-gradient(to right, rgba(76, 252, 15, 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(76, 252, 15, 0.045) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+@media (min-width: 1024px) {
+  .grid-tech {
+    background-size: 72px 72px;
+  }
+}
+
+/* Marcas de esquina tipo plano técnico. */
+.corner-marks::before,
+.corner-marks::after {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-color: #4cfc0f;
+  opacity: 0.5;
+  pointer-events: none;
+}
+.corner-marks::before {
+  top: -1px;
+  left: -1px;
+  border-top-width: 1px;
+  border-left-width: 1px;
+  border-style: solid;
+}
+.corner-marks::after {
+  bottom: -1px;
+  right: -1px;
+  border-bottom-width: 1px;
+  border-right-width: 1px;
+  border-style: solid;
+}
+
+/* Los números de índice nunca deben bailar entre elementos de una lista. */
+.tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Nodo del stack del hero: latido muy tenue que sugiere conexión activa.
+   Es decorativo — la relación entre capas ya la comunican las líneas. */
+@keyframes node-pulse {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.node-pulse {
+  animation: node-pulse 3.2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee {
+    animation: none;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
