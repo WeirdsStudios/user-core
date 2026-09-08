@@ -9,8 +9,10 @@
  * Avatar gráfico con iniciales sobre rejilla técnica, no fotografía: las
  * imágenes que había antes eran de stock y no correspondían a estas personas.
  */
+
+/**
 const TEAM = [
-  {
+  /**{
     name: "Haza Munguía",
     role: "Estrategia y desarrollo",
     focus: "Traduce el problema del negocio en qué se construye y en qué orden.",
@@ -69,8 +71,8 @@ export default function Equipo() {
               <p className="text-[#B0B0B0] text-sm mt-2.5 leading-relaxed">{person.focus}</p>
             </li>
           ))}
-
-          {/* Cierre de la retícula: convierte el hueco de la sexta celda en mensaje */}
+ */
+          {/* Cierre de la retícula: convierte el hueco de la sexta celda en mensaje }
           <li className="bg-[#0E0E0E] p-4 sm:p-5 lg:p-6 flex items-center">
             <p className="text-[#8A8A8A] text-sm leading-relaxed">
               
@@ -81,3 +83,5 @@ export default function Equipo() {
     </section>
   )
 }
+
+ */
