@@ -37,18 +37,16 @@ export default function Equipo() {
       <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
         <div className="max-w-2xl">
           <span className="font-mono text-[10px] sm:text-[11px] tracking-[0.18em] uppercase text-[#4cfc0f]">
-            Quiénes lo construyen
+            
           </span>
           <h2
             id="equipo-titulo"
             className="text-[1.6rem] sm:text-3xl lg:text-[2.5rem] font-bold leading-[1.15] mt-3 text-balance tracking-tight"
           >
-            Un equipo. Varias disciplinas. Una sola entrega.
+            
           </h2>
           <p className="text-[#B0B0B0] text-[15px] lg:text-lg mt-4 leading-relaxed">
-            Un sistema que cobra en una caja, corre en la nube y lo usa alguien
-            sin capacitación no lo resuelve un solo perfil. Estas son las
-            disciplinas que se sientan en la misma mesa.
+            
           </p>
         </div>
 
@@ -75,9 +73,7 @@ export default function Equipo() {
           {/* Cierre de la retícula: convierte el hueco de la sexta celda en mensaje */}
           <li className="bg-[#0E0E0E] p-4 sm:p-5 lg:p-6 flex items-center">
             <p className="text-[#8A8A8A] text-sm leading-relaxed">
-              Estas disciplinas trabajan juntas dentro del equipo que construye
-              tu proyecto. Las decisiones técnicas, de diseño y de negocio se
-              toman en la misma mesa, no entre proveedores que no se hablan.
+              
             </p>
           </li>
         </ul>
