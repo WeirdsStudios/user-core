@@ -15,26 +15,7 @@ const TEAM = [
     role: "Estrategia y desarrollo",
     focus: "Traduce el problema del negocio en qué se construye y en qué orden.",
   },
-  {
-    name: "Nahum Munguía",
-    role: "Microcómputo y electrónica",
-    focus: "Lo que ocurre donde el software toca el mundo físico.",
-  },
-  {
-    name: "Jonathan Ayala",
-    role: "Cloud y redes",
-    focus: "Que el sistema esté disponible, seguro y aguante la operación diaria.",
-  },
-  {
-    name: "Alejandra Zebadúa",
-    role: "Diseño",
-    focus: "Estructura y experiencia antes que estética.",
-  },
-  {
-    name: "Karina Romero",
-    role: "Pedagogía y comportamiento del usuario",
-    focus: "Que la herramienta se entienda sin capacitación de por medio.",
-  },
+  
 ]
 
 function initials(name: string): string {
